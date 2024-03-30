@@ -1,0 +1,6 @@
+#! /bin/sh
+
+while true; do
+	feh --randomize --bg-fill --recursive --no-fehbg $HOME/wallpapers
+	sleep 10m
+done
