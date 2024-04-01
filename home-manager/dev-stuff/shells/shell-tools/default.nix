@@ -1,5 +1,5 @@
 { pkgs, config, ... }: {
-  imports = [ ./atuin.nix ./bat.nix ./git.nix ./tealdeer.nix ];
+  imports = [ ./atuin.nix ./bat.nix ./git.nix ./ssh.nix ./tealdeer.nix ];
   programs = {
     command-not-found.enable = false;
     eza.enable = true;
