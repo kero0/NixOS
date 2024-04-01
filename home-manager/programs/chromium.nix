@@ -5,8 +5,14 @@
     };
     enable = true;
     extensions = [
-      { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; }
-      { id = "nngceckbapebfimnlniiiahkandclblb"; }
+      # ublock origin
+      { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } 
+      # bitwarden
+      { id = "nngceckbapebfimnlniiiahkandclblb"; } 
+      # video speed controller
+      { id = "nffaoalbilbmmfgbnbgppjihopabppdk"; } 
+      # sponsorblock
+      { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } 
     ];
   };
 }
