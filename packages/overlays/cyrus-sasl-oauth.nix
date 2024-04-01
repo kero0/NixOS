@@ -6,7 +6,7 @@ with prev.lib; {
       owner = "moriyoshi";
       repo = "cyrus-sasl-xoauth2";
       rev = "36aabca54fd65c8fa7a707cb4936751599967904";
-      sha256 = "OlmHuME9idC0fWMzT4kY+YQ43GGch53snDq3w5v/cgk=";
+      sha256 = "02bjzydw7drskkn9v1wwc7f3i17r324lycv3gnsd129xq6w8fn9s";
     };
 
     outputs = [ "out" ];
