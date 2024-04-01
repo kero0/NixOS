@@ -21,7 +21,7 @@
     enableFishIntegration = true;
     enableZshIntegration = true;
 
-    pinentryFlavor = "emacs";
+    pinentryPackage = lib.mkIf pkgs.stdenv.isLinux pkgs.pinentry-qt;
     extraConfig = ''
       allow-emacs-pinentry
       allow-loopback-pinentry
