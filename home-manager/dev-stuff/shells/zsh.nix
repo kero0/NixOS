@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
 
@@ -30,8 +30,8 @@
         "*--login*"
       ]
       # command history for urls is not useful
-        ++ lib.optional config.programs.gallery-dl.enable "gallery-dl*"
-        ++ lib.optional (config.programs.yt-dlp.enable) "yt-dlp*";
+      ++ lib.optional config.programs.gallery-dl.enable "gallery-dl*"
+      ++ lib.optional (config.programs.yt-dlp.enable) "yt-dlp*";
       ignoreSpace = true;
 
       path = "${config.xdg.dataHome}/zsh/history";
