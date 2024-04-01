@@ -11,12 +11,8 @@
   environment.systemPackages = with pkgs;
     [
       # Dev stuff
-      ghc
       git
-      nixfmt
-      nixpkgs-fmt
       python3
-      rnix-lsp
 
       # personal stuff
       ## tools
@@ -27,9 +23,7 @@
       comma
     ] ++ (if !stdenv.isDarwin then [
       # browsers
-      brave
       google-chrome
-      vivaldi
 
       # bitwarden
       bitwarden
@@ -40,7 +34,6 @@
 
       # other
       alacritty
-      checkra1n
       mpv
       qalculate-gtk
       scrot
