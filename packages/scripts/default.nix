@@ -18,11 +18,7 @@ with pkgs; let
 
 in
 {
-  imports = [
-    ./monitor-hotplug.nix
-  ];
   environment.systemPackages = [
     myscripts
   ];
-
 }
