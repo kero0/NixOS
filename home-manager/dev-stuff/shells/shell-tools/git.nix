@@ -8,6 +8,9 @@
       "result"
       ".DS_STORE"
     ];
-    extraConfig = { commit.gpgSign = true; };
+    extraConfig = {
+      commit.gpgSign = true;
+      init.defaultBranch = "main";
+    };
   };
 }
