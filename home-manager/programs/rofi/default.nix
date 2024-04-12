@@ -1,19 +1,28 @@
 { pkgs, ... }:
+let
+  # FIXME: currently broken to ABI version mismatch
+  # Found other reports online
+  plugins = [
+    "rofi-calc"
+    "rofi-emoji"
+    "rofi-power-menu"
+  ];
+in
 {
+  nixpkgs.overlays = builtins.map
+    (p: (final: prev: { ${p} = prev.${p}.override { rofi-unwrapped = prev.rofi-wayland-unwrapped; }; }))
+    plugins;
   programs.rofi = pkgs.lib.mkIf pkgs.stdenv.isLinux {
     enable = true;
-    plugins = with pkgs;[
-      rofi-calc
-      rofi-emoji
-      rofi-power-menu
-    ];
+    package = pkgs.rofi-wayland;
+    plugins = builtins.map (p: pkgs.${p}) plugins;
     font = "JetBrainsMono Nerd Font 14";
     terminal = "${pkgs.kitty}/bin/kitty";
     cycle = true;
     location = "center";
     theme = ./onedark.rasi;
     extraConfig = {
-      modi = "drun,run,emoji,calc,window,ssh,";
+      modi = "drun,run,window,ssh,";
       kb-primary-paste = "Control+V,Shift+Insert";
       kb-secondary-paste = "Control+v,Insert";
       matching = "regex";

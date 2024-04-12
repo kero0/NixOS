@@ -8,6 +8,8 @@
     ./lock.nix
     ./pass.nix
 
+    ./hyprland
     ./rofi
+    ./waybar
   ];
 }
