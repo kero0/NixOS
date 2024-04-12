@@ -12,6 +12,13 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+
+  fileSystems."/run/nixenc" = {
+    device = "/dev/disk/by-uuid/7b3a6dc6-6c31-4aba-8c50-9d27f36fd859";
+    fsType = "btrfs";
+    options = [ "compress=zstd" ];
+  };
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/7b3a6dc6-6c31-4aba-8c50-9d27f36fd859";
     fsType = "btrfs";
