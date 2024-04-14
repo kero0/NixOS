@@ -3,8 +3,8 @@
   systemd.user.services.swaync = {
     Unit = {
       Description = "Notification center";
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
+      PartOf = [ "hyprland-session.target" ];
+      After = [ "hyprland-session.target" ];
       ConditionEnvironment = "WAYLAND_DISPLAY";
     };
 
@@ -14,6 +14,6 @@
       Restart = "always";
     };
 
-    Install = { WantedBy = [ "graphical-session.target" ]; };
+    Install = { WantedBy = [ "hyprland-session.target" ]; };
   };
 }

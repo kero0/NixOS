@@ -1,36 +1,59 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }:
+let
+  wsCommand = command: "${pkgs.writeShellScriptBin "hyprland-ws-${command}" /*bash */''
+    ws="$(hyprctl workspaces -j |\
+                  ${pkgs.jq}/bin/jq -r 'map(.name) | .[]' |\
+                  ${config.programs.rofi.finalPackage}/bin/rofi -dmenu -mesg '<b>Select a workspace</b>')"
+    case $ws in
+    [0-9]+|^special:.*)
+        x="$ws"
+    ;;
+    *[!0-9]*)
+        x="special:$ws"
+    ;;
+    esac
+    hyprctl dispatch ${command}  $x
+  ''}/bin/hyprland-ws-${command}";
+in
+{
   imports = [
+    ./clipboard.nix
+    ./lock
     ./notifications.nix
+    ./pyprland.nix
   ];
   services.swayosd.enable = true;
   home.packages = with pkgs; [
     grim
-    kanshi
-
-    # clipboard
-    cliphist
+    playerctl
+    swaynotificationcenter
+    wdisplays
     wl-clipboard
   ];
   wayland.windowManager.hyprland = {
     enable = true;
-    systemd.variables = [ "--all" ];
+    systemd = {
+      enable = true;
+      variables = [ "--all" ];
+    };
     xwayland.enable = true;
     settings = {
       "$mod" = "SUPER";
       "$terminal" = "${config.programs.kitty.package}/bin/kitty";
       "$fileManager" = "${pkgs.gnome.nautilus}/bin/nautilus";
       "$menu" = "${config.programs.rofi.finalPackage}/bin/rofi -show-icons -show drun -sidebar-mode";
-      "$cliphist-rofi-img" = "${pkgs.cliphist-rofi-img}/bin/cliphist-rofi-img";
+      "$movetoWS" = wsCommand "movetoworkspace";
+      "$gotoWS" = wsCommand "workspace";
 
-      exec-once = [
-        "wl-paste --watch cliphist store"
-        "kanshi"
-      ];
+      exec-once = [ ];
 
       monitor = ",preferred,auto,auto";
       misc.force_default_wallpaper = -1;
       gestures.workspace_swipe = true;
       master.new_is_master = false;
+      misc = {
+        enable_swallow = true;
+      };
 
       dwindle = {
         pseudotile = true;
