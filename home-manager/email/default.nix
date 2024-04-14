@@ -48,5 +48,6 @@
     };
   };
 
+  xsession.importedVariables = [ "PASSWORD_STORE_DIR" ];
   services.imapnotify.enable = true;
 }

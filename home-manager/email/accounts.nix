@@ -32,18 +32,25 @@ let
         wait = 5;
         xoauth2 = oauth;
       };
-      onNotify = let
-        mbsync = "${config.programs.mbsync.package}/bin/mbsync ${dir}";
-        offlineimap = "${config.programs.offlineimap.package}/bin/offlineimap";
-      in lib.concatStringsSep " && "
-        ((lib.lists.optional config.programs.mbsync.enable mbsync)
-         ++ (lib.lists.optional config.programs.offlineimap.enable offlineimap));
-      onNotifyPost = let
-        mu = "${pkgs.mu}/bin/mu index";
-        notmuch = "${config.programs.notmuch.package}/bin/notmuch new";
-      in lib.concatStringsSep " && "
-        ((lib.lists.optional config.programs.notmuch.enable notmuch)
-         ++ (lib.lists.optional config.programs.mu.enable mu));
+      onNotify =
+        let
+          mbsync = "${config.programs.mbsync.package}/bin/mbsync ${dir}";
+          offlineimap = "${config.programs.offlineimap.package}/bin/offlineimap";
+        in
+        lib.concatStringsSep " && "
+          ((lib.lists.optional config.programs.mbsync.enable mbsync)
+            ++ (lib.lists.optional config.programs.offlineimap.enable offlineimap));
+      onNotifyPost =
+        let
+          mu = "${pkgs.mu}/bin/mu index";
+          notmuch = "${config.programs.notmuch.package}/bin/notmuch new";
+          notify = "${pkgs.libnotify}/bin/notify-send 'New mail for ${email}'";
+        in
+        lib.concatStringsSep " && " (
+          (lib.lists.optional config.programs.notmuch.enable notmuch)
+          ++ (lib.lists.optional config.programs.mu.enable mu)
+          ++ (lib.lists.optional config.services.swayosd.enable notify)
+        );
     };
     msmtp = {
       enable = config.programs.msmtp.enable;
@@ -55,7 +62,8 @@ let
     ((memail "${email}@gmail.com" "gmail.com" dir true) // {
       passwordCommand = passwordEval "google.com/${dir}.tokens";
     });
-in {
+in
+{
   accounts.email = {
     maildirBasePath = maildir;
     accounts = {
@@ -64,10 +72,19 @@ in {
       };
       kirolsb5-gmail = mgmail "kirolsb5" "kirolsb5-gmail";
       bakheakm-udmercy = (memail "bakheakm@udmercy.edu" "outlook.office365.com"
-        "bakheakm-udmercy" true) // {
-          passwordCommand =
-            passwordEval "office.com/bakheakm@udmercy.edu.tokens";
-        };
+        "bakheakm-udmercy"
+        true) // {
+        passwordCommand =
+          passwordEval "office.com/bakheakm@udmercy.edu.tokens";
+      };
     };
   };
+  systemd.user.services = lib.mkIf (pkgs.stdenv.isLinux && config.services.imapnotify.enable) (builtins.foldl'
+    (acc: f: acc // {
+      "imapnotify-${f}".Unit = {
+        After = [ "network.target" "graphical.target" ];
+        Requires = [ "gpg-agent.service" ];
+      };
+    })
+    { } [ "kbakheat-gmail" "kirolsb5-gmail" "bakheakm-udmercy" ]);
 }
