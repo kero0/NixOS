@@ -81,13 +81,21 @@
               extraSpecialArgs = { inherit myuser inputs; };
               users.${myuser} = {
                 home.stateVersion = stateVersion;
-                imports = (umport { path = ./modules/home-manager; })
+                imports = (umport {
+                  path = ./modules/home-manager;
+                  exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/home-manager/nixos-specific ];
+                })
                 ++ (umport { path = ./hardware/${hostname}/home; });
               };
             };
           }
-        ] ++ (umport { path = ./modules/nixos; })
-        ++ (umport { path = ./hardware/${hostname}/nixos; });
+        ] ++ (umport {
+          path = ./modules/nixos;
+          exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/nixos/nixos-specific ];
+        })
+        ++ (umport {
+          path = ./hardware/${hostname}/nixos;
+        });
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
       in
@@ -107,9 +115,9 @@
 		  public-keys = (import ./secrets/secrets.nix).keys;
 		};
 		modules = mmodules hostname myuser pkgs;
-          };
+              };
 
-      };
+	};
       darwinConfigurations."Kirolss-MacBook-Air" =
         let
           system = "aarch64-darwin";
@@ -123,29 +131,7 @@
               inherit myuser pkgs system inputs;
               public-keys = (import ./secrets/secrets.nix).keys;
             };
-            modules = [
-              agenix.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.default
-              ./secrets
-
-
-              {
-		system.stateVersion = stateVersion;
-              }
-              home-manager.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.home-manager
-              {
-		home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = { inherit myuser inputs; };
-                  users.${myuser} = {
-                    home.stateVersion = stateVersion;
-                    imports = (umport { path = ./modules/home-manager; })
-                    ++ (umport { path = ./hardware/${hostname}/home; });
-                };
-              };
-            }
-          ] ++ (umport { path = ./modules/nixos; })
-          ++ (umport { path = ./hardware/${hostname}/nixos; });
+          modules = mmodules hostname myuser pkgs;
         };
     };
 }
