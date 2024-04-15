@@ -59,13 +59,6 @@
         };
       mmodules = hostname: myuser: pkgs:
         [
-          nixos-hardware.nixosModules.common-cpu-intel-kaby-lake
-          nixos-hardware.nixosModules.common-gpu-amd
-          nixos-hardware.nixosModules.common-gpu-intel
-          nixos-hardware.nixosModules.common-hidpi
-          nixos-hardware.nixosModules.common-pc-laptop
-          nixos-hardware.nixosModules.common-pc-ssd
-
           agenix.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.default
           ./secrets
 
@@ -112,10 +105,18 @@
 		  inherit myuser pkgs system inputs;
 		  public-keys = (import ./secrets/secrets.nix).keys;
 		};
-		modules = mmodules hostname myuser pkgs;
-              };
+		modules = mmodules hostname myuser pkgs
+              ++ [
+		nixos-hardware.nixosModules.common-cpu-intel-kaby-lake
+		nixos-hardware.nixosModules.common-gpu-amd
+		nixos-hardware.nixosModules.common-gpu-intel
+		nixos-hardware.nixosModules.common-hidpi
+		nixos-hardware.nixosModules.common-pc-laptop
+		nixos-hardware.nixosModules.common-pc-ssd
+              ];
+          };
 
-	};
+      };
       darwinConfigurations."Kirolss-MacBook-Air" =
         let
           system = "aarch64-darwin";
@@ -129,7 +130,7 @@
               inherit myuser pkgs system inputs;
               public-keys = (import ./secrets/secrets.nix).keys;
             };
-            modules = mmodules hostname myuser pkgs;
+          modules = mmodules hostname myuser pkgs;
         };
     };
 }
