@@ -1,25 +1,12 @@
 {
   my.home = {
-    applets.enable = false;
-    chromium.enable = true;
-    clipboard-manager.enable = false;
     downloaders.enable = true;
     email.enable = true;
     gpg.enable = true;
-    notification-manager.enable = false;
     pass.enable = true;
-    rofi.enable = false;
 
     editors = {
       enable = true;
-      emacsdaemon = false;
-    };
-    hyprland = {
-      enable = false;
-      binds.enable = false;
-      lock.enable = false;
-      pyprland.enable = false;
-      waybar.enable = false;
     };
     shell = {
       alias.enable = true;

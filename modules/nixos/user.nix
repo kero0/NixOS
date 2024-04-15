@@ -25,14 +25,14 @@ with lib; {
     };
   };
   config = lib.mkIf cfg.enable {
-    users.users =
+    users =
       if pkgs.stdenv.isDarwin then {
-        "${cfg.username}" = {
+        users."${cfg.username}" = {
           home = cfg.homedir;
           shell = cfg.shell;
         };
       } else {
-        "${cfg.username}" = {
+        users."${cfg.username}" = {
           createHome = true;
           home = cfg.homedir;
           hashedPassword = cfg.passwordHash;
@@ -41,9 +41,8 @@ with lib; {
           extraGroups = [ "audio" "dialout" "input" "kvm" "tty" "video" "wheel" ];
           openssh.authorizedKeys.keys = public-keys;
         };
-        root.hashedPassword = cfg.passwordHash;
+        users.root.hashedPassword = cfg.passwordHash;
+        mutableUsers = false;
       };
-    users.mutableUsers = false;
-
   };
 }

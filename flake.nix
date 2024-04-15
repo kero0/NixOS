@@ -62,10 +62,6 @@
           agenix.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.default
           ./secrets
 
-
-          {
-            system.stateVersion = stateVersion;
-          }
           home-manager.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.home-manager
           {
             home-manager = {
@@ -86,7 +82,8 @@
           ipath = ./modules/nixos;
           exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/nixos/nixos-specific ];
         })
-        ++ (umport { ipath = ./hardware/${hostname}/nixos; });
+        ++ (umport { ipath = ./hardware/${hostname}/nixos; })
+        ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isLinux { system.stateVersion = stateVersion; });
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
       in
@@ -130,7 +127,7 @@
               inherit myuser pkgs system inputs;
               public-keys = (import ./secrets/secrets.nix).keys;
             };
-          modules = mmodules hostname myuser pkgs;
-        };
+            modules = mmodules hostname myuser pkgs;
+          };
     };
 }
