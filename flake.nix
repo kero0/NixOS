@@ -82,20 +82,18 @@
               users.${myuser} = {
                 home.stateVersion = stateVersion;
                 imports = (umport {
-                  path = ./modules/home-manager;
+                  ipath = ./modules/home-manager;
                   exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/home-manager/nixos-specific ];
                 })
-                ++ (umport { path = ./hardware/${hostname}/home; });
+                ++ (umport { ipath = ./hardware/${hostname}/home; });
               };
             };
           }
         ] ++ (umport {
-          path = ./modules/nixos;
+          ipath = ./modules/nixos;
           exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/nixos/nixos-specific ];
         })
-        ++ (umport {
-          path = ./hardware/${hostname}/nixos;
-        });
+        ++ (umport { ipath = ./hardware/${hostname}/nixos; });
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
       in
@@ -131,7 +129,7 @@
               inherit myuser pkgs system inputs;
               public-keys = (import ./secrets/secrets.nix).keys;
             };
-          modules = mmodules hostname myuser pkgs;
+            modules = mmodules hostname myuser pkgs;
         };
     };
 }
