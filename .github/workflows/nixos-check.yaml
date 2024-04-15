@@ -28,4 +28,4 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@v1
       - name: Cache nix
         uses: DeterminateSystems/magic-nix-cache-action@main
-      - run: nix build .#nixosConfigurations.Kirols-xps9575.config.system.path
+      - run: nix build --show-trace .#nixosConfigurations.Kirols-xps9575.config.system.path
