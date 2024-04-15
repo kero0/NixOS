@@ -1,7 +1,0 @@
-#!/bin/sh
-
-x="$(xprop | grep -E "^(_NET_WM_PID|WM_CLASS|WM_NAME)")"
-[ "$x" != '' ] && (
-    notify-send -t 5000 "$x"
-    [ "$x" != '' ] && echo "$x" >$HOME/.windownames
-)
