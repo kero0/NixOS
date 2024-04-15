@@ -1,18 +1,25 @@
 { config, pkgs, lib, ... }:
 let
-  wsCommand = command: "${pkgs.writeShellScriptBin "hyprland-ws-${command}" /*bash */''
+  wsCommand = command: "${pkgs.writeShellScriptBin "hyprland-ws-${command}" /*bash */ ''
+    shopt -s extglob
     ws="$(hyprctl workspaces -j |\
                   ${pkgs.jq}/bin/jq -r 'map(.name) | .[]' |\
                   ${config.programs.rofi.finalPackage}/bin/rofi -dmenu -mesg '<b>Select a workspace</b>')"
     case $ws in
-    [0-9]+|^special:.*)
+    +([0-9])|special:*)
         x="$ws"
     ;;
     *[!0-9]*)
         x="special:$ws"
     ;;
     esac
-    hyprctl dispatch ${command}  $x
+    case $ws in
+    special:*) command=${if command == "workspace" then "togglespecialworkspace" else command}
+               x=''${x#${if command == "workspace" then "special:" else ""}}
+    ;;
+    *) command=${command} ;;
+    esac
+    hyprctl dispatch $command  $x
   ''}/bin/hyprland-ws-${command}";
 in
 {
