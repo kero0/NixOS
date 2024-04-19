@@ -1,6 +1,15 @@
-{ pkgs, lib, config, public-keys, ... }:
-let cfg = config.my.user; in
-with lib; {
+{
+  pkgs,
+  lib,
+  config,
+  public-keys,
+  ...
+}:
+let
+  cfg = config.my.user;
+in
+with lib;
+{
   options.my.user = {
     enable = mkEnableOption "Setup a user with my personal settings";
     username = mkOption {
@@ -26,23 +35,34 @@ with lib; {
   };
   config = lib.mkIf cfg.enable {
     users =
-      if pkgs.stdenv.isDarwin then {
-        users."${cfg.username}" = {
-          home = cfg.homedir;
-          shell = cfg.shell;
+      if pkgs.stdenv.isDarwin then
+        {
+          users."${cfg.username}" = {
+            home = cfg.homedir;
+            shell = cfg.shell;
+          };
+        }
+      else
+        {
+          users."${cfg.username}" = {
+            createHome = true;
+            home = cfg.homedir;
+            hashedPassword = cfg.passwordHash;
+            description = cfg.realName;
+            isNormalUser = true;
+            extraGroups = [
+              "audio"
+              "dialout"
+              "input"
+              "kvm"
+              "tty"
+              "video"
+              "wheel"
+            ];
+            openssh.authorizedKeys.keys = public-keys;
+          };
+          users.root.hashedPassword = cfg.passwordHash;
+          mutableUsers = false;
         };
-      } else {
-        users."${cfg.username}" = {
-          createHome = true;
-          home = cfg.homedir;
-          hashedPassword = cfg.passwordHash;
-          description = cfg.realName;
-          isNormalUser = true;
-          extraGroups = [ "audio" "dialout" "input" "kvm" "tty" "video" "wheel" ];
-          openssh.authorizedKeys.keys = public-keys;
-        };
-        users.root.hashedPassword = cfg.passwordHash;
-        mutableUsers = false;
-      };
   };
 }

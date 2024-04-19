@@ -1,38 +1,50 @@
-{ pkgs, lib, osconfig, config, ... }:
+{
+  pkgs,
+  lib,
+  osconfig,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.my.home.hyprland.binds;
 
-  wsCommand = command: "${pkgs.writeShellScriptBin "hyprland-ws-${command}" /*bash */ ''
-    shopt -s extglob
-    ws="$(hyprctl workspaces -j |\
-                  ${pkgs.jq}/bin/jq -r 'map(.name) | .[]' |\
-                  ${config.programs.rofi.finalPackage}/bin/rofi -dmenu -mesg '<b>Select a workspace</b>')"
-    case $ws in
-    +([0-9])|special:*)
-        x="$ws"
-    ;;
-    *[!0-9]*)
-        x="special:$ws"
-    ;;
-    esac
-    case $ws in
-    special:*) command=${if command == "workspace" then "togglespecialworkspace" else command}
-               x=''${x#${if command == "workspace" then "special:" else ""}}
-    ;;
-    *) command=${command} ;;
-    esac
-    hyprctl dispatch $command  $x
-  ''}/bin/hyprland-ws-${command}";
+  wsCommand =
+    command:
+    "${
+      pkgs.writeShellScriptBin "hyprland-ws-${command}"
+        # bash
+        ''
+          shopt -s extglob
+          ws="$(hyprctl workspaces -j |\
+                        ${pkgs.jq}/bin/jq -r 'map(.name) | .[]' |\
+                        ${config.programs.rofi.finalPackage}/bin/rofi -dmenu -mesg '<b>Select a workspace</b>')"
+          case $ws in
+          +([0-9])|special:*)
+              x="$ws"
+          ;;
+          *[!0-9]*)
+              x="special:$ws"
+          ;;
+          esac
+          case $ws in
+          special:*) command=${if command == "workspace" then "togglespecialworkspace" else command}
+                     x=''${x#${if command == "workspace" then "special:" else ""}}
+          ;;
+          *) command=${command} ;;
+          esac
+          hyprctl dispatch $command  $x
+        ''
+    }/bin/hyprland-ws-${command}";
 in
 {
   options.my.home.hyprland.binds.enable = mkEnableOption "Enable hyprland default bindings";
-  config = mkIf cfg.enable
-    {
-      wayland.windowManager.hyprland.settings = {
-        "$movetoWS" = wsCommand "movetoworkspace";
-        "$gotoWS" = wsCommand "workspace";
-        bind = [
+  config = mkIf cfg.enable {
+    wayland.windowManager.hyprland.settings = {
+      "$movetoWS" = wsCommand "movetoworkspace";
+      "$gotoWS" = wsCommand "workspace";
+      bind =
+        [
           "$mod Shift , Q, killactive,"
           "$mod       , t, togglefloating,"
           "$mod       , f, fullscreen,"
@@ -76,23 +88,23 @@ in
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-          builtins.concatLists (builtins.genList
-            (
+          builtins.concatLists (
+            builtins.genList (
               x:
               let
                 ws =
                   let
                     c = (x + 1) / 10;
-                    in
-                    builtins.toString (x + 1 - (c * 10));
-		in
-		[
-                  "$mod       , ${ws}, workspace      , ${toString (x + 1)}"
-                  "$mod SHIFT , ${ws}, movetoworkspace, ${toString (x + 1)}"
-		]
-            )
-            10)
+                  in
+                  builtins.toString (x + 1 - (c * 10));
+              in
+              [
+                "$mod       , ${ws}, workspace      , ${toString (x + 1)}"
+                "$mod SHIFT , ${ws}, movetoworkspace, ${toString (x + 1)}"
+              ]
+            ) 10
+          )
         );
-      };
     };
+  };
 }

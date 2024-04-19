@@ -1,12 +1,10 @@
-final: prev:
-with prev.lib; {
+final: prev: with prev.lib; {
   maccy = final.pkgs.stdenv.mkDerivation rec {
     name = "maccy-${version}";
     version = "0.26.2";
 
     src = final.pkgs.fetchzip {
-      url =
-        "https://github.com/p0deje/Maccy/releases/download/${version}/Maccy.app.zip";
+      url = "https://github.com/p0deje/Maccy/releases/download/${version}/Maccy.app.zip";
       sha256 = "PPE+dtlwPOngBeUTgnziGBdKVdNgUQqWVbeBEYSgCIs=";
     };
 

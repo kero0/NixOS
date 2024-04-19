@@ -1,6 +1,6 @@
 { myuser, ... }:
 {
-  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key" ];
+  age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   my = {
     allpkgs.enable = true;
     desktop.enable = true;

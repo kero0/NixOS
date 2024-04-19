@@ -1,9 +1,12 @@
 { config, lib, ... }:
-let cfg = config.my.basic-services; in
-  with lib; {
-    options.my.basic-services.enable = mkEnableOption "Basic linux services";
-    config = lib.mkIf cfg.enable {
-      services = {
+let
+  cfg = config.my.basic-services;
+in
+with lib;
+{
+  options.my.basic-services.enable = mkEnableOption "Basic linux services";
+  config = lib.mkIf cfg.enable {
+    services = {
       flatpak.enable = true;
       gvfs.enable = true;
       journald.extraConfig = "SystemMaxUse=100M";

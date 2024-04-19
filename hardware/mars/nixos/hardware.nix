@@ -1,4 +1,5 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   # Printing
   services.printing.enable = true;
 
@@ -44,7 +45,11 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [ mesa.drivers libva vaapiVdpau ];
+    extraPackages = with pkgs; [
+      mesa.drivers
+      libva
+      vaapiVdpau
+    ];
   };
 
   powerManagement = {

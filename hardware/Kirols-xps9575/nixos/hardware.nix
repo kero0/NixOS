@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # Printing
   services.printing.enable = true;
 
@@ -27,7 +28,10 @@
       xrandr --dpi 192
     '';
 
-    videoDrivers = [ "intel" "amdgpu" ];
+    videoDrivers = [
+      "intel"
+      "amdgpu"
+    ];
   };
 
   # Brightness controls

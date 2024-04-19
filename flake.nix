@@ -39,30 +39,37 @@
     };
   };
   outputs =
-    inputs@{ nixpkgs
-    , nix
-    , nixos-hardware
-    , darwin
-    , home-manager
-    , agenix
-    , ...
+    inputs@{
+      nixpkgs,
+      nix,
+      nixos-hardware,
+      darwin,
+      home-manager,
+      agenix,
+      ...
     }:
     let
-      mpkgs = system:
+      mpkgs =
+        system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [ ] ++ (
-            let path = ./overlays;
-            in with builtins;
-            map (n: import (path + ("/" + n))) (filter
-              (n:
-                match ".*\\.nix" n != null
-                  || pathExists (path + ("/" + n + "/default.nix")))
-              (attrNames (readDir path)))
-          );
+          overlays =
+            [ ]
+            ++ (
+              let
+                path = ./overlays;
+              in
+              with builtins;
+              map (n: import (path + ("/" + n))) (
+                filter (n: match ".*\\.nix" n != null || pathExists (path + ("/" + n + "/default.nix"))) (
+                  attrNames (readDir path)
+                )
+              )
+            );
         };
-      mmodules = hostname: myuser: pkgs:
+      mmodules =
+        hostname: myuser: pkgs:
         [
           agenix.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.default
           ./secrets
@@ -72,19 +79,25 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit myuser inputs; };
+              extraSpecialArgs = {
+                inherit myuser inputs;
+              };
               users.${myuser} = {
                 home.stateVersion = stateVersion;
-                imports = (umport {
-                  ipath = ./modules/home-manager;
-                  exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/home-manager/nixos-specific ];
-                })
-                ++ (umport { ipath = ./hardware/${hostname}/home; })
-                ++ [ inputs.nix-index-database.hmModules.nix-index ];
+                imports =
+                  (umport {
+                    ipath = ./modules/home-manager;
+                    exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [
+                      ./modules/home-manager/nixos-specific
+                    ];
+                  })
+                  ++ (umport { ipath = ./hardware/${hostname}/home; })
+                  ++ [ inputs.nix-index-database.hmModules.nix-index ];
               };
             };
           }
-        ] ++ (umport {
+        ]
+        ++ (umport {
           ipath = ./modules/nixos;
           exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/nixos/nixos-specific ];
         })
@@ -105,18 +118,22 @@
           nixpkgs.lib.nixosSystem {
             inherit system pkgs;
             specialArgs = {
-              inherit myuser pkgs system inputs;
+              inherit
+                myuser
+                pkgs
+                system
+                inputs
+                ;
               public-keys = (import ./secrets/secrets.nix).keys;
             };
-            modules = mmodules hostname myuser pkgs
-              ++ [
-		nixos-hardware.nixosModules.common-cpu-intel-kaby-lake
-		nixos-hardware.nixosModules.common-gpu-amd
-		nixos-hardware.nixosModules.common-gpu-intel
-		nixos-hardware.nixosModules.common-hidpi
-		nixos-hardware.nixosModules.common-pc-laptop
-		nixos-hardware.nixosModules.common-pc-ssd
-              ];
+            modules = mmodules hostname myuser pkgs ++ [
+              nixos-hardware.nixosModules.common-cpu-intel-kaby-lake
+              nixos-hardware.nixosModules.common-gpu-amd
+              nixos-hardware.nixosModules.common-gpu-intel
+              nixos-hardware.nixosModules.common-hidpi
+              nixos-hardware.nixosModules.common-pc-laptop
+              nixos-hardware.nixosModules.common-pc-ssd
+            ];
           };
         mars =
           let
@@ -124,24 +141,27 @@
             system = "x86_64-linux";
             hostname = "mars";
             pkgs = mpkgs system;
-            in
-            nixpkgs.lib.nixosSystem {
-              inherit system pkgs;
-              specialArgs = {
-		inherit myuser pkgs system inputs;
-		public-keys = (import ./secrets/secrets.nix).keys;
-              };
-              modules = mmodules hostname myuser pkgs
-              ++ [
-		nixos-hardware.nixosModules.common-cpu-amd
-		nixos-hardware.nixosModules.common-cpu-amd-pstate
-		nixos-hardware.nixosModules.common-cpu-amd-raphael-igpu
-		nixos-hardware.nixosModules.common-gpu-amd
-		nixos-hardware.nixosModules.common-pc-laptop
-		nixos-hardware.nixosModules.common-pc-ssd
-              ];
+          in
+          nixpkgs.lib.nixosSystem {
+            inherit system pkgs;
+            specialArgs = {
+              inherit
+                myuser
+                pkgs
+                system
+                inputs
+                ;
+              public-keys = (import ./secrets/secrets.nix).keys;
+            };
+            modules = mmodules hostname myuser pkgs ++ [
+              nixos-hardware.nixosModules.common-cpu-amd
+              nixos-hardware.nixosModules.common-cpu-amd-pstate
+              nixos-hardware.nixosModules.common-cpu-amd-raphael-igpu
+              nixos-hardware.nixosModules.common-gpu-amd
+              nixos-hardware.nixosModules.common-pc-laptop
+              nixos-hardware.nixosModules.common-pc-ssd
+            ];
           };
-
       };
       darwinConfigurations."Kirolss-MacBook-Air" =
         let
@@ -150,13 +170,22 @@
           hostname = "Kirolss-MacBook-Air";
           myuser = "kirolsbakheat";
         in
-          darwin.lib.darwinSystem {
-            inherit system pkgs;
-            specialArgs = {
-              inherit myuser pkgs system inputs;
-              public-keys = (import ./secrets/secrets.nix).keys;
-            };
-            modules = mmodules hostname myuser pkgs;
+        darwin.lib.darwinSystem {
+          inherit system pkgs;
+          specialArgs = {
+            inherit
+              myuser
+              pkgs
+              system
+              inputs
+              ;
+            public-keys = (import ./secrets/secrets.nix).keys;
+          };
+          modules = mmodules hostname myuser pkgs;
         };
+      formatter = {
+        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+      };
     };
 }
