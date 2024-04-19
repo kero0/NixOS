@@ -1,5 +1,6 @@
-{ myuser, ... }:
+{ myuser, config, ... }:
 {
+  age.identityPaths = ["${config.my.user.homedir}/.ssh/id_ed25519"];
   my = {
     allpkgs.enable = true;
     fonts.enable = true;

@@ -19,6 +19,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     agenix = {
       inputs = {
         nixpkgs.follows = "nixpkgs";
@@ -49,7 +54,7 @@
           config.allowUnfree = true;
           overlays = [ ] ++ (
             let path = ./overlays;
-              in with builtins;
+            in with builtins;
             map (n: import (path + ("/" + n))) (filter
               (n:
                 match ".*\\.nix" n != null
@@ -74,7 +79,8 @@
                   ipath = ./modules/home-manager;
                   exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/home-manager/nixos-specific ];
                 })
-                ++ (umport { ipath = ./hardware/${hostname}/home; });
+                ++ (umport { ipath = ./hardware/${hostname}/home; })
+                ++ [ inputs.nix-index-database.hmModules.nix-index ];
               };
             };
           }
@@ -86,28 +92,51 @@
         ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isLinux { system.stateVersion = stateVersion; });
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
-      in
-      {
-	nixosConfigurations = {
-          Kirols-xps9575 =
-            let
-              myuser = "kirolsb";
-              system = "x86_64-linux";
-              hostname = "Kirols-xps9575";
-              pkgs = mpkgs system;
-              in
-              nixpkgs.lib.nixosSystem {
-		inherit system pkgs;
-		specialArgs = {
-		  inherit myuser pkgs system inputs;
-		  public-keys = (import ./secrets/secrets.nix).keys;
-		};
-		modules = mmodules hostname myuser pkgs
+    in
+    {
+      nixosConfigurations = {
+        Kirols-xps9575 =
+          let
+            myuser = "kirolsb";
+            system = "x86_64-linux";
+            hostname = "Kirols-xps9575";
+            pkgs = mpkgs system;
+          in
+          nixpkgs.lib.nixosSystem {
+            inherit system pkgs;
+            specialArgs = {
+              inherit myuser pkgs system inputs;
+              public-keys = (import ./secrets/secrets.nix).keys;
+            };
+            modules = mmodules hostname myuser pkgs
               ++ [
 		nixos-hardware.nixosModules.common-cpu-intel-kaby-lake
 		nixos-hardware.nixosModules.common-gpu-amd
 		nixos-hardware.nixosModules.common-gpu-intel
 		nixos-hardware.nixosModules.common-hidpi
+		nixos-hardware.nixosModules.common-pc-laptop
+		nixos-hardware.nixosModules.common-pc-ssd
+              ];
+          };
+        mars =
+          let
+            myuser = "kirolsb";
+            system = "x86_64-linux";
+            hostname = "mars";
+            pkgs = mpkgs system;
+            in
+            nixpkgs.lib.nixosSystem {
+              inherit system pkgs;
+              specialArgs = {
+		inherit myuser pkgs system inputs;
+		public-keys = (import ./secrets/secrets.nix).keys;
+              };
+              modules = mmodules hostname myuser pkgs
+              ++ [
+		nixos-hardware.nixosModules.common-cpu-amd
+		nixos-hardware.nixosModules.common-cpu-amd-pstate
+		nixos-hardware.nixosModules.common-cpu-amd-raphael-igpu
+		nixos-hardware.nixosModules.common-gpu-amd
 		nixos-hardware.nixosModules.common-pc-laptop
 		nixos-hardware.nixosModules.common-pc-ssd
               ];
@@ -120,7 +149,7 @@
           pkgs = mpkgs system;
           hostname = "Kirolss-MacBook-Air";
           myuser = "kirolsbakheat";
-          in
+        in
           darwin.lib.darwinSystem {
             inherit system pkgs;
             specialArgs = {
@@ -128,6 +157,6 @@
               public-keys = (import ./secrets/secrets.nix).keys;
             };
             modules = mmodules hostname myuser pkgs;
-          };
+        };
     };
 }

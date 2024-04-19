@@ -1,13 +1,11 @@
-{ lib, config, ... }: {
-  age = {
-    identityPaths = [
-      "/etc/ssh/ssh_host_ed25519_key"
-      "${config.my.user.homedir}/.ssh/id_ed25519"
-    ];
-    secrets =
-      let files = (import ./secrets.nix).files;
-      in builtins.foldl'
-        (acc: elem:
+{ lib, config, ... }:
+let inherit (builtins) attrNames foldl' map replaceStrings;
+  in {
+    age = {
+      secrets =
+	let files = map (replaceStrings [ ".age" ] [ "" ]) (attrNames (import ./secrets.nix));
+	  in foldl'
+            (acc: elem:
           acc // {
             "${lib.strings.replaceStrings [ "." ] [ "-" ] elem}".file = ./${elem}.age;
           })

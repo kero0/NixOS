@@ -1,6 +1,6 @@
-{ myuser, ... }:
+{ myuser, config, ... }:
 {
-  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key" ];
+  age.identityPaths = [ "${config.my.user.homedir}/.ssh/id_ed25519" ];
   my = {
     allpkgs.enable = true;
     desktop.enable = true;
@@ -8,6 +8,7 @@
     gaming.enable = true;
     samba.enable = true;
     scripts.enable = true;
+    virtualization.enable = true;
 
     user = {
       enable = true;

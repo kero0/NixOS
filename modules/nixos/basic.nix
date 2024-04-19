@@ -1,4 +1,4 @@
-{ pkgs, config, inputs, options, ... }: {
+{ pkgs, lib, config, inputs, options, ... }: {
   programs = {
     fish.enable = true;
     zsh.enable = true;
@@ -16,7 +16,7 @@
     checkConfig = false; # incompatible with agenix
     extraOptions = builtins.concatStringsSep "\n" [
       "experimental-features = nix-command flakes recursive-nix repl-flake"
-      "include ${config.age.secrets.nix-conf.path}"
+      "!include ${config.age.secrets.nix-conf.path}"
     ];
     settings = {
       auto-optimise-store = !pkgs.stdenv.isDarwin;
@@ -42,7 +42,6 @@
     variables = {
       NIXPKGS_ALLOW_UNFREE = "1";
       EDITOR = "vim";
-      NIX_AUTO_RUN = "1";
     };
   };
 }

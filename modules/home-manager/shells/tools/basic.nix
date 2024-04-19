@@ -13,7 +13,6 @@ let
           feh.enable = pkgs.lib.mkIf pkgs.stdenv.isLinux true;
           jq.enable = true;
           man.enable = true;
-          nix-index.enable = false;
           zathura.enable = pkgs.lib.mkIf pkgs.stdenv.isLinux true;
 
           direnv = {

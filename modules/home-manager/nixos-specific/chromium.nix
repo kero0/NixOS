@@ -9,7 +9,7 @@ in
     {
       programs.chromium = {
         package = pkgs.chromium.override {
-          commandLineArgs = "--enable-features=VaapiVideoDecode --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy";
+          commandLineArgs = "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode --ignore-gpu-blocklist --enable-gpu-rasterization";
         };
         enable = true;
         extensions = [
