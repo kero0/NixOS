@@ -1,5 +1,4 @@
-final: prev:
-with prev.lib; {
+final: prev: with prev.lib; {
   cliphist-rofi-img = final.pkgs.stdenv.mkDerivation rec {
     pname = "cliphist-rofi-img";
     version = "0.1.2";
@@ -11,7 +10,10 @@ with prev.lib; {
       sha256 = "J3kQCFbvDyPb0IjlQvoZt3vxcczaUvpjJU+MOFeLXXY=";
     };
 
-    buildInputs = with final.pkgs; [ cliphist wl-clipboard ];
+    buildInputs = with final.pkgs; [
+      cliphist
+      wl-clipboard
+    ];
 
     installPhase = ''
       mkdir -p $out/bin

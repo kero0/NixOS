@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   networking.hostName = "mars";
 
   programs.firejail.enable = true;
@@ -6,7 +7,10 @@
     btrfs.autoScrub = {
       enable = true;
       interval = "daily";
-      fileSystems = [ "/" "/home" ];
+      fileSystems = [
+        "/"
+        "/home"
+      ];
     };
     #     btrbk = {
     #       instances.btrbk = {
@@ -44,8 +48,6 @@
     randomizedDelaySec = "45min";
     persistent = true;
     flake = "github:kero0/nixos";
-    flags = [
-      "-L"
-    ];
+    flags = [ "-L" ];
   };
 }

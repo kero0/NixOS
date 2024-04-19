@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   homebrew = {
     enable = true;
     brewPrefix = "/opt/homebrew/bin";
@@ -7,7 +13,11 @@
       cleanup = "zap";
       upgrade = true;
     };
-    taps = [ "homebrew/cask" "homebrew/cask-versions" "homebrew/core" ];
+    taps = [
+      "homebrew/cask"
+      "homebrew/cask-versions"
+      "homebrew/core"
+    ];
     casks = [
       "appcleaner"
       "disk-inventory-x"

@@ -1,11 +1,15 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   networking.hostName = "Kirols-xps9575";
 
   services = {
     btrfs.autoScrub = {
       enable = true;
       interval = "daily";
-      fileSystems = [ "/" "/home" ];
+      fileSystems = [
+        "/"
+        "/home"
+      ];
     };
     btrbk = {
       instances.btrbk = {
@@ -28,10 +32,12 @@
     resumeDevice = "/swapfile";
   };
 
-  swapDevices = [{
-    device = "/swap/swapfile";
-    size = 32 * 1024;
-  }];
+  swapDevices = [
+    {
+      device = "/swap/swapfile";
+      size = 32 * 1024;
+    }
+  ];
 
   networking.firewall.enable = true;
   system.autoUpgrade = {
@@ -41,8 +47,6 @@
     randomizedDelaySec = "45min";
     persistent = true;
     flake = "github:kero0/nixos";
-    flags = [
-      "-L"
-    ];
+    flags = [ "-L" ];
   };
 }

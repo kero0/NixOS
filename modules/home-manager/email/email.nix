@@ -1,4 +1,10 @@
-{ pkgs, lib, osconfig, config, ... }:
+{
+  pkgs,
+  lib,
+  osconfig,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.my.home.email;
@@ -56,7 +62,5 @@ in
 
     xsession.importedVariables = [ "PASSWORD_STORE_DIR" ];
     services.imapnotify.enable = true;
-
   };
 }
-

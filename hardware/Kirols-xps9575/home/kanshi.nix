@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   services.kanshi = {
     enable = true;
     systemdTarget = "graphical-session.target";

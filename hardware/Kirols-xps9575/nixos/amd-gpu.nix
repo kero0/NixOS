@@ -1,9 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   boot.initrd.kernelModules = [ "amdgpu" ];
   # services.xserver.videoDrivers = [ "amdgpu" ];
 
-  systemd.tmpfiles.rules =
-    [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
 
   hardware.opengl = {
     enable = true;
@@ -18,7 +18,10 @@
       vaapiVdpau
       libvdpau-va-gl
     ];
-    extraPackages32 = with pkgs.driversi686Linux; [ amdvlk intel-vaapi-driver ];
+    extraPackages32 = with pkgs.driversi686Linux; [
+      amdvlk
+      intel-vaapi-driver
+    ];
   };
   hardware.nvidia.prime = {
     offload = {

@@ -1,12 +1,22 @@
-{ pkgs, config, lib, ... }:
-let cfg = config.my.samba; in
-with lib; {
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  cfg = config.my.samba;
+in
+with lib;
+{
   options.my.samba.enable = mkEnableOption "Enable samba";
   config = lib.mkIf cfg.enable {
     services = {
       samba =
-        let hostname = config.networking.hostName;
-        in {
+        let
+          hostname = config.networking.hostName;
+        in
+        {
           enable = true;
           nsswins = true;
           securityType = "user";
@@ -71,10 +81,17 @@ with lib; {
     };
     networking.firewall = {
       allowPing = true;
-      allowedTCPPorts = [ 445 139 5357 ];
-      allowedUDPPorts = [ 137 138 3702 ];
-      extraCommands =
-        "iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns";
+      allowedTCPPorts = [
+        445
+        139
+        5357
+      ];
+      allowedUDPPorts = [
+        137
+        138
+        3702
+      ];
+      extraCommands = "iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns";
     };
   };
 }

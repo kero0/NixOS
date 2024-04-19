@@ -1,4 +1,5 @@
-{ pkgs, osConfig, ... }: {
+{ pkgs, osConfig, ... }:
+{
   home.stateVersion = "22.05";
 
   home = {

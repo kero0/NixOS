@@ -1,5 +1,4 @@
-final: prev:
-with prev.lib; {
+final: prev: with prev.lib; {
   cyrus_sasl_xoauth2 = prev.stdenv.mkDerivation rec {
     name = "cyrus-sasl-xoauth2";
     src = prev.fetchFromGitHub {
@@ -11,12 +10,22 @@ with prev.lib; {
 
     outputs = [ "out" ];
 
-    depsBuildBuild = with final; [ buildPackages.stdenv.cc cyrus_sasl ];
-    nativeBuildInputs = with final;
-      [ autoreconfHook ]
-      ++ optional stdenv.hostPlatform.isDarwin fixDarwinDylibNames;
-    buildInputs = with final;
-      [ openssl db gettext libkrb5 ] ++ optional stdenv.isLinux pam;
+    depsBuildBuild = with final; [
+      buildPackages.stdenv.cc
+      cyrus_sasl
+    ];
+    nativeBuildInputs =
+      with final;
+      [ autoreconfHook ] ++ optional stdenv.hostPlatform.isDarwin fixDarwinDylibNames;
+    buildInputs =
+      with final;
+      [
+        openssl
+        db
+        gettext
+        libkrb5
+      ]
+      ++ optional stdenv.isLinux pam;
 
     configureFlags = [
       "--with-openssl=${final.openssl.dev}"
@@ -27,8 +36,9 @@ with prev.lib; {
       "--enable-shared"
     ];
 
-    installFlags = optional prev.stdenv.isDarwin
-      [ "framedir=$(out)/Library/Frameworks/SASL2.framework" ];
+    installFlags = optional prev.stdenv.isDarwin [
+      "framedir=$(out)/Library/Frameworks/SASL2.framework"
+    ];
 
     # Make autoreconfHook happy
     postPatch = ''
