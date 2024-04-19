@@ -9,6 +9,7 @@
     notification-manager.enable = true;
     pass.enable = true;
     rofi.enable = true;
+    theme.gtk.enable = true;
 
     editors = {
       enable = true;

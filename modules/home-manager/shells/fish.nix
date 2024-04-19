@@ -29,11 +29,6 @@ in
                 command sudo $argv
               end
             '';
-
-          __fish_command_not_found_handler = {
-            body = "${pkgs.comma}/bin/, $argv";
-            onEvent = "fish_command_not_found";
-          };
           __auto_noti = lib.mkIf config.programs.noti.enable {
             body = ''
               if test $CMD_DURATION -gt ${toString (60 * 1000)} # 1 minute

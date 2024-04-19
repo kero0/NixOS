@@ -15,10 +15,11 @@ let cfg = config.my.allpkgs; in
         wget
         ## other
         bottom
-        comma
       ] ++ (if !stdenv.isDarwin then [
         # browsers
-        google-chrome
+        (google-chrome.override {
+          commandLineArgs = "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode --ignore-gpu-blocklist --enable-gpu-rasterization";
+        })
 
         # bitwarden
         bitwarden

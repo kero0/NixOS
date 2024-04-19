@@ -7,19 +7,18 @@ let cfg = config.my.virtualization; in
       virtualisation = {
 	docker = {
           enable = true;
-          storageDriver =
-            lib.mkIf (config.fileSystems."/".fsType == "btrfs") "btrfs";
+          storageDriver = lib.mkIf (config.fileSystems."/".fsType == "btrfs") "btrfs";
           rootless = {
             enable = true;
-          setSocketVariable = true;
-        };
-      };
+            setSocketVariable = true;
+          };
+	};
 
-      oci-containers = { backend = "docker"; };
-      libvirtd = {
-        enable = true;
-        qemu.swtpm.enable = true;
-        onBoot = "ignore";
+	oci-containers = { backend = "docker"; };
+	libvirtd = {
+          enable = true;
+          qemu.swtpm.enable = true;
+          onBoot = "ignore";
       };
       spiceUSBRedirection.enable = true;
     };

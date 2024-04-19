@@ -59,21 +59,14 @@ in
                 # show a random colorscript on startup
                 "${dwt1-shell-color-scripts}/bin/colorscript random"
 
-                # use , to search for commands
-                ''
-                  function command_not_found_handler() {
-                    ${comma}/bin/, "$@"
-                  }
-                ''
-
                 # disable bell
                 "unsetopt BEEP"
 
                 # vim mode
-                "source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+                "source ${zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
               ];
-            in
-            ''
+          in
+          ''
             if [[ $options[interactive] = on ]]; then
                ${interactive_init}
             fi

@@ -7,8 +7,9 @@
         outputs = [
           {
             criteria = "eDP-1";
-            mode = "3840x2160";
+            mode = "1920x1080";
             position = "0,0";
+            scale = 1.2;
           }
         ];
       };
@@ -26,8 +27,9 @@
           }
           {
             criteria = "eDP-1";
-            mode = "3840x2160";
+            mode = "1920x1080";
             position = "4480,0";
+            scale = 1.2;
           }
         ];
       };

@@ -19,6 +19,7 @@
         enable = true;
         atuin.enable = true;
         bat.enable = true;
+        nix-index.enable = true;
         ssh.enable = true;
         tealdeer.enable = true;
 
