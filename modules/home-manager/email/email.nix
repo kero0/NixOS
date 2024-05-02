@@ -11,6 +11,11 @@ let
 in
 {
   options.my.home.email.enable = mkEnableOption "Enable email module";
+  # initialize mail
+  # mkdir ~/.local/share/mail/{bakheakm-udmercy,kbakheat-gmail,kirolsb5-gmail}
+  # mbsync --pull -a
+  # mu init --maildir ~/.local/share/mail --my-address kbakheat@gmail.com --my-address kirolsb5@gmail.com --my-address bakheakm@udmercy.edu
+  # mu index
   config = mkIf cfg.enable {
     programs = {
       mbsync = {
