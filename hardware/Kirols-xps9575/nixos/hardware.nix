@@ -12,8 +12,7 @@
   services.switcherooControl.enable = true;
 
   # Mouse
-  services.xserver = {
-    wacom.enable = true;
+  services = {
     libinput = {
       enable = true;
       touchpad = {
@@ -24,14 +23,16 @@
         accelProfile = "adaptive";
       };
     };
-    displayManager.setupCommands = ''
-      xrandr --dpi 192
-    '';
-
-    videoDrivers = [
-      "intel"
-      "amdgpu"
-    ];
+    xserver = {
+      wacom.enable = true;
+      displayManager.setupCommands = ''
+        xrandr --dpi 192
+      '';
+      videoDrivers = [
+        "intel"
+        "amdgpu"
+      ];
+    };
   };
 
   # Brightness controls
