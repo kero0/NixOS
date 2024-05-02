@@ -24,6 +24,13 @@ with lib;
       devmon.enable = true;
       gnome.gnome-keyring.enable = true;
       udisks2.enable = true;
+      displayManager = {
+        autoLogin = {
+          enable = false;
+          user = config.my.user.username;
+        };
+        defaultSession = "hyprland";
+      };
       xserver = {
         enable = true;
         desktopManager.xterm.enable = false;
@@ -33,11 +40,6 @@ with lib;
             enable = true;
             wayland = true;
           };
-          autoLogin = {
-            enable = false;
-            user = config.my.user.username;
-          };
-          defaultSession = "hyprland";
         };
       };
     };

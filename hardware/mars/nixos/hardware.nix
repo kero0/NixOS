@@ -4,8 +4,7 @@
   services.printing.enable = true;
 
   # Mouse
-  services.xserver = {
-    wacom.enable = true;
+  services = {
     libinput = {
       enable = true;
       touchpad = {
@@ -16,6 +15,7 @@
         accelProfile = "adaptive";
       };
     };
+    xserver.wacom.enable = true;
   };
 
   # Brightness controls
