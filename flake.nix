@@ -33,10 +33,7 @@
       url = "github:ryantm/agenix";
     };
 
-    emacs = {
-      url = "github:kero0/emacs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    emacs.url = "github:kero0/emacs";
   };
   outputs =
     inputs@{
