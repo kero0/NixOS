@@ -9,6 +9,17 @@ with lib;
 let
   cfg = config.my.home.hyprland.binds;
 
+  togglefloat = pkgs.writeShellScriptBin "togglefloat" ''
+    floating=$(hyprctl activewindow -j | jq .floating)
+    if [ $floating = "true" ]; then
+        hyprctl dispatch togglefloating
+    else
+        hyprctl --batch					\
+    	    dispatch togglefloating ';'			\
+    	    dispatch resizeactive 'exact 80% 85%' ';'	\
+    	    dispatch centerwindow
+    fi
+  '';
   wsCommand =
     command:
     "${
@@ -28,8 +39,10 @@ let
           ;;
           esac
           case $ws in
-          special:*) command=${if command == "workspace" then "togglespecialworkspace" else command}
-                     x=''${x#${if command == "workspace" then "special:" else ""}}
+          special:*) command=${
+            if command == "focusworkspaceoncurrentmonitor" then "togglespecialworkspace" else command
+          }
+                     x=''${x#${if command == "workspace" || true then "special:" else ""}}
           ;;
           *) command=${command} ;;
           esac
@@ -41,23 +54,23 @@ in
   options.my.home.hyprland.binds.enable = mkEnableOption "Enable hyprland default bindings";
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
-      "$movetoWS" = wsCommand "movetoworkspace";
-      "$gotoWS" = wsCommand "workspace";
+      "$movetoWS" = wsCommand "movetoworkspacesilent";
+      "$gotoWS" = wsCommand "focusworkspaceoncurrentmonitor";
       bind =
         [
           "$mod Shift , Q, killactive,"
-          "$mod       , t, togglefloating,"
+          "$mod       , t, exec, ${togglefloat}/bin/togglefloat"
           "$mod       , f, fullscreen,"
           "$mod       , p, pseudo, # dwindle"
           "$mod       , J, togglesplit, # dwindle"
 
           "$mod SHIFT , N,      exec, swaync-client -t -sw"
-          "$mod Shift , Return, exec, $fileManager"
+          "$mod SHIFT , Return, exec, $fileManager"
           "$mod       , Return, exec, $terminal"
           "$mod       , s,      exec, $menu"
 
           "$mod       , r,      togglespecialworkspace, ref"
-          "$mod SHIFT , r,      movetoworkspace, special:ref"
+          "$mod SHIFT , r,      movetoworkspacesilent, special:ref"
           "$mod CTRL  , v,      exec, pypr toggle volume"
           "$mod CTRL  , Return, exec, pypr toggle term"
 
@@ -80,7 +93,7 @@ in
           "           , XF86AudioPlay, exec, playerctl play-pause"
           "           , XF86AudioNext, exec, playerctl next"
           "           , XF86AudioPrev, exec, playerctl previous"
-          "           , Print, exec, grim ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png"
+          "           , Print, exec, grim - | tee ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png | wl-copy --type image/png"
 
           "$mod Shift , Tab, exec, $movetoWS"
           "$mod       , Tab, exec, $gotoWS"
@@ -99,8 +112,8 @@ in
                   builtins.toString (x + 1 - (c * 10));
               in
               [
-                "$mod       , ${ws}, workspace      , ${toString (x + 1)}"
-                "$mod SHIFT , ${ws}, movetoworkspace, ${toString (x + 1)}"
+                "$mod       , ${ws}, focusworkspaceoncurrentmonitor , ${toString (x + 1)}"
+                "$mod SHIFT , ${ws}, movetoworkspacesilent          , ${toString (x + 1)}"
               ]
             ) 10
           )
