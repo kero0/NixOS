@@ -27,18 +27,26 @@ in
         package = pkgs.vscode;
       };
     };
-    services.emacs.enable = cfg.emacsdaemon;
+    services.emacs = {
+      enable = cfg.emacsdaemon;
+      package = config.programs.emacs.finalPackage;
+      defaultEditor = true;
+      client = {
+        enable = true;
+        arguments = [
+          "-c"
+          "-a"
+        ];
+      };
+    };
 
     home =
       let
         emacs = config.programs.emacs.finalPackage;
-      in
-      lib.mkIf config.programs.emacs.enable {
-        sessionVariables = {
-          EDITOR = "${emacs}/bin/emacsclient -nw -a '${emacs}/bin/emacs'";
-          VISUAL = "${emacs}/bin/emacsclient -c -a '${emacs}/bin/emacs'";
-        };
-        shellAliases.emacs = "${emacs}/bin/emacsclient -nw -a '${emacs}/bin/emacs'";
-      };
+	in
+	lib.mkIf config.programs.emacs.enable {
+          sessionVariables.VISUAL = "${emacs}/bin/emacsclient -c";
+          shellAliases.emacs = config.home.sessionVariables.VISUAL;
+	};
   };
 }
