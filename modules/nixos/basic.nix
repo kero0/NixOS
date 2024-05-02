@@ -23,7 +23,7 @@
     package = pkgs.nixUnstable;
     checkConfig = false; # incompatible with agenix
     extraOptions = builtins.concatStringsSep "\n" [
-      "experimental-features = nix-command flakes recursive-nix repl-flake"
+      "experimental-features = nix-command flakes recursive-nix"
       "!include ${config.age.secrets.nix-conf.path}"
     ];
     settings = {
