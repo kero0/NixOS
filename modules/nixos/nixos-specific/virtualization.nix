@@ -13,17 +13,13 @@ with lib;
   config = lib.mkIf cfg.enable {
     boot.binfmt.emulatedSystems = lib.lists.optional (pkgs.system == "x86_64-linux") "aarch64-linux";
     virtualisation = {
-      docker = {
+      podman = {
         enable = true;
-        storageDriver = lib.mkIf (config.fileSystems."/".fsType == "btrfs") "btrfs";
-        rootless = {
-          enable = true;
-          setSocketVariable = true;
-        };
+        extraPackages = with pkgs; [ catatonit ];
       };
 
       oci-containers = {
-        backend = "docker";
+        backend = "podman";
       };
       libvirtd = {
         enable = true;
@@ -34,7 +30,7 @@ with lib;
     };
     programs.dconf.enable = true;
     users.users.${config.my.user.username}.extraGroups = [
-      "docker"
+      "podman"
       "libvirtd"
     ];
     environment.systemPackages = with pkgs; [
