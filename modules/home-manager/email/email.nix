@@ -35,29 +35,6 @@ in
         '';
       };
       mu.enable = true;
-      offlineimap = {
-        enable = false;
-        pythonFile = ''
-          #!${pkgs.python3}/bin/python
-          import subprocess
-          import json
-
-          def get_pass(service, cmd):
-            return subprocess.check_output(cmd, )
-
-          def get_udmercy_token():
-              proc = subprocess.run(
-                  [
-                    'gpg2',
-                    '--decrypt' ,
-                    '${config.programs.password-store.settings.PASSWORD_STORE_DIR}/office.com/bakheakm@udmercy.edu.tokens'
-                  ],
-                  capture_output=True,
-              )
-              data = json.loads(proc.stdout)
-              return data['access_token']
-        '';
-      };
     };
 
     xsession.importedVariables = [
