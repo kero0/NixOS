@@ -60,7 +60,11 @@ in
       };
     };
 
-    xsession.importedVariables = [ "PASSWORD_STORE_DIR" ];
+    xsession.importedVariables = [
+      "GPG_TTY"
+      "GNUPGHOME"
+      "PASSWORD_STORE_DIR"
+    ];
     services.imapnotify.enable = true;
   };
 }
