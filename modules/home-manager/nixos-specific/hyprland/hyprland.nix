@@ -102,12 +102,12 @@ in
         ];
 
         bindel = [
-          ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume 5"
+          ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume +5"
           ", XF86AudioLowerVolume, exec, swayosd-client --output-volume -5"
           ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
           ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
 
-          ", XF86MonBrightnessUp, exec, swayosd-client --brightness 5"
+          ", XF86MonBrightnessUp, exec, swayosd-client --brightness +5"
           ", XF86MonBrightnessDown, exec, swayosd-client --brightness -5"
           "CAPS, Caps_Lock, exec, swayosd-client --caps-lock"
         ];
