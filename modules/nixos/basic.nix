@@ -20,7 +20,6 @@
         type = "github";
       };
     };
-    package = pkgs.nixUnstable;
     checkConfig = false; # incompatible with agenix
     extraOptions = builtins.concatStringsSep "\n" [
       "experimental-features = nix-command flakes recursive-nix"
