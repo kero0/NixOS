@@ -30,7 +30,7 @@ in
     services.emacs = {
       enable = cfg.emacsdaemon;
       package = config.programs.emacs.finalPackage;
-      defaultEditor = true;
+      defaultEditor = false;
       client = {
         enable = true;
         arguments = [
@@ -43,10 +43,13 @@ in
     home =
       let
         emacs = config.programs.emacs.finalPackage;
-	in
-	lib.mkIf config.programs.emacs.enable {
-          sessionVariables.VISUAL = "${emacs}/bin/emacsclient -c";
-          shellAliases.emacs = config.home.sessionVariables.VISUAL;
-	};
+      in
+      lib.mkIf config.programs.emacs.enable {
+        sessionVariables.EDITOR =
+          pkgs.writeShellScriptBin "editor" ''${emacs}/bin/emacsclient -nw "$@" '' + /bin/editor;
+        sessionVariables.VISUAL =
+          pkgs.writeShellScriptBin "visual" ''${emacs}/bin/emacsclient -c "$@" '' + /bin/visual;
+        shellAliases.emacs = config.home.sessionVariables.VISUAL;
+      };
   };
 }

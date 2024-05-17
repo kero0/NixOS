@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  osconfig,
   config,
   ...
 }:
@@ -34,21 +33,31 @@ in
     };
     xdg.configFile."hypr/pyprland.toml".source = (pkgs.formats.toml { }).generate "pyprland.toml" {
       pyprland.plugins = [ "scratchpads" ];
-      scratchpads.term = {
-        animation = "fromTop";
-        command = "kitty --class kitty-dropterm";
-        class = "kitty-dropterm";
-        size = "75% 60%";
-        max_size = "100% 100%";
-        margin = 50;
-      };
-      scratchpads.volume = {
-        animation = "fromRight";
-        command = "pavucontrol";
-        class = "pavucontrol";
-        size = "40% 70%";
-        unfocus = "hide";
-        lazy = true;
+      scratchpads = {
+        bluetooth = {
+          animation = "fromRight";
+          command = "blueman-manager";
+          class = ".blueman-manager-wrapped";
+          size = "40% 70%";
+          unfocus = "hide";
+          lazy = true;
+        };
+        term = {
+          animation = "fromTop";
+          command = "kitty --class kitty-dropterm";
+          class = "kitty-dropterm";
+          size = "75% 60%";
+          max_size = "100% 100%";
+          margin = 50;
+        };
+        volume = {
+          animation = "fromRight";
+          command = "pavucontrol";
+          class = "pavucontrol";
+          size = "40% 70%";
+          unfocus = "hide";
+          lazy = true;
+        };
       };
     };
   };

@@ -26,7 +26,7 @@ with lib;
     };
     shell = mkOption {
       type = types.str;
-      default = if pkgs.stdenv.isDarwin then "${pkgs.fish}/bin/fish" else pkgs.fish;
+      default = if pkgs.stdenv.isDarwin then "${pkgs.zsh}/bin/zsh" else pkgs.zsh;
     };
     realName = mkOption {
       type = types.str;
