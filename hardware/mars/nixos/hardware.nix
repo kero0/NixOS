@@ -35,8 +35,9 @@
 
   # Lid switch
   services.logind = {
-    lidSwitch = "hybrid-sleep";
-    lidSwitchExternalPower = "hybrid-sleep";
+    lidSwitch = "suspend";
+    lidSwitchExternalPower = "suspend";
+    lidSwitchDocked = "ignore";
   };
   # Sensors
   hardware.sensor.iio.enable = true;

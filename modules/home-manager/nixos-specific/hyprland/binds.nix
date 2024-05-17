@@ -59,10 +59,11 @@ in
       bind =
         [
           "$mod Shift , Q, killactive,"
+          "$mod Shift , C, exec,${pkgs.wlogout}/bin/wlogout"
           "$mod       , t, exec, ${togglefloat}/bin/togglefloat"
           "$mod       , f, fullscreen,"
           "$mod       , p, pseudo, # dwindle"
-          "$mod       , J, togglesplit, # dwindle"
+          "$mod       , j, togglesplit, # dwindle"
 
           "$mod SHIFT , N,      exec, swaync-client -t -sw"
           "$mod SHIFT , Return, exec, $fileManager"
@@ -71,6 +72,7 @@ in
 
           "$mod       , r,      togglespecialworkspace, ref"
           "$mod SHIFT , r,      movetoworkspacesilent, special:ref"
+          "$mod CTRL  , b,      exec, pypr toggle bluetooth"
           "$mod CTRL  , v,      exec, pypr toggle volume"
           "$mod CTRL  , Return, exec, pypr toggle term"
 

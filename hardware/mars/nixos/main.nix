@@ -35,19 +35,12 @@
   };
   fonts.fontconfig.antialias = true;
 
-  #   swapDevices = [{
-  #     device = "/swap/swapfile";
-  #     size = 32 * 1024;
-  #   }];
+  swapDevices = [
+    {
+      device = "/swap/swapfile";
+      size = 32 * 1024;
+    }
+  ];
 
   networking.firewall.enable = true;
-  system.autoUpgrade = {
-    enable = true;
-    allowReboot = false;
-    dates = "weekly";
-    randomizedDelaySec = "45min";
-    persistent = true;
-    flake = "github:kero0/nixos";
-    flags = [ "-L" ];
-  };
 }

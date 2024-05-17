@@ -12,7 +12,6 @@ in
 {
   options.my.home.hyprland.enable = mkEnableOption "Enable hyprland window manager";
   config = mkIf cfg.enable {
-    services.swayosd.enable = true;
     home.packages = with pkgs; [
       grim
       playerctl

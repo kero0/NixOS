@@ -19,6 +19,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,12 +44,14 @@
   };
   outputs =
     inputs@{
+      self,
       nixpkgs,
       nix,
       nixos-hardware,
       darwin,
       home-manager,
       agenix,
+      pre-commit-hooks,
       ...
     }:
     let
@@ -184,5 +193,30 @@
         aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
         x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
       };
+      checks =
+        let
+          f = system: {
+            ${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+              src = ./.;
+              hooks = {
+                nixfmt = {
+                  enable = true;
+                  package = self.formatter.${system};
+                };
+              };
+            };
+          };
+        in
+        (f "aarch64-darwin" // f "x86_64-linux");
+      devShell =
+        let
+          f = system: {
+            ${system} = nixpkgs.legacyPackages.${system}.mkShell {
+              inherit (self.checks.${system}.pre-commit-check) shellHook;
+              buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+            };
+          };
+        in
+        (f "aarch64-darwin" // f "x86_64-linux");
     };
 }

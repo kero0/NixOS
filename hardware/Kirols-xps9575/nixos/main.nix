@@ -40,13 +40,4 @@
   ];
 
   networking.firewall.enable = true;
-  system.autoUpgrade = {
-    enable = true;
-    allowReboot = false;
-    dates = "weekly";
-    randomizedDelaySec = "45min";
-    persistent = true;
-    flake = "github:kero0/nixos";
-    flags = [ "-L" ];
-  };
 }
