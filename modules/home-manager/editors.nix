@@ -44,7 +44,7 @@ in
       let
         emacs = config.programs.emacs.finalPackage;
       in
-      lib.mkIf config.programs.emacs.enable {
+      lib.mkIf cfg.emacsdaemon {
         sessionVariables.EDITOR =
           pkgs.writeShellScriptBin "editor" ''${emacs}/bin/emacsclient -nw "$@" '' + /bin/editor;
         sessionVariables.VISUAL =

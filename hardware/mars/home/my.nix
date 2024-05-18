@@ -39,6 +39,7 @@
         nix-index.enable = true;
         ssh.enable = true;
         tealdeer.enable = true;
+        zoxide.enable = true;
 
         git = {
           enable = true;

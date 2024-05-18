@@ -37,7 +37,7 @@ in
       historySubstringSearch.enable = true;
 
       autocd = true;
-      dotDir = ".config/zsh";
+      dotDir = "${lib.strings.removePrefix config.home.homeDirectory config.xdg.configHome}/zsh";
 
       history = {
         expireDuplicatesFirst = true;
@@ -72,6 +72,9 @@ in
 
               # disable bell
               "unsetopt BEEP"
+
+              # case insensitive completion
+              "zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'"
 
               # vim mode
               "source ${zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
