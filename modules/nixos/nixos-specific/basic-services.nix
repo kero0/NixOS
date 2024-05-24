@@ -7,6 +7,7 @@ with lib;
   options.my.basic-services.enable = mkEnableOption "Basic linux services";
   config = lib.mkIf cfg.enable {
     services = {
+      dbus.implementation = "broker";
       flatpak.enable = true;
       gvfs.enable = true;
       journald.extraConfig = "SystemMaxUse=100M";
