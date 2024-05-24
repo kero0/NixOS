@@ -67,12 +67,22 @@ in
               # case insensitive completion
               "zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'"
 
+              # pass unmatched globs to executables
+              "setopt +o nomatch"
+
               # vim mode
               "source ${zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
               ''
                 autoload edit-command-line; zle -N edit-command-line
                 bindkey '^e' edit-command-line
                 bindkey -M vicmd '^e' edit-command-line
+              ''
+
+              # change what counts as part of a word
+              ''
+                WORDCHARS=''${WORDCHARS/\/}
+                WORDCHARS=''${WORDCHARS/\#}
+                WORDCHARS=''${WORDCHARS/\$}
               ''
 
               # Add kerybinding for atuin
