@@ -16,7 +16,6 @@ in
       keybindings = {
         "ctrl+c" = "copy_or_interrupt";
       };
-      theme = "Catppuccin-Frappe";
       settings = {
         shell = mkIf config.my.home.shell.zsh.enable "zsh";
 

@@ -10,6 +10,7 @@
     pass.enable = true;
     rofi.enable = true;
     theme = {
+      enable = true;
       cursor.enable = true;
       gtk.enable = true;
     };
@@ -23,6 +24,7 @@
       binds.enable = true;
       lock.enable = true;
       pyprland.enable = true;
+      wallpaper.enable = true;
       waybar.enable = true;
     };
     shell = {

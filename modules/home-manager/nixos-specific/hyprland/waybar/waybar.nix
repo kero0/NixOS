@@ -12,8 +12,12 @@ in
 {
   options.my.home.hyprland.waybar.enable = mkEnableOption "Enable hyprland waybar";
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ pavucontrol ];
+    home.packages = with pkgs; [
+      pamixer
+      pavucontrol
+    ];
     programs.waybar = {
+      catppuccin.mode = "prependImport";
       enable = true;
       systemd = {
         enable = true;
@@ -22,13 +26,16 @@ in
       style = builtins.readFile ./theme.css;
       settings = [
         {
-          layer = "top";
+          layer = "bottom";
           position = "top";
-          modules-left = [ "hyprland/workspaces" ];
-          modules-center = [ "hyprland/window" ];
+          modules-left = [
+            "hyprland/workspaces"
+            "hyprland/window"
+          ];
+          modules-center = [ ];
           "hyprland/window" = {
             format = "{}";
-            max-length = 30;
+            max-length = 85;
           };
           modules-right = [
             "idle_inhibitor"
@@ -50,7 +57,7 @@ in
           };
           pulseaudio = {
             scroll-step = 1;
-            format = "{icon} {volume}%";
+            format = "{icon} {volume:3}%";
             format-muted = "󰖁 Muted";
             format-icons = {
               default = [
@@ -64,18 +71,18 @@ in
             tooltip = false;
           };
           backlight = {
-            format = "🔆 {percent}%";
+            format = "🔆 {percent:3}%";
           };
           memory = {
             interval = 1;
-            format = "󰻠 {percentage}%";
+            format = "󰻠 {percentage:3}%";
             states = {
               warning = 85;
             };
           };
           cpu = {
             interval = 1;
-            format = "󰍛 {usage}%";
+            format = "󰍛 {usage:3}%";
           };
           network = {
             format-disconnected = "󰯡";
@@ -96,10 +103,10 @@ in
               warning = 30;
               critical = 15;
             };
-            format = "{icon} {capacity}%";
-            format-charging = "🔌 {capacity}%";
+            format = "{icon} {capacity:3}%";
+            format-charging = "🔌 {capacity:3}%";
             format-alt = "{time} {icon}";
-            format-full = " {capacity}%";
+            # format-full = " {capacity}%";
             format-icons = [
               ""
               ""

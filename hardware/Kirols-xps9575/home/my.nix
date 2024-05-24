@@ -12,6 +12,7 @@
     theme = {
       cursor.enable = true;
       gtk.enable = true;
+      theme.enable = true;
     };
 
     editors = {
@@ -23,6 +24,7 @@
       binds.enable = true;
       lock.enable = true;
       pyprland.enable = true;
+      wallpaper.enable = true;
       waybar.enable = true;
     };
     shell = {

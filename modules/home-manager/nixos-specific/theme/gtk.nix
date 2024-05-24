@@ -14,18 +14,6 @@ in
   config = mkIf cfg.enable {
     gtk = {
       enable = true;
-      theme = {
-        name = "Catppuccin-Latte-Compact-Lavender-Light";
-        package = pkgs.catppuccin-gtk.override {
-          accents = [ "lavender" ];
-          size = "compact";
-          tweaks = [
-            "rimless"
-            "float"
-          ];
-          variant = "latte";
-        };
-      };
     };
     xdg.configFile = {
       "gtk-4.0/assets".source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";

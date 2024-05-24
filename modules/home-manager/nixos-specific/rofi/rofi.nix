@@ -26,6 +26,7 @@ in
         p: (final: prev: { ${p} = prev.${p}.override { rofi-unwrapped = prev.rofi-wayland-unwrapped; }; })
       ) plugins;
       programs.rofi = pkgs.lib.mkIf pkgs.stdenv.isLinux {
+        catppuccin.enable = false;
         enable = true;
         package = pkgs.rofi-wayland;
         plugins = builtins.map (p: pkgs.${p}) plugins;
@@ -33,7 +34,12 @@ in
         terminal = "${pkgs.kitty}/bin/kitty";
         cycle = true;
         location = "center";
-        theme = ./onedark.rasi;
+        theme = toString (
+          pkgs.writeText "theme.rasi" ''
+            @import "${pkgs.catppuccin + /rofi/catppuccin-macchiato.rasi}"
+            #window { fullscreen: true; }
+          ''
+        );
         extraConfig = {
           modi = "drun,run,window,ssh,";
           kb-primary-paste = "Control+V,Shift+Insert";

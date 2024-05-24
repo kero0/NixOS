@@ -1,0 +1,1 @@
+modules/home-manager/nixos-specific/hyprland/wallpapers/*.jpg filter=lfs diff=lfs merge=lfs -text

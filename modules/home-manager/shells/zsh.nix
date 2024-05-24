@@ -8,12 +8,6 @@
 with lib;
 let
   cfg = config.my.home.shell.zsh;
-  themepkg = pkgs.fetchFromGitHub {
-    owner = "catppuccin";
-    repo = "zsh-syntax-highlighting";
-    rev = "06d519c20798f0ebe275fc3a8101841faaeee8ea";
-    hash = "sha256-Q7KmwUd9fblprL55W0Sf4g7lRcemnhjh4/v+TacJSfo=";
-  };
 in
 {
   options.my.home.shell.zsh.enable = mkEnableOption "zsh module";
@@ -63,9 +57,6 @@ in
             builtins.concatStringsSep "\n" [
               # use any-nix-shell to get nix-shell in zsh
               "source <(${any-nix-shell}/bin/any-nix-shell zsh --info-right)"
-
-              # catppuccin
-              "source '${themepkg}/themes/catppuccin_frappe-zsh-syntax-highlighting.zsh'"
 
               # show a random colorscript on startup
               "${dwt1-shell-color-scripts}/bin/colorscript random"

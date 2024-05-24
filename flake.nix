@@ -19,6 +19,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    catppuccin.url = "github:catppuccin/nix";
+
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
@@ -98,7 +100,10 @@
                     ];
                   })
                   ++ (umport { ipath = ./hardware/${hostname}/home; })
-                  ++ [ inputs.nix-index-database.hmModules.nix-index ];
+                  ++ [
+                    inputs.nix-index-database.hmModules.nix-index
+                    inputs.catppuccin.homeManagerModules.catppuccin
+                  ];
               };
             };
           }
@@ -108,7 +113,11 @@
           exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/nixos/nixos-specific ];
         })
         ++ (umport { ipath = ./hardware/${hostname}/nixos; })
-        ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isLinux { system.stateVersion = stateVersion; });
+        ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isLinux { system.stateVersion = stateVersion; })
+        ++ (nixpkgs.lib.lists.optionals pkgs.stdenv.isLinux [
+          inputs.catppuccin.nixosModules.catppuccin
+          ({ catppuccin.enable = true; })
+        ]);
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
     in

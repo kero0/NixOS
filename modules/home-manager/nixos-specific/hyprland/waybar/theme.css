@@ -1,17 +1,16 @@
 * {
-	all: unset;
+	/* all: unset; */
 	font-family: "JetBrainsMono Nerd Font";
 	font-size: 12pt;
 	font-weight: bold;
 	border-radius: 8px;
 	transition-property: background-color;
 	transition-duration: 0.5s;
-	color: rgb(217, 224, 238);
 }
 @keyframes blink_red {
 	to {
-		background-color: rgb(242, 143, 173);
-		color: rgb(26, 24, 38);
+		background-color: @red;
+		color: @base;
 	}
 }
 .warning,
@@ -24,17 +23,15 @@
 	animation-direction: alternate;
 }
 window#waybar {
-	background-color: transparent;
+	background-color: @base;
 }
 window > box {
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-top: 5px;
-	background-color: #1e1e2a;
-	padding: 3px;
+	margin-left: 0.1em;
+	margin-right: 0.1em;
+	margin-top: 0em;
+	padding: 0px;
 	padding-left: 8px;
-	border: 2px none #33ccff;
-	color: rgb(26, 24, 38);
+	background-color: transparent;
 }
 #workspaces {
 	padding-left: 0px;
@@ -45,23 +42,23 @@ window > box {
 	padding-bottom: 5px;
 	padding-left: 6px;
 	padding-right: 6px;
+	color: @text;
 }
 #workspaces button.active {
-	background-color: rgb(181, 232, 224);
-	color: rgb(26, 24, 38);
+	color: @teal;
 }
 #workspaces button.urgent {
-	color: rgb(26, 24, 38);
+	color: @red;
 }
 #workspaces button:hover {
-	background-color: rgb(248, 189, 150);
-	color: rgb(26, 24, 38);
+	background-color: @rosewater;
+	border: none;
 }
 tooltip {
-	background: rgb(48, 45, 65);
+	background: @sky;
 }
 tooltip label {
-	color: rgb(217, 224, 238);
+	color: @sky;
 }
 #mode,
 #clock,
@@ -77,43 +74,31 @@ tooltip label {
 	padding-right: 10px;
 }
 #memory {
-	color: rgb(181, 232, 224);
+	color: @teal;
 }
 #cpu {
-	color: rgb(245, 194, 231);
+	color: @rosewater;
 }
 #clock {
-	color: rgb(217, 224, 238);
+    color: @text;
 }
 #idle_inhibitor {
-	color: rgb(221, 182, 242);
-}
-#custom-wall {
-	color: #33ccff;
+    color: @lavender;
 }
 #backlight {
-	color: rgb(248, 189, 150);
+    color: @flamingo;
 }
 #pulseaudio {
-	color: rgb(245, 224, 220);
+	color: @peach;
 }
 #network {
-    color: #abe9b3;
+    color: @green;
 }
 #network.disconnected {
-    color: rgb(255, 255, 255);
+    color: @mauve;
 }
 #tray {
     padding-right: 8px;
     padding-left: 10px;
-}
-#mpd.paused {
-    color: #414868;
-    font-style: italic;
-}
-#mpd.stopped {
-    background: transparent;
-}
-#mpd {
-    color: #c0caf5;
+    color: @sky;
 }
