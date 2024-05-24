@@ -56,6 +56,14 @@ in
     wayland.windowManager.hyprland.settings = {
       "$movetoWS" = wsCommand "movetoworkspacesilent";
       "$gotoWS" = wsCommand "focusworkspaceoncurrentmonitor";
+      # repeatable bindings
+      binde = [
+        # resize window
+        "$mod CTRL  , l, resizeactive, 10 0"
+        "$mod CTRL  , h, resizeactive, -10 0"
+        "$mod CTRL  , k, resizeactive, 0 -10"
+        "$mod CTRL  , j, resizeactive, 0 10"
+      ];
       bind =
         [
           "$mod Shift , Q, killactive,"
@@ -86,11 +94,6 @@ in
           "$mod SHIFT , L, movewindow, r"
           "$mod SHIFT , K, movewindow, u"
           "$mod SHIFT , J, movewindow, d"
-          # resize window
-          "$mod CTRL  , l, resizeactive, 10 0"
-          "$mod CTRL  , h, resizeactive, -10 0"
-          "$mod CTRL  , k, resizeactive, 0 -10"
-          "$mod CTRL  , j, resizeactive, 0 10"
 
           "           , XF86AudioPlay, exec, playerctl play-pause"
           "           , XF86AudioNext, exec, playerctl next"
