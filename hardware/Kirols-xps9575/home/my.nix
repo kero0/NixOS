@@ -12,7 +12,7 @@
     theme = {
       cursor.enable = true;
       gtk.enable = true;
-      theme.enable = true;
+      enable = true;
     };
 
     editors = {
