@@ -3,7 +3,7 @@
   services.kanshi = {
     enable = true;
     systemdTarget = "graphical-session.target";
-    profiles = {
+    settings = {
       default = {
         outputs = [
           {
