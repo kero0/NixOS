@@ -22,10 +22,6 @@ in
         package = inputs.emacs.packages.${pkgs.system}.default;
       };
       vim.enable = true;
-      vscode = {
-        enable = true;
-        package = pkgs.vscode;
-      };
     };
     services.emacs = {
       enable = cfg.emacsdaemon;
