@@ -13,22 +13,17 @@
       cleanup = "zap";
       upgrade = true;
     };
-    taps = [
-      "homebrew/cask"
-      "homebrew/cask-versions"
-      "homebrew/core"
-    ];
     casks = [
       "appcleaner"
       "disk-inventory-x"
-      "displaylink"
       "hammerspoon"
       "microsoft-remote-desktop"
       "nordvpn"
+      "orion"
       "the-unarchiver"
       "vivaldi"
       "vlc"
-      "wine-staging"
+      "wine@staging"
     ];
   };
   environment.systemPath = [ config.homebrew.brewPrefix ];

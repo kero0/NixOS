@@ -13,4 +13,4 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@v1
       - name: Cache nix
         uses: DeterminateSystems/magic-nix-cache-action@main
-      - run: nix build --show-trace .#darwinConfigurations.Kirolss-MacBook-Air.system
+      - run: nix build --show-trace .#darwinConfigurations.Kirolss-MacBook-Pro.system

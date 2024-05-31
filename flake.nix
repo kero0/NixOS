@@ -181,11 +181,11 @@
             ];
           };
       };
-      darwinConfigurations."Kirolss-MacBook-Air" =
+      darwinConfigurations."Kirolss-MacBook-Pro" =
         let
           system = "aarch64-darwin";
           pkgs = mpkgs system;
-          hostname = "Kirolss-MacBook-Air";
+          hostname = "Kirolss-MacBook-Pro";
           myuser = "kirolsbakheat";
         in
         darwin.lib.darwinSystem {

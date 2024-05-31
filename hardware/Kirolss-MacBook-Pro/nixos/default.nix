@@ -19,4 +19,5 @@
       dscl . create /Users/${user.name} UserShell "${user.shell}"
     '') (lib.attrValues config.users.users)}
   '';
+  environment.systemPackages = with pkgs; [ unnaturalscrollwheels ];
 }
