@@ -153,33 +153,6 @@
               nixos-hardware.nixosModules.common-pc-ssd
             ];
           };
-        mars =
-          let
-            myuser = "kirolsb";
-            system = "x86_64-linux";
-            hostname = "mars";
-            pkgs = mpkgs system;
-          in
-          nixpkgs.lib.nixosSystem {
-            inherit system pkgs;
-            specialArgs = {
-              inherit
-                myuser
-                pkgs
-                system
-                inputs
-                ;
-              public-keys = (import ./secrets/secrets.nix).keys;
-            };
-            modules = mmodules hostname myuser pkgs ++ [
-              nixos-hardware.nixosModules.common-cpu-amd
-              nixos-hardware.nixosModules.common-cpu-amd-pstate
-              nixos-hardware.nixosModules.common-cpu-amd-raphael-igpu
-              nixos-hardware.nixosModules.common-gpu-amd
-              nixos-hardware.nixosModules.common-pc-laptop
-              nixos-hardware.nixosModules.common-pc-ssd
-            ];
-          };
       };
       darwinConfigurations."Kirolss-MacBook-Pro" =
         let
