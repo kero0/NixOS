@@ -4,6 +4,7 @@
     email.enable = true;
     gpg.enable = true;
     pass.enable = true;
+    theme.enable = true;
 
     editors = {
       enable = true;

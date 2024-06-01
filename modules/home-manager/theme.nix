@@ -22,7 +22,7 @@ in
       default = "lavender";
     };
 
-    flavour = mkOption {
+    flavor = mkOption {
       type = types.str;
       default = "latte";
     };
@@ -30,7 +30,7 @@ in
   config = mkIf cfg.enable {
 
     catppuccin = {
-      inherit (cfg) enable flavour accent;
+      inherit (cfg) enable flavor accent;
     };
     programs.swaylock.catppuccin.enable = lib.mkForce false; # broken?
   };
