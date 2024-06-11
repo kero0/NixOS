@@ -23,7 +23,7 @@ let
       expunge = "both";
       extraConfig = {
         account = {
-          AuthMechs = lib.mkIf oauth "XOAUTH2";
+          AuthMechs = if oauth then "XOAUTH2" else "LOGIN";
         };
         channel = {
           Create = "Both";
@@ -88,6 +88,21 @@ in
         (memail "bakheakm@udmercy.edu" "outlook.office365.com" "bakheakm-udmercy" true)
         // {
           passwordCommand = passwordEval "office.com/bakheakm@udmercy.edu.tokens";
+          smtp = lib.mkForce {
+            host = "localhost";
+            port = config.my.home.email.davmail.ports.SMTP;
+            tls = {
+              enable = false;
+              useStartTls = false;
+            };
+          };
+          msmtp = {
+            enable = config.programs.msmtp.enable;
+            extraConfig = {
+              auth = "login";
+              passwordeval = "echo test";
+            };
+          };
         };
     };
   };

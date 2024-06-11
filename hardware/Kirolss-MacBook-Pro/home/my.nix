@@ -1,13 +1,16 @@
 {
   my.home = {
     downloaders.enable = true;
-    email.enable = true;
     gpg.enable = true;
     pass.enable = true;
     theme.enable = true;
 
     editors = {
       enable = true;
+    };
+    email = {
+      enable = true;
+      davmail.enable = true;
     };
     shell = {
       alias.enable = true;

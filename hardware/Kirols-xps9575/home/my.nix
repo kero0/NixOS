@@ -19,6 +19,10 @@
       enable = true;
       emacsdaemon = true;
     };
+    email = {
+      enable = true;
+      davmail.enable = true;
+    };
     hyprland = {
       enable = true;
       binds.enable = true;
