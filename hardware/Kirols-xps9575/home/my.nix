@@ -4,7 +4,6 @@
     chromium.enable = true;
     clipboard-manager.enable = true;
     downloaders.enable = true;
-    email.enable = true;
     gpg.enable = true;
     notification-manager.enable = true;
     pass.enable = true;
