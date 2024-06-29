@@ -1,16 +1,20 @@
-name: "NixOS check"
+name: "OS build check"
 on:
   workflow_dispatch:
   pull_request:
   push:
 jobs:
-  nixos-check:
-    runs-on: ubuntu-latest
+  build-check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-14]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
+        if: runner.os == 'Linux'
         with:
           # this might remove tools that are actually needed,
           # if set to "true" but frees about 6 GB
@@ -28,4 +32,14 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@v1
       - name: Cache nix
         uses: DeterminateSystems/magic-nix-cache-action@main
-      - run: nix build --show-trace .#nixosConfigurations.Kirols-xps9575.config.system.path
+      - name: Check OS build
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+             nix build --show-trace .#nixosConfigurations.Kirols-xps9575.config.system.path
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+             nix build --show-trace .#darwinConfigurations.Kirolss-MacBook-Pro.system
+          else
+             echo "$RUNNER_OS not supported"
+             exit 1
+          fi
