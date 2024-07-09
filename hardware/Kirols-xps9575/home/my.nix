@@ -10,7 +10,6 @@
     rofi.enable = true;
     theme = {
       cursor.enable = true;
-      gtk.enable = true;
       enable = true;
     };
 
