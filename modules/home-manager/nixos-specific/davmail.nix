@@ -13,8 +13,12 @@ in
 {
   config = mkIf cfg.enable {
     systemd.user.services.davmail = {
-      wantedBy = [ "graphical-session.target" ];
-      script = ''${pkgs.davmail}/bin/davmail "${config.xdg.configDir}/${configFile}"'';
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = ''${pkgs.davmail}/bin/davmail "${config.xdg.configHome}/${configFile}"'';
+      };
     };
   };
 }
