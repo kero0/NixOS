@@ -27,9 +27,5 @@ with lib;
       config.programs.steam.package.run
       lutris
     ];
-    hardware.opengl = {
-      driSupport = true;
-      driSupport32Bit = true;
-    };
   };
 }
