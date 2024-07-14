@@ -146,7 +146,7 @@
               public-keys = (import ./secrets/secrets.nix).keys;
             };
             modules = mmodules hostname myuser pkgs ++ [
-              nixos-hardware.nixosModules.common-cpu-intel-kaby-lake
+              nixos-hardware.nixosModules.common-cpu-intel
               nixos-hardware.nixosModules.common-gpu-amd
               nixos-hardware.nixosModules.common-hidpi
               nixos-hardware.nixosModules.common-pc-laptop
