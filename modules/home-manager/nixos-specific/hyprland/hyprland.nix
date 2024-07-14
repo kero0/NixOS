@@ -29,7 +29,7 @@ in
       settings = {
         "$mod" = "SUPER";
         "$terminal" = "${config.programs.kitty.package}/bin/kitty";
-        "$fileManager" = "${pkgs.gnome.nautilus}/bin/nautilus";
+        "$fileManager" = "${pkgs.nautilus}/bin/nautilus";
         "$menu" = "${config.programs.rofi.finalPackage}/bin/rofi -show-icons -show drun -sidebar-mode";
 
         exec-once = [ ];
