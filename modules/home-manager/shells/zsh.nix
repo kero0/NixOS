@@ -87,6 +87,9 @@ in
 
               # Add kerybinding for atuin
               (lib.strings.optionalString config.programs.atuin.enable "bindkey '^r' atuin-search")
+
+              # emacs eat
+              ''[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/zsh"''
             ];
         in
         ''
