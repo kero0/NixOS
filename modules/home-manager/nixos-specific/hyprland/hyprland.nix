@@ -37,7 +37,7 @@ in
         monitor = ",preferred,auto,auto";
         misc.force_default_wallpaper = -1;
         gestures.workspace_swipe = true;
-        master.new_is_master = false;
+        master.new_status = "master";
         misc = {
           enable_swallow = true;
         };
