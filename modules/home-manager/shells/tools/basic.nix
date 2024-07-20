@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  osconfig,
   config,
   ...
 }:
@@ -25,10 +24,29 @@ in
         nix-direnv.enable = true;
       };
 
+      fd = {
+        enable = true;
+        hidden = true;
+        extraOptions = [ "--absolute-path" ];
+        ignores = [
+          ".git/"
+          "*.bak"
+        ];
+      };
+
       fzf = {
         enable = true;
         enableFishIntegration = true;
         enableZshIntegration = true;
+      };
+
+      ripgrep = {
+        enable = true;
+        arguments = [
+          "--smart-case"
+          "--hidden"
+          "--glob=!.git/*"
+        ];
       };
     };
   };

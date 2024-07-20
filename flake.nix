@@ -23,6 +23,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     catppuccin.url = "github:catppuccin/nix";
 
     pre-commit-hooks = {
@@ -67,7 +72,7 @@
           inherit system;
           config.allowUnfree = true;
           overlays =
-            [ ]
+            [ inputs.nixgl.overlay ]
             ++ (
               let
                 path = ./overlays;
@@ -80,6 +85,19 @@
               )
             );
         };
+      mHMmodules =
+        hostname: myuser: pkgs:
+        (umport {
+          ipath = ./modules/home-manager;
+          exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [
+            ./modules/home-manager/nixos-specific
+          ];
+        })
+        ++ (umport { ipath = ./hardware/${hostname}/home; })
+        ++ [
+          inputs.nix-index-database.hmModules.nix-index
+          inputs.catppuccin.homeManagerModules.catppuccin
+        ];
       mmodules =
         hostname: myuser: pkgs:
         [
@@ -96,18 +114,7 @@
               };
               users.${myuser} = {
                 home.stateVersion = stateVersion;
-                imports =
-                  (umport {
-                    ipath = ./modules/home-manager;
-                    exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [
-                      ./modules/home-manager/nixos-specific
-                    ];
-                  })
-                  ++ (umport { ipath = ./hardware/${hostname}/home; })
-                  ++ [
-                    inputs.nix-index-database.hmModules.nix-index
-                    inputs.catppuccin.homeManagerModules.catppuccin
-                  ];
+                imports = mHMmodules hostname myuser pkgs;
               };
             };
           }
@@ -126,6 +133,36 @@
       stateVersion = "22.05";
     in
     {
+      homeConfigurations =
+        let
+          myuser = "kbakheat@na1.ford.com";
+          system = "x86_64-linux";
+          hostname = "work";
+          pkgs = mpkgs system;
+        in
+        {
+          "${myuser}" = home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            extraSpecialArgs = {
+              inherit
+                myuser
+                pkgs
+                system
+                inputs
+                ;
+              osConfig = { };
+              public-keys = (import ./secrets/secrets.nix).keys;
+            };
+            modules = mHMmodules hostname myuser pkgs ++ [
+              {
+                my.home = {
+                  username = myuser;
+                  homedir = "/home/kbakheat";
+                };
+              }
+            ];
+          };
+        };
       nixosConfigurations = {
         Kirols-xps9575 =
           let

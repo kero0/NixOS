@@ -14,7 +14,7 @@ in
     services.swayosd.enable = true;
 
     wayland.windowManager.hyprland.settings.exec-once = with pkgs; [ ];
-    systemd.user.services.wluma = mkIf osConfig.hardware.sensor.iio.enable {
+    systemd.user.services.wluma = mkIf (osConfig.hardware.sensor.iio.enable or false) {
       Unit = {
         Description = "Helper tool for Hyprland";
         PartOf = [ "hyprland-session.target" ];

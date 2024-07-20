@@ -27,7 +27,7 @@
     "Applications/Nix Apps".source = "${
       pkgs.buildEnv {
         name = "home-manager-applications";
-        paths = osConfig.environment.systemPackages;
+        paths = osConfig.environment.systemPackages or [ ];
         pathsToLink = "/Applications";
       }
     }/Applications";
