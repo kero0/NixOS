@@ -30,8 +30,8 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
@@ -62,7 +62,7 @@
       darwin,
       home-manager,
       agenix,
-      pre-commit-hooks,
+      git-hooks,
       ...
     }:
     let
@@ -218,7 +218,7 @@
       checks =
         let
           f = system: {
-            ${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            ${system}.pre-commit-check = git-hooks.lib.${system}.run {
               src = ./.;
               hooks = {
                 nixfmt = {
