@@ -5,6 +5,7 @@ on:
   push:
 jobs:
   build-check:
+    fail-fast: false
     strategy:
       matrix:
         include:
