@@ -5,8 +5,8 @@ on:
   push:
 jobs:
   build-check:
-    fail-fast: false
     strategy:
+      fail-fast: false
       matrix:
         include:
           - target: nixosConfigurations.Kirols-xps9575.config.system.path
