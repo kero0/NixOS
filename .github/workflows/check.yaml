@@ -42,4 +42,21 @@ jobs:
       - name: Check OS build
         shell: bash
         run: |
-          nix build --show-trace '.#${{ matrix.target }}'
+          nix build --accept-flake-config --show-trace '.#${{ matrix.target }}'
+      - name: Diff profile
+        id: diff
+        run: |
+          echo "# ${{ matrix.target }} changes" > message-body
+          nix store diff-closures --accept-flake-config --derivation \
+              "github:${{ github.repository }}/${{ github.event.before }}#${{ matrix.target }}" \
+              ".#${{ matrix.target }}" | sed 's/\x1b\[[0-9;]*m//g' >> message-body
+      - name: Comment PR
+        uses: peter-evans/create-or-update-comment@v4
+        if: github.event_name == 'pull_request'
+        with:
+          body-path: message-body
+      - name: Comment Commit
+        uses: peter-evans/commit-comment@v3
+        if: github.event_name == 'push'
+        with:
+          body-path: message-body
