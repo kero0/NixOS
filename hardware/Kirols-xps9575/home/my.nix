@@ -34,7 +34,6 @@
       fish.enable = true;
       kitty.enable = true;
       starship.enable = true;
-      tmux.enable = true;
       zsh.enable = true;
 
       tools = {
@@ -44,6 +43,7 @@
         nix-index.enable = true;
         ssh.enable = true;
         tealdeer.enable = true;
+        tmux.enable = true;
         zoxide.enable = true;
 
         git = {
