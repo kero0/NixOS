@@ -48,12 +48,42 @@ in
           bind-key x kill-pane # skip "kill-pane 1? (y/n)" prompt
           set -g detach-on-destroy off  # don't exit from tmux when closing a session
         '';
+        catppuccin = {
+          enable = true;
+          extraConfig = ''
+            set-option -g status-position top
+            set -g @catppuccin_window_left_separator "█"
+            set -g @catppuccin_window_right_separator "█ "
+            set -g @catppuccin_window_number_position "right"
+            set -g @catppuccin_window_middle_separator "  █"
+
+            set -g @catppuccin_window_default_fill "number"
+
+            set -g @catppuccin_window_current_fill "number"
+            set -g @catppuccin_window_current_text "#{pane_current_path}"
+
+            set -g @catppuccin_status_modules_right "application session date_time"
+            set -g @catppuccin_status_left_separator  ""
+            set -g @catppuccin_status_right_separator " "
+            set -g @catppuccin_status_fill "all"
+            set -g @catppuccin_status_connect_separator "yes"
+          '';
+        };
         plugins = with pkgs.tmuxPlugins; [
-          cpu # show cpu usage
-          extrakto # completion based on text on screen
+          better-mouse-mode
           sessionist # better session management
           tmux-fzf # manage tmux with fzf
+          yank
 
+          {
+            # completion based on text on screen
+            plugin = extrakto;
+            extraConfig = ''
+              # allow OSC52 to set the clipboard
+              set -g set-clipboard on
+              set -g @extrakto_clip_tool_run "tmux_osc52"
+            '';
+          }
           {
             # automatic save/restore of tmux
             plugin = continuum;
@@ -71,29 +101,21 @@ in
           {
             # persist tmux across restarts
             plugin = resurrect;
-            extraConfig = "set -g @resurrect-strategy-nvim 'session'";
-          }
-          {
-            # allows opening files in nvim
-            plugin = mkTmuxPlugin {
-              pluginName = "tmux_open_nvim";
-              version = "1.0";
-              src = pkgs.fetchFromGitHub {
-                owner = "trevarj";
-                repo = "tmux-open-nvim";
-                rev = "34da7ca5c1cff5c696092ecdab9d8c98f1864633";
-                hash = "sha256-XwxBXOrvFVtABEzZAIVkJ9PLEKlbVYEZ3ICsMaj7/dA=";
-              };
-            };
-            extraConfig = ''
-              set -g @ton-open-strategy ":tabnew"
-              set -g @ton-prioritize-window true
-            '';
+            extraConfig = "
+            set -g @resurrect-strategy-nvim 'session'
+            set -g @resurrect-processes ':all:'
+            ## Restore Vim sessions
+            set -g @resurrect-strategy-vim 'session'
+            ## Restore Neovim sessions
+            set -g @resurrect-strategy-nvim 'session'
+            ## Restore Panes
+            set -g @resurrect-capture-pane-contents 'on'
+            ";
           }
           {
             # which-key
             plugin = mkTmuxPlugin {
-              pluginName = "tmux_open_nvim";
+              pluginName = "tmux_which_key";
               version = "1.0";
               src = pkgs.fetchFromGitHub {
                 owner = "alexwforsythe";
@@ -103,7 +125,7 @@ in
               };
             };
             extraConfig = ''
-              set -g @tmux-which-key-disable-autobuild=1
+              set -g @tmux-which-key-disable-autobuild 1
             '';
           }
         ];
