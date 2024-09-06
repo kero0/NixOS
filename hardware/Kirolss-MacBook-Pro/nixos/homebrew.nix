@@ -16,11 +16,13 @@
     casks = [
       "appcleaner"
       "disk-inventory-x"
+      "displaylink"
       "hammerspoon"
       "microsoft-remote-desktop"
       "nordvpn"
       "orion"
       "the-unarchiver"
+      "unnaturalscrollwheels"
       "vivaldi"
       "vlc"
       "wine@staging"
