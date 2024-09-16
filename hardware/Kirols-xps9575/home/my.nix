@@ -43,7 +43,7 @@
         nix-index.enable = true;
         ssh.enable = true;
         tealdeer.enable = true;
-        tmux.enable = true;
+        zellij.enable = true;
         zoxide.enable = true;
 
         git = {
