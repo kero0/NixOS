@@ -111,7 +111,7 @@
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
     in {
-      homeConfigurations = let
+      homeConfigurations = (let
         myuser = "kbakheat@na1.ford.com";
         system = "x86_64-linux";
         hostname = "work";
@@ -131,7 +131,27 @@
             };
           }];
         };
-      };
+      }) // (let
+        myuser = "kbakheat-local";
+        system = "x86_64-linux";
+        hostname = "work";
+        pkgs = mpkgs system;
+      in {
+        "${myuser}" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            inherit myuser pkgs system inputs;
+            osConfig = { };
+            public-keys = (import ./secrets/secrets.nix).keys;
+          };
+          modules = mHMmodules hostname myuser pkgs ++ [{
+            my.home = {
+              username = myuser;
+              homedir = "/home/kbakheat-local";
+            };
+          }];
+        };
+      });
       nixosConfigurations = {
         Kirols-xps9575 = let
           myuser = "kirolsb";
