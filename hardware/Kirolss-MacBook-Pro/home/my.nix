@@ -5,7 +5,9 @@
     pass.enable = true;
     theme.enable = true;
 
-    editors = { enable = true; };
+    editors = {
+      enable = true;
+    };
     email = {
       enable = true;
       davmail.enable = true;
@@ -24,7 +26,7 @@
         nix-index.enable = true;
         ssh.enable = true;
         tealdeer.enable = true;
-        zellij.enable = true;
+        tmux.enable = true;
         zoxide.enable = true;
 
         git = {
