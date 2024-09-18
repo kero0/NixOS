@@ -35,7 +35,9 @@ in
       history = {
         expireDuplicatesFirst = true;
         ignorePatterns =
-          [ "*--login*" ]
+          [
+            "*--login*"
+          ]
           # command history for urls is not useful
           ++ lib.optional config.programs.gallery-dl.enable "gallery-dl*"
           ++ lib.optional (config.programs.yt-dlp.enable) "yt-dlp*";
@@ -89,6 +91,26 @@ in
 
               # emacs eat
               ''[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/zsh"''
+
+              # tmux
+              (lib.strings.optionalString config.programs.tmux.enable ''
+                  function sesh-sessions() {
+                  {
+                    exec </dev/tty
+                      exec <&1
+                      local session
+                      session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+                      [[ -z "$session" ]] && return
+                      sesh connect $session
+                  }
+                }
+
+                zle     -N             sesh-sessions
+                bindkey -M emacs '\es' sesh-sessions
+                bindkey -M vicmd '\es' sesh-sessions
+                bindkey -M viins '\es' sesh-sessions
+                tmux attach
+              '')
             ];
         in
         ''
