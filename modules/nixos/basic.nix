@@ -1,5 +1,6 @@
 { pkgs, lib, config, inputs, options, ... }: {
   programs = {
+    bash.enable = true;
     fish.enable = true;
     zsh.enable = true;
   };
