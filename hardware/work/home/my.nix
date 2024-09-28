@@ -4,6 +4,7 @@
     chromium.enable = true;
     clipboard-manager.enable = true;
     downloaders.enable = false;
+    editors.enable = true;
     gpg.enable = true;
     notification-manager.enable = false;
     pass.enable = true;
@@ -13,10 +14,6 @@
       enable = true;
     };
 
-    editors = {
-      enable = true;
-      emacsdaemon = false;
-    };
     email = {
       enable = false;
       davmail.enable = false;

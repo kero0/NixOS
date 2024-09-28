@@ -35,5 +35,8 @@ in
       };
     };
     home.packages = with pkgs; [ git-lfs ];
+    home.sessionVariables.GIT_EDITOR = lib.mkIf (
+      config.home.sessionVariables ? EDITOR
+    ) config.home.sessionVariables.EDITOR;
   };
 }
