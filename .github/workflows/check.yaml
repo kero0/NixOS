@@ -11,7 +11,7 @@ jobs:
         include:
           - target: nixosConfigurations.Kirols-xps9575.config.system.path
             os: ubuntu-latest
-          - target: homeConfigurations."kbakheat@na1.ford.com".activationPackage
+          - target: homeConfigurations.kbakheat-local.activationPackage
             os: ubuntu-latest
           - target: darwinConfigurations.Kirolss-MacBook-Pro.system
             os: macos-latest
