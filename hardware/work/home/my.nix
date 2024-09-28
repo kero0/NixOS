@@ -15,7 +15,7 @@
 
     editors = {
       enable = true;
-      emacsdaemon = true;
+      emacsdaemon = false;
     };
     email = {
       enable = false;
