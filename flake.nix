@@ -124,10 +124,9 @@
           exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/nixos/nixos-specific ];
         })
         ++ (umport { ipath = ./hardware/${hostname}/nixos; })
-        ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isLinux {
-          system.stateVersion = stateVersion;
-        })
+        ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isLinux { system.stateVersion = stateVersion; })
         ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isDarwin {
+          programs.bash.enable = true;
           system.stateVersion = 4;
         })
         ++ (nixpkgs.lib.lists.optionals pkgs.stdenv.isLinux [

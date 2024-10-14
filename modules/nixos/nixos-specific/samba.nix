@@ -19,19 +19,20 @@ with lib;
         {
           enable = true;
           nsswins = true;
-          securityType = "user";
-          extraConfig = ''
-            workgroup = WORKGROUP
-            server string = ${hostname}
-            netbios name = ${hostname}
-            security = user
-            map to guest = bad user
-            browseable = yes
-            follow symlinks = yes
-            usershare allow guests = yes
-            pam password change = yes
-            client min protocol = NT1
-          '';
+          settings = {
+            global = {
+              workgroup = "WORKGROUP";
+              "server string" = hostname;
+              "netbios name" = hostname;
+              security = "user";
+              "map to guest" = "bad user";
+              browseable = "yes";
+              "follow symlinks" = "yes";
+              "usershare allow guests" = "yes";
+              "pam password change" = "yes";
+              "client min protocol" = "NT1";
+            };
+          };
 
           shares = {
             public = {

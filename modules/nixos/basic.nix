@@ -8,7 +8,6 @@
 }:
 {
   programs = {
-    bash.enable = true;
     fish.enable = true;
     zsh.enable = true;
   };
@@ -23,9 +22,7 @@
       extra-sandbox-paths = [ "/etc/ssh" ];
       sandbox = true;
       substituters = [ "https://nix-community.cachix.org" ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
+      trusted-public-keys = [ "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
       trusted-users = [
         "root"
         config.my.user.username
