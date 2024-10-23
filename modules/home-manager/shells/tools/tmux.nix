@@ -24,12 +24,12 @@ in
         secureSocket = true;
         sensibleOnTop = true;
         terminal = "screen-256color";
-        tmuxinator.enable = true;
+        tmuxinator.enable = false;
         tmuxp.enable = true;
         extraConfig = ''
           bind-key x kill-pane # skip "kill-pane 1? (y/n)" prompt
           set -g detach-on-destroy off  # don't exit from tmux when closing a session
-          bind | split-window -h -c "#{pane_current_path}"
+          bind \\ split-window -h -c "#{pane_current_path}"
           bind - split-window -v -c "#{pane_current_path}"
 
           is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
@@ -39,6 +39,7 @@ in
           bind-key -n C-k  if-shell  "$is_vim"  "send-keys C-k"  "select-pane -U"
           bind-key -n C-l   if-shell  "$is_vim"  "send-keys C-l"   "select-pane -R"
           bind-key -n C-\   if-shell  "$is_vim"  "send-keys C-\\"  "select-pane -l"
+          set -g renumber-windows on
         '';
         catppuccin = {
           enable = true;
@@ -94,12 +95,7 @@ in
             # persist tmux across restarts
             plugin = resurrect;
             extraConfig = "
-            set -g @resurrect-strategy-nvim 'session'
-            set -g @resurrect-processes ':all:'
-            ## Restore Vim sessions
-            set -g @resurrect-strategy-vim 'session'
-            ## Restore Neovim sessions
-            set -g @resurrect-strategy-nvim 'session'
+            set -g @resurrect-processes 'false'
             ## Restore Panes
             set -g @resurrect-capture-pane-contents 'on'
             ";
