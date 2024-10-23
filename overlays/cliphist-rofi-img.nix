@@ -1,13 +1,13 @@
 final: prev: with prev.lib; {
   cliphist-rofi-img = final.pkgs.stdenv.mkDerivation rec {
     pname = "cliphist-rofi-img";
-    version = "unstable-2024-09-12";
+    version = "unstable-2024-10-15";
 
     src = final.pkgs.fetchFromGitHub {
       owner = "sentriz";
       repo = "cliphist";
-      rev = "c49dcd26168f704324d90d23b9381f39c30572bd";
-      sha256 = "0xnhilnyjkrb29j80rx91w13145x3hq0441wwrm8rwc56zjgjsfs";
+      rev = "8c48df70bb3d9d04ae8691513e81293ed296231a";
+      sha256 = "0lhfq67bsmlajxlkz0dhj5hym7w376vqjk05yccd42fqd1nr32dl";
     };
 
     buildInputs = with final.pkgs; [
