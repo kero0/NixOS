@@ -18,6 +18,7 @@
       "disk-inventory-x"
       "displaylink"
       "hammerspoon"
+      "maccy"
       "microsoft-remote-desktop"
       "nordvpn"
       "orion"
