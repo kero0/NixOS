@@ -28,6 +28,7 @@
     };
     shell = {
       alias.enable = true;
+      bash.enable = true;
       fish.enable = true;
       kitty.enable = true;
       starship.enable = true;

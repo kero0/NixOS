@@ -15,7 +15,10 @@ in
       enable = true;
       enableCompletion = true;
       enableVteIntegration = true;
-      historyControl = true;
+      historyControl = [
+        "erasedups"
+        "ignoreboth"
+      ];
       historyFile = "${config.xdg.cacheHome}/bash-history";
       historyFileSize = 1000 * 1000;
       historyIgnore = [
@@ -30,6 +33,12 @@ in
         "globstar"
         "checkjobs"
       ];
+      bashrcExtra = ''
+        [ -r $HOME/.bashrc-local ] && source $HOME/.bashrc-local
+      '';
+      initExtra = ''
+        source ${pkgs.blesh}/share/blesh/ble.sh
+      '';
     };
   };
 }
