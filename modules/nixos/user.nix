@@ -26,7 +26,7 @@ with lib;
     };
     shell = mkOption {
       type = types.str;
-      default = if pkgs.stdenv.isDarwin then "${pkgs.zsh}/bin/zsh" else pkgs.zsh;
+      default = "${pkgs.zsh}/bin/zsh";
     };
     realName = mkOption {
       type = types.str;
@@ -49,6 +49,7 @@ with lib;
             home = cfg.homedir;
             hashedPassword = cfg.passwordHash;
             description = cfg.realName;
+            shell = cfg.shell;
             isNormalUser = true;
             extraGroups = [
               "audio"
