@@ -9,9 +9,15 @@
       http.cookiefile = "${config.xdg.configHome}/git/cookies";
       http.cookieFile = "${config.xdg.configHome}/git/cookies";
       push.autoSetupRemote = true;
-      core.autocrlf = true;
     };
   };
 
-  wayland.windowManager.hyprland.package = config.nixGL pkgs.hyprland;
+  nixGL.defaultWrapper = "mesa";
+  nixGL.offloadWrapper = "nvidiaPrime";
+  nixGL.installScripts = [
+    "mesa"
+    "nvidiaPrime"
+  ];
+
+  wayland.windowManager.hyprland.package = config.lib.nixGL.wrap pkgs.hyprland;
 }

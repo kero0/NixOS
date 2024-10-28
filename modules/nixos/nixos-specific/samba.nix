@@ -32,9 +32,6 @@ with lib;
               "pam password change" = "yes";
               "client min protocol" = "NT1";
             };
-          };
-
-          shares = {
             public = {
               path = "/home/${config.my.user.username}/winshare";
               "read only" = false;

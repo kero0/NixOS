@@ -7,9 +7,10 @@
 
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       rocmPackages.clr.icd
-      rocm-opencl-runtime
+      clinfo
       amdvlk
 
       # intel
