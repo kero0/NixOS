@@ -15,9 +15,10 @@ in
       enable = true;
       matchBlocks.nasy = {
         port = 9639;
-        hostname = "nasy.local";
+        hostname = "nasy.lan";
         user = "kirolsb";
       };
+      includes = [ "config.d/*" ];
     };
   };
 }
