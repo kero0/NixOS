@@ -18,13 +18,7 @@ with lib;
           [
             font-awesome
             julia-mono
-            (nerdfonts.override {
-              fonts = [
-                "FiraCode"
-                "FiraMono"
-                "JetBrainsMono"
-              ];
-            })
+            nerd-fonts.jetbrains-mono
           ]
           ++ (lib.optionals (!pkgs.stdenv.isDarwin) [
             dejavu_fonts
