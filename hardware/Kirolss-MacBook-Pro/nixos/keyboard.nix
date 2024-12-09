@@ -1,10 +1,10 @@
 {
   system.keyboard.enableKeyMapping = true;
   system.keyboard.userKeyMapping = [
-    # caps lock to esc
+    # caps lock to ctrl
     {
       HIDKeyboardModifierMappingSrc = 30064771129;
-      HIDKeyboardModifierMappingDst = 30064771113;
+      HIDKeyboardModifierMappingDst = 30064771296;
     }
     # swap ctrl and fn
     {
