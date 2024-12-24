@@ -14,7 +14,7 @@ jobs:
           - target: homeConfigurations.kbakheat-local.activationPackage
             os: ubuntu-latest
           - target: darwinConfigurations.Kirolss-MacBook-Pro.system
-            os: macos-latest
+            os: macos-15
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
