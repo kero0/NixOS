@@ -13,6 +13,9 @@ in
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
+      controlMaster = "auto";
+      controlPersist = "yes";
+      controlPath = "~/.ssh/control/%C";
       matchBlocks.nasy = {
         port = 9639;
         hostname = "nasy.lan";
