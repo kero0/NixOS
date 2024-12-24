@@ -142,7 +142,7 @@
           let
             myuser = "kbakheat@na1.ford.com";
             system = "x86_64-linux";
-            hostname = "work";
+            hostname = "work-home";
             pkgs = mpkgs system;
           in
           {
@@ -173,7 +173,7 @@
           let
             myuser = "kbakheat-local";
             system = "x86_64-linux";
-            hostname = "work";
+            hostname = "work-home";
             pkgs = mpkgs system;
           in
           {
@@ -194,6 +194,37 @@
                   my.home = {
                     username = myuser;
                     homedir = "/home/kbakheat-local";
+                  };
+                }
+              ];
+            };
+          }
+        )
+        // (
+          let
+            myuser = "kirolsb";
+            system = "x86_64-linux";
+            hostname = "personal-home";
+            pkgs = mpkgs system;
+          in
+          {
+            "${myuser}" = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              extraSpecialArgs = {
+                inherit
+                  myuser
+                  pkgs
+                  system
+                  inputs
+                  ;
+                osConfig = { };
+                public-keys = (import ./secrets/secrets.nix).keys;
+              };
+              modules = mHMmodules hostname myuser pkgs ++ [
+                {
+                  my.home = {
+                    username = myuser;
+                    homedir = "/home/kirolsb";
                   };
                 }
               ];
