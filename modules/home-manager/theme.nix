@@ -27,10 +27,8 @@ in
     };
   };
   config = mkIf cfg.enable {
-
     catppuccin = {
       inherit (cfg) enable flavor accent;
     };
-    programs.swaylock.catppuccin.enable = lib.mkForce false; # broken?
   };
 }

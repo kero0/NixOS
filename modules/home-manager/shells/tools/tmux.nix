@@ -41,27 +41,6 @@ in
           bind-key -n C-\   if-shell  "$is_vim"  "send-keys C-\\"  "select-pane -l"
           set -g renumber-windows on
         '';
-        catppuccin = {
-          enable = true;
-          extraConfig = ''
-            set-option -g status-position top
-            set -g @catppuccin_window_left_separator "█"
-            set -g @catppuccin_window_right_separator "█ "
-            set -g @catppuccin_window_number_position "right"
-            set -g @catppuccin_window_middle_separator "  █"
-
-            set -g @catppuccin_window_default_fill "number"
-
-            set -g @catppuccin_window_current_fill "number"
-            set -g @catppuccin_window_current_text "#{pane_current_path}"
-
-            set -g @catppuccin_status_modules_right "application session date_time"
-            set -g @catppuccin_status_left_separator  ""
-            set -g @catppuccin_status_right_separator " "
-            set -g @catppuccin_status_fill "all"
-            set -g @catppuccin_status_connect_separator "yes"
-          '';
-        };
         plugins = with pkgs.tmuxPlugins; [
           better-mouse-mode
           sessionist # better session management
@@ -119,5 +98,23 @@ in
         ];
       };
     };
+    catppuccin.tmux.extraConfig = ''
+      set-option -g status-position top
+      set -g @catppuccin_window_left_separator "█"
+      set -g @catppuccin_window_right_separator "█ "
+      set -g @catppuccin_window_number_position "right"
+      set -g @catppuccin_window_middle_separator "  █"
+
+      set -g @catppuccin_window_default_fill "number"
+
+      set -g @catppuccin_window_current_fill "number"
+      set -g @catppuccin_window_current_text "#{pane_current_path}"
+
+      set -g @catppuccin_status_modules_right "application session date_time"
+      set -g @catppuccin_status_left_separator  ""
+      set -g @catppuccin_status_right_separator " "
+      set -g @catppuccin_status_fill "all"
+      set -g @catppuccin_status_connect_separator "yes"
+    '';
   };
 }
