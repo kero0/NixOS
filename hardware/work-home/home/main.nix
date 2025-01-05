@@ -20,4 +20,9 @@
   ];
 
   wayland.windowManager.hyprland.package = config.lib.nixGL.wrap pkgs.hyprland;
+  programs.atuin.enable = true;
+  home.packages = with pkgs; [
+    atuin
+    android-tools
+  ];
 }

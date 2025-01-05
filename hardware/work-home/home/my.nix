@@ -20,11 +20,11 @@
     };
     hyprland = {
       enable = true;
-      binds.enable = false;
-      lock.enable = false;
-      pyprland.enable = false;
-      wallpaper.enable = false;
-      waybar.enable = false;
+      binds.enable = true;
+      lock.enable = true;
+      pyprland.enable = true;
+      wallpaper.enable = true;
+      waybar.enable = true;
     };
     shell = {
       alias.enable = true;
