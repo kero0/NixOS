@@ -15,8 +15,8 @@
     };
 
     email = {
-      enable = false;
-      davmail.enable = false;
+      enable = true;
+      davmail.enable = true;
     };
     hyprland = {
       enable = true;
@@ -39,7 +39,7 @@
         atuin.enable = true;
         bat.enable = true;
         nix-index.enable = true;
-        ssh.enable = false;
+        ssh.enable = true;
         tealdeer.enable = true;
         tmux.enable = true;
         zoxide.enable = true;

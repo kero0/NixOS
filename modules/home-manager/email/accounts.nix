@@ -63,7 +63,7 @@ let
     };
     msmtp = {
       enable = config.programs.msmtp.enable;
-      extraConfig.auth = lib.mkIf oauth "xoauth2";
+      extraConfig.auth = if oauth then "xoauth2" else "login";
     };
     mu.enable = config.programs.mu.enable;
   };
@@ -85,9 +85,9 @@ in
       };
       kirolsb5-gmail = mgmail "kirolsb5" "kirolsb5-gmail";
       bakheakm-udmercy =
-        (memail "bakheakm@udmercy.edu" "outlook.office365.com" "bakheakm-udmercy" true)
+        (memail "bakheakm@udmercy.edu" "outlook.office365.com" "bakheakm-udmercy" false)
         // {
-          passwordCommand = passwordEval "office.com/bakheakm@udmercy.edu.tokens";
+          passwordCommand = "echo test";
           smtp = lib.mkForce {
             host = "localhost";
             port = config.my.home.email.davmail.ports.SMTP;
@@ -96,12 +96,11 @@ in
               useStartTls = false;
             };
           };
-          msmtp = {
-            enable = config.programs.msmtp.enable;
-            extraConfig = {
-              auth = "login";
-              passwordeval = "echo test";
-            };
+
+          imap = lib.mkForce {
+            host = "localhost";
+            port = config.my.home.email.davmail.ports.IMAP;
+            tls.enable = false;
           };
         };
     };
