@@ -17,10 +17,9 @@ in
         "ctrl+c" = "copy_or_interrupt";
       };
       settings = {
-        shell = mkIf config.my.home.shell.zsh.enable "zsh";
-
         scrollback_lines = 10000;
         enable_audio_bell = false;
+        clipboard_control = "write-clipboard write-primary no-append";
 
         draw_bold_text_with_bright_colors = true;
 
