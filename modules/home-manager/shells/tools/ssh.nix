@@ -16,10 +16,17 @@ in
       controlMaster = "auto";
       controlPersist = "yes";
       controlPath = "~/.ssh/control/%C";
-      matchBlocks.nasy = {
-        port = 9639;
-        hostname = "nasy.lan";
-        user = "kirolsb";
+      matchBlocks = {
+        nasy = {
+          port = 9639;
+          hostname = "nasy.lan";
+          user = "kirolsb";
+        };
+        work-desktop = {
+          port = 22;
+          hostname = "10.5.10.26";
+          user = "kbakheat-local";
+        };
       };
       includes = [ "config.d/*" ];
     };
