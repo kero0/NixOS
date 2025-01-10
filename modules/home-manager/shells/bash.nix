@@ -33,12 +33,30 @@ in
         "globstar"
         "checkjobs"
       ];
-      bashrcExtra = ''
-        [ -r $HOME/.bashrc-local ] && source $HOME/.bashrc-local
-      '';
-      initExtra = ''
-        source ${pkgs.blesh}/share/blesh/ble.sh
-      '';
+      bashrcExtra =
+        let
+          interactive_init = builtins.concatStringsSep "\n" [
+
+            # tmux
+            (strings.optionalString config.programs.tmux.enable ''
+              if [ -z "$TMUX" ]; then
+                exec ${config.programs.tmux.package}/bin/tmux attach
+              fi
+            '')
+
+            # emacs eat
+            ''[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"''
+
+            # blesh
+            "source ${pkgs.blesh}/share/blesh/ble.sh"
+          ];
+        in
+        ''
+          [ -r $HOME/.bashrc-local ] && source $HOME/.bashrc-local
+          if [[ $- == *i* ]]; then
+             ${interactive_init}
+          fi
+        '';
     };
   };
 }

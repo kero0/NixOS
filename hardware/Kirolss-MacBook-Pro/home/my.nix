@@ -24,6 +24,7 @@
         bat.enable = true;
         nix-index.enable = true;
         ssh.enable = true;
+        readline.enable = true;
         tealdeer.enable = true;
         tmux.enable = true;
         zoxide.enable = true;
