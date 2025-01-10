@@ -24,8 +24,8 @@ in
       nixpkgs.overlays = builtins.map (
         p: (final: prev: { ${p} = prev.${p}.override { rofi-unwrapped = prev.rofi-wayland-unwrapped; }; })
       ) plugins;
+      catppuccin.rofi.enable = false;
       programs.rofi = pkgs.lib.mkIf pkgs.stdenv.isLinux {
-        catppuccin.enable = false;
         enable = true;
         package = pkgs.rofi-wayland;
         plugins = builtins.map (p: pkgs.${p}) plugins;

@@ -11,7 +11,6 @@ in
 {
   options.my.home.theme.cursor.enable = mkEnableOption "Cursor theme";
   config = mkIf cfg.enable {
-    catppuccin.pointerCursor.enable = false;
     home.pointerCursor = {
       name = "Vanilla-DMZ";
       package = pkgs.vanilla-dmz;
