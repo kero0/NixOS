@@ -162,6 +162,7 @@
           in
           {
             "${myuser}" = home-manager.lib.homeManagerConfiguration {
+              pkgs = import nixpkgs (nixpkgsConfig // { inherit system; });
               extraSpecialArgs = {
                 inherit
                   myuser
@@ -190,6 +191,7 @@
           in
           {
             "${myuser}" = home-manager.lib.homeManagerConfiguration {
+              pkgs = import nixpkgs (nixpkgsConfig // { inherit system; });
               extraSpecialArgs = {
                 inherit
                   myuser
@@ -218,6 +220,7 @@
           in
           {
             "${myuser}" = home-manager.lib.homeManagerConfiguration {
+              pkgs = import nixpkgs (nixpkgsConfig // { inherit system; });
               extraSpecialArgs = {
                 inherit
                   myuser
