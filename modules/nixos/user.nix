@@ -26,7 +26,7 @@ with lib;
     };
     shell = mkOption {
       type = types.str;
-      default = "${pkgs.bashInteractive}/bin/bash";
+      default = "${pkgs.zsh}/bin/zsh";
     };
     realName = mkOption {
       type = types.str;
