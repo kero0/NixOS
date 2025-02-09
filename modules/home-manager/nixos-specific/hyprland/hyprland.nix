@@ -68,10 +68,6 @@ in
             passes = 1;
             vibrancy = 0.1696;
           };
-          drop_shadow = false;
-          shadow_range = 4;
-          shadow_render_power = 3;
-          "col.shadow" = "rgba(1a1a1aee)";
         };
         general = {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
