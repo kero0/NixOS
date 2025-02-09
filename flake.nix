@@ -66,30 +66,31 @@
       ...
     }:
     let
-      mpkgs =
-        system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays =
-            [ inputs.nixgl.overlay ]
-            ++ (
-              let
-                path = ./overlays;
-              in
-              with builtins;
-              map (n: import (path + ("/" + n))) (
-                filter (n: match ".*\\.nix" n != null || pathExists (path + ("/" + n + "/default.nix"))) (
-                  attrNames (readDir path)
-                )
+      nixpkgsConfig = {
+        config.allowUnfree = true;
+        overlays =
+          [ inputs.nixgl.overlay ]
+          ++ (
+            let
+              path = ./overlays;
+            in
+            with builtins;
+            map (n: import (path + ("/" + n))) (
+              filter (n: match ".*\\.nix" n != null || pathExists (path + ("/" + n + "/default.nix"))) (
+                attrNames (readDir path)
               )
-            );
-        };
+            )
+          );
+      };
       mHMmodules =
-        hostname: myuser: pkgs:
+        hostname: myuser: system:
+        let
+          isDarwin = nixpkgs.lib.strings.hasSuffix "darwin" system;
+          isLinux = nixpkgs.lib.strings.hasSuffix "linux" system;
+        in
         (umport {
           ipath = ./modules/home-manager;
-          exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [
+          exclude = nixpkgs.lib.lists.optionals isDarwin [
             ./modules/home-manager/nixos-specific
           ];
         })
@@ -97,14 +98,25 @@
         ++ [
           inputs.nix-index-database.hmModules.nix-index
           inputs.catppuccin.homeManagerModules.catppuccin
+          (
+            { osConfig, ... }:
+            {
+              nixpkgs = (nixpkgs.lib.mkIf (!(osConfig.home-manager.useGlobalPkgs or false))) nixpkgsConfig;
+            }
+          )
         ];
       mmodules =
-        hostname: myuser: pkgs:
+        hostname: myuser: system:
+        let
+          isDarwin = nixpkgs.lib.strings.hasSuffix "darwin" system;
+          isLinux = nixpkgs.lib.strings.hasSuffix "linux" system;
+        in
         [
-          agenix.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.default
+          agenix.${if isLinux then "nixosModules" else "darwinModules"}.default
           ./secrets
+          { nixpkgs = nixpkgsConfig; }
 
-          home-manager.${if pkgs.stdenv.isLinux then "nixosModules" else "darwinModules"}.home-manager
+          home-manager.${if isLinux then "nixosModules" else "darwinModules"}.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
@@ -114,22 +126,22 @@
               };
               users.${myuser} = {
                 home.stateVersion = stateVersion;
-                imports = mHMmodules hostname myuser pkgs;
+                imports = mHMmodules hostname myuser system;
               };
             };
           }
         ]
         ++ (umport {
           ipath = ./modules/nixos;
-          exclude = nixpkgs.lib.lists.optionals pkgs.stdenv.isDarwin [ ./modules/nixos/nixos-specific ];
+          exclude = nixpkgs.lib.lists.optionals isDarwin [ ./modules/nixos/nixos-specific ];
         })
         ++ (umport { ipath = ./hardware/${hostname}/nixos; })
-        ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isLinux { system.stateVersion = stateVersion; })
-        ++ (nixpkgs.lib.lists.optional pkgs.stdenv.isDarwin {
+        ++ (nixpkgs.lib.lists.optional isLinux { system.stateVersion = stateVersion; })
+        ++ (nixpkgs.lib.lists.optional isDarwin {
           programs.bash.enable = true;
           system.stateVersion = 4;
         })
-        ++ (nixpkgs.lib.lists.optionals pkgs.stdenv.isLinux [
+        ++ (nixpkgs.lib.lists.optionals isLinux [
           inputs.catppuccin.nixosModules.catppuccin
           ({ catppuccin.enable = true; })
         ]);
@@ -143,22 +155,19 @@
             myuser = "kbakheat@na1.ford.com";
             system = "x86_64-linux";
             hostname = "work-home";
-            pkgs = mpkgs system;
           in
           {
             "${myuser}" = home-manager.lib.homeManagerConfiguration {
-              inherit pkgs;
               extraSpecialArgs = {
                 inherit
                   myuser
-                  pkgs
                   system
                   inputs
                   ;
                 osConfig = { };
                 public-keys = (import ./secrets/secrets.nix).keys;
               };
-              modules = mHMmodules hostname myuser pkgs ++ [
+              modules = mHMmodules hostname myuser system ++ [
                 {
                   my.home = {
                     username = myuser;
@@ -174,22 +183,19 @@
             myuser = "kbakheat-local";
             system = "x86_64-linux";
             hostname = "work-home";
-            pkgs = mpkgs system;
           in
           {
             "${myuser}" = home-manager.lib.homeManagerConfiguration {
-              inherit pkgs;
               extraSpecialArgs = {
                 inherit
                   myuser
-                  pkgs
                   system
                   inputs
                   ;
                 osConfig = { };
                 public-keys = (import ./secrets/secrets.nix).keys;
               };
-              modules = mHMmodules hostname myuser pkgs ++ [
+              modules = mHMmodules hostname myuser system ++ [
                 {
                   my.home = {
                     username = myuser;
@@ -205,22 +211,19 @@
             myuser = "kirolsb";
             system = "x86_64-linux";
             hostname = "personal-home";
-            pkgs = mpkgs system;
           in
           {
             "${myuser}" = home-manager.lib.homeManagerConfiguration {
-              inherit pkgs;
               extraSpecialArgs = {
                 inherit
                   myuser
-                  pkgs
                   system
                   inputs
                   ;
                 osConfig = { };
                 public-keys = (import ./secrets/secrets.nix).keys;
               };
-              modules = mHMmodules hostname myuser pkgs ++ [
+              modules = mHMmodules hostname myuser system ++ [
                 {
                   my.home = {
                     username = myuser;
@@ -237,20 +240,18 @@
             myuser = "kirolsb";
             system = "x86_64-linux";
             hostname = "Kirols-xps9575";
-            pkgs = mpkgs system;
           in
           nixpkgs.lib.nixosSystem {
-            inherit system pkgs;
+            inherit system;
             specialArgs = {
               inherit
                 myuser
-                pkgs
                 system
                 inputs
                 ;
               public-keys = (import ./secrets/secrets.nix).keys;
             };
-            modules = mmodules hostname myuser pkgs ++ [
+            modules = mmodules hostname myuser system ++ [
               nixos-hardware.nixosModules.common-cpu-intel
               nixos-hardware.nixosModules.common-gpu-amd
               nixos-hardware.nixosModules.common-hidpi
@@ -262,22 +263,20 @@
       darwinConfigurations."Kirolss-MacBook-Pro" =
         let
           system = "aarch64-darwin";
-          pkgs = mpkgs system;
           hostname = "Kirolss-MacBook-Pro";
           myuser = "kirolsbakheat";
         in
         darwin.lib.darwinSystem {
-          inherit system pkgs;
+          inherit system;
           specialArgs = {
             inherit
               myuser
-              pkgs
               system
               inputs
               ;
             public-keys = (import ./secrets/secrets.nix).keys;
           };
-          modules = mmodules hostname myuser pkgs;
+          modules = mmodules hostname myuser system;
         };
       formatter = {
         aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
