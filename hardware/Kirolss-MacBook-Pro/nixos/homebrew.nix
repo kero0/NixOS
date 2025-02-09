@@ -19,7 +19,6 @@
       "displaylink"
       "hammerspoon"
       "maccy"
-      "microsoft-remote-desktop"
       "nordvpn"
       "orion"
       "the-unarchiver"
@@ -27,6 +26,7 @@
       "vivaldi"
       "vlc"
       "wine@staging"
+      "zen-browser"
     ];
   };
   environment.systemPath = [ config.homebrew.brewPrefix ];
