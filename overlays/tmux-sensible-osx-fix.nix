@@ -4,7 +4,7 @@ final: prev: {
       postInstall =
         (prev.postInstall or "")
         + ''
-          sed -e 's|\$SHELL|${final.bashInteractive}/bin/bash|g' -i $target/sensible.tmux
+          sed -e 's|\$SHELL|${final.zsh}/bin/zsh|g' -i $target/sensible.tmux
         '';
     });
   };
