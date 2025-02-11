@@ -4,7 +4,7 @@
     lfs.enable = true;
     extraConfig = {
       github.user = "kero0";
-      user.signingKey = "E8228103022276B272DB6D75C58FF77AD5D76336";
+      user.signingKey = "6203EA1E2A444A37709BF65023B20E88C6992499";
       push.autoSetupRemote = true;
     };
   };
