@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  osConfig ? { },
   ...
 }:
 with lib;
@@ -111,9 +112,24 @@ in
                 bindkey -M viins '\es' sesh-sessions
                 [ -z "$TMUX" ] && tmux attach
               '')
+
+              # local only zshrc
+              ''
+                if [ -r  ${config.xdg.configHome}/zsh/localrc ]; then
+                   . ${config.xdg.configHome}/zsh/localrc
+                fi
+              ''
             ];
         in
         ''
+          ${
+            # home manager path
+            (lib.strings.optionalString (osConfig == { }) ''
+              if [ -r  /etc/zshrc ]; then
+                  . /etc/zshrc
+              fi
+            '')
+          }
           if [[ $options[interactive] = on ]]; then
              ${interactive_init}
           fi
