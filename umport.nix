@@ -1,6 +1,6 @@
 nixpkgs:
 {
-  ipath ? null,
+  ipath,
   exclude ? [ ],
 }:
 with nixpkgs.lib;
