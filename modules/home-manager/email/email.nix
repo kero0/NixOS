@@ -26,7 +26,7 @@ in
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram "$out/bin/mbsync" \
-              --prefix SASL_PATH : "${pkgs.cyrus_sasl.out.outPath}/lib/sasl2":"${pkgs.cyrus_sasl_xoauth2.out.outPath}/lib/sasl2"
+              --prefix SASL_PATH : "${pkgs.cyrus_sasl.out.outPath}/lib/sasl2":"${pkgs.cyrus-sasl-xoauth2.out.outPath}/lib/sasl2"
           '';
         };
       };

@@ -37,8 +37,7 @@
       dates = pkgs.lib.mkIf pkgs.stdenv.isLinux "daily";
       options = "--delete-older-than 7d";
     };
-    nixPath = options.nix.nixPath.default ++ [ "nixpkgs-overlays=${../../overlays}" ];
-  } // (if pkgs.stdenv.isDarwin then { useDaemon = true; } else { });
+  };
 
   environment = {
     pathsToLink = [ "/share/zsh" ];
