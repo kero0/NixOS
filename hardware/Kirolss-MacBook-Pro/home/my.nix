@@ -1,6 +1,5 @@
 {
   my.home = {
-    downloaders.enable = true;
     editors.enable = true;
     gpg.enable = true;
     pass.enable = true;

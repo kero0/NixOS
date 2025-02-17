@@ -25,30 +25,25 @@ with lib;
         ## other
         bottom
       ]
-      ++ (
-        if !stdenv.isDarwin then
-          [
-            # browsers
-            (google-chrome.override {
-              commandLineArgs = "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode --ignore-gpu-blocklist --enable-gpu-rasterization";
-            })
+      ++ lib.lists.optionals (stdenv.isLinux) [
+        # browsers
+        (google-chrome.override {
+          commandLineArgs = "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode --ignore-gpu-blocklist --enable-gpu-rasterization";
+        })
 
-            # bitwarden
-            bitwarden
-            bitwarden-cli
+        # bitwarden
+        bitwarden
+        bitwarden-cli
 
-            # document writing
-            xournalpp
+        # document writing
+        xournalpp
 
-            # other
-            alacritty
-            mpv
-            qalculate-gtk
-            scrot
-            zathura
-          ]
-        else
-          [ ]
-      );
+        # other
+        alacritty
+        mpv
+        qalculate-gtk
+        scrot
+        zathura
+      ];
   };
 }
