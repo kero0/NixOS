@@ -28,12 +28,6 @@
         export CCACHE_DIR=/mnt/ccache
     fi
 
-    if [ -d "$HOME/.pyenv" ] ; then
-         export PYENV_ROOT="$HOME/.pyenv"
-         [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-         eval "$(pyenv init -)"
-    fi
-
     [ "$TERM" = "xterm-kitty" ] && export TERM="xterm-256color"
   '';
 }

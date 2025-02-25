@@ -20,9 +20,24 @@
   ];
 
   wayland.windowManager.hyprland.package = config.lib.nixGL.wrap pkgs.hyprland;
-  programs.atuin.enable = true;
+  programs.kitty.package = config.lib.nixGL.wrap pkgs.kitty;
   home.packages = with pkgs; [
     atuin
     android-tools
+    android-studio
+    jetbrains.idea-ultimate
+    scrcpy
+  ];
+
+  targets.genericLinux.enable = true;
+  xdg.mime.enable = true;
+
+  xdg.systemDirs.data = [
+    "/usr/share/ubuntu"
+    "${config.home.homeDirectory}/.local/share/flatpak/exports/share"
+    "/var/lib/flatpak/exports/share"
+    "/usr/local/share/"
+    "/usr/share/"
+    "var/lib/snapd/desktop"
   ];
 }
