@@ -304,10 +304,10 @@
           };
         in
         (f "aarch64-darwin" // f "x86_64-linux");
-      devShell =
+      devShells =
         let
           f = system: {
-            ${system} = nixpkgs.legacyPackages.${system}.mkShell {
+            ${system}.default = nixpkgs.legacyPackages.${system}.mkShell {
               inherit (self.checks.${system}.pre-commit-check) shellHook;
               buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
             };

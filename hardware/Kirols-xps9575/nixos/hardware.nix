@@ -29,7 +29,6 @@
         xrandr --dpi 192
       '';
       videoDrivers = [
-        "intel"
         "amdgpu"
       ];
     };

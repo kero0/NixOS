@@ -11,12 +11,12 @@ in
 {
   options.my.home.hyprland.waybar.enable = mkEnableOption "Enable hyprland waybar";
   config = mkIf cfg.enable {
+    catppuccin.waybar.mode = "prependImport";
     home.packages = with pkgs; [
       pamixer
       pavucontrol
     ];
     programs.waybar = {
-      catppuccin.mode = "prependImport";
       enable = true;
       systemd = {
         enable = true;

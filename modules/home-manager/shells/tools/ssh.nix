@@ -28,7 +28,7 @@ in
         };
         work-desktop = {
           port = 22;
-          hostname = "10.5.10.26";
+          hostname = "UGC135PJF24.lan";
           user = "kbakheat-local";
         };
       };
