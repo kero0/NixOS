@@ -41,7 +41,7 @@ jobs:
         with:
           name: kero0
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          pushFilter: (-source$|nixpkgs\.tar\.gz$)
+          pushFilter: (-source$|idea-ultimate|android-studio|discord|nixpkgs\.tar\.gz$|\.dmg$|\.age$|\.zip$)
           extraPullNames: nix-community
       - name: Check OS build
         shell: bash
