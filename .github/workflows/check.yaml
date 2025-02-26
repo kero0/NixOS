@@ -41,6 +41,7 @@ jobs:
         with:
           name: kero0
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          pushFilter: (-source$|nixpkgs\.tar\.gz$)
       - name: Check OS build
         shell: bash
         run: |
