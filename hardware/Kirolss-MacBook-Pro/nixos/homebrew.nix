@@ -23,7 +23,6 @@
       "orion"
       "the-unarchiver"
       "unnaturalscrollwheels"
-      "vivaldi"
       "vlc"
       "wine@staging"
       "zen-browser"

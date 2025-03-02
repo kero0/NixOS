@@ -3,7 +3,6 @@
     applets.enable = true;
     chromium.enable = true;
     clipboard-manager.enable = true;
-    downloaders.enable = true;
     editors.enable = true;
     gpg.enable = true;
     notification-manager.enable = true;
