@@ -1,20 +1,7 @@
 {
   programs.zsh.initExtra = ''
-    export PATH=$HOME/.nix-profile/bin:$PATH
-    if [ -d "$HOME/platform-tools" ] ; then
-        export PATH="$HOME/platform-tools:$PATH"
-    fi
-
     if [ -d "$HOME/.local/bin" ] ; then
         export PATH="$HOME/.local/bin:$PATH"
-    fi
-
-    if [ -d "$HOME/.local/bin" ] ; then
-        export PATH="/snap/bin:$PATH"
-    fi
-
-    if [ -d "$HOME/Android/Sdk" ] ; then
-        export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
     fi
 
     if [ -d "$HOME/.config/.android" ] ; then
