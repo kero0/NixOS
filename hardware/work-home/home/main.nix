@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   programs.git = {
     lfs.enable = true;
@@ -27,6 +32,7 @@
     android-studio
     jetbrains.idea-ultimate
     scrcpy
+    nix
   ];
 
   targets.genericLinux.enable = true;
