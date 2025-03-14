@@ -45,6 +45,7 @@
         tmux.enable = true;
         zoxide.enable = true;
 
+        gh.enable = true;
         git = {
           enable = true;
           userName = "kero0";

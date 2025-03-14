@@ -9,7 +9,7 @@
     lfs.enable = true;
     extraConfig = {
       github.user = "kbakheat_ford";
-      user.signingKey = "C6F92AA1FA6C97720DD344CA0F9995D80D7ADAFE";
+      user.signingKey = "07B0FDBC8465BEB762478F2A6E4B9A3A0C5D101A";
       credentials.helper = "store";
       http.cookiefile = "${config.xdg.configHome}/git/cookies";
       http.cookieFile = "${config.xdg.configHome}/git/cookies";
