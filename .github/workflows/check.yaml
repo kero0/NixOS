@@ -41,12 +41,20 @@ jobs:
         with:
           name: kero0
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          pushFilter: (-source$|idea-ultimate|android-studio|discord|nixpkgs\.tar\.gz$|\.dmg$|\.age$|\.zip$)
           extraPullNames: nix-community
+          useDaemon: false
+      - name: save inputs to cachix
+        shell: bash
+        run: |
+          nix flake archive --json \
+              | jq -r '.path,(.inputs|to_entries[].value.path)' \
+              | cachix push kero0
       - name: Check OS build
         shell: bash
         run: |
-          nix build --accept-flake-config --show-trace '.#${{ matrix.target }}'
+          nix-store -qR --include-outputs $(nix-store -qd $(nix build --accept-flake-config --show-trace '.#${{ matrix.target }}')) \
+            | grep -v -E '\.drv$|-source$|idea-ultimate|android-studio|discord|nixpkgs\.tar\.gz$|\.dmg$|\.age$|\.zip$|-apple-|-macOS-SDK-' \
+            | cachix push kero0
       - name: Diff profile
         id: diff
         run: |
