@@ -1,0 +1,4 @@
+#!/bin/sh
+
+set -xv
+ffmpeg -f pulse -i remote.monitor -ac 2 -acodec pcm_s24le -ar 48000 -f s24le "udp://$1"
