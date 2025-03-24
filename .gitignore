@@ -1,0 +1,7 @@
+result
+store.*
+.direnv
+.DS_STORE
+.pre-commit-config.yaml
+.envrc
+.dir-locals.el

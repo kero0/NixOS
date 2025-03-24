@@ -1,0 +1,5 @@
+* NixOS config
+
+This is my personal NixOS config.
+
+Any host specific config goes in a directory with he same name as the host under [[./hardware]]

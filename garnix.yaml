@@ -1,0 +1,6 @@
+builds:
+  default:
+    include:
+      - homeConfigurations.*
+      - nixosConfigurations.*
+      - darwinConfigurations.*
