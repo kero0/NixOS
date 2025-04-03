@@ -4,3 +4,5 @@ builds:
       - homeConfigurations.*
       - nixosConfigurations.*
       - darwinConfigurations.*
+    branch:
+      - main
