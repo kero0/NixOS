@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  myuser,
   ...
 }:
 {
@@ -13,5 +12,12 @@
       dscl . create /Users/${user.name} UserShell "${user.shell}"
     '') (lib.attrValues config.users.users)}
   '';
+
+  security.pam.services.sudo_local = {
+    enable = true;
+    touchIdAuth = true;
+    watchIdAuth = true;
+    reattach = true;
+  };
   environment.systemPackages = with pkgs; [ unnaturalscrollwheels ];
 }
