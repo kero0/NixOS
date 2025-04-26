@@ -1,8 +1,0 @@
-builds:
-  default:
-    include:
-      - homeConfigurations.*
-      - nixosConfigurations.*
-      - darwinConfigurations.*
-    branch:
-      - main
