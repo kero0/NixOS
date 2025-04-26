@@ -6,8 +6,6 @@
   imports = [ ./pipewire.nix ];
 
   services = {
-    # CPU
-    cpu.intel.updateMicrocode = true;
     # GPU
     switcherooControl.enable = true;
 
@@ -73,6 +71,8 @@
     acpilight.enable = true;
     # BT
     bluetooth.enable = true;
+    # CPU
+    cpu.intel.updateMicrocode = true;
     # Sensors
     sensor.iio.enable = true;
   };
