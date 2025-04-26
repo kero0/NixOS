@@ -39,7 +39,7 @@ with lib;
         {
           users."${cfg.username}" = {
             home = cfg.homedir;
-            shell = cfg.shell;
+            inherit (cfg) shell;
           };
         }
       else
@@ -49,7 +49,7 @@ with lib;
             home = cfg.homedir;
             hashedPassword = cfg.passwordHash;
             description = cfg.realName;
-            shell = cfg.shell;
+            inherit (cfg) shell;
             isNormalUser = true;
             extraGroups = [
               "audio"

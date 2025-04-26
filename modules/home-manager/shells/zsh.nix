@@ -41,7 +41,7 @@ in
           ]
           # command history for urls is not useful
           ++ lib.optional config.programs.gallery-dl.enable "gallery-dl*"
-          ++ lib.optional (config.programs.yt-dlp.enable) "yt-dlp*";
+          ++ lib.optional config.programs.yt-dlp.enable "yt-dlp*";
         ignoreSpace = true;
         ignoreAllDups = true;
 

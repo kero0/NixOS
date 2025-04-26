@@ -10,7 +10,7 @@ let
 in
 {
   options.my.home.rofi.enable = mkEnableOption "Enable rofi";
-  config = mkIf cfg.enable ({
+  config = mkIf cfg.enable {
     catppuccin.rofi.enable = false;
     programs.rofi = pkgs.lib.mkIf pkgs.stdenv.isLinux {
       enable = true;
@@ -32,5 +32,5 @@ in
         dpi = 1;
       };
     };
-  });
+  };
 }

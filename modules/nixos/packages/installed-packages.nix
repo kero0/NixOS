@@ -25,7 +25,7 @@ with lib;
         ## other
         bottom
       ]
-      ++ lib.lists.optionals (stdenv.isLinux) [
+      ++ lib.lists.optionals stdenv.isLinux [
         # browsers
         (google-chrome.override {
           commandLineArgs = "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode --ignore-gpu-blocklist --enable-gpu-rasterization";

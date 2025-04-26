@@ -26,7 +26,7 @@ in
     home.stateVersion = "22.05";
 
     home = {
-      username = cfg.username;
+      inherit (cfg) username;
       homeDirectory = lib.mkIf pkgs.stdenv.isLinux cfg.homedir;
     };
 

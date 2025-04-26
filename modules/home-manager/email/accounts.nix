@@ -18,7 +18,7 @@ let
     userName = email;
     realName = name;
     mbsync = {
-      enable = config.programs.mbsync.enable;
+      inherit (config.programs.mbsync) enable;
       create = "both";
       expunge = "both";
       extraConfig = {
@@ -34,7 +34,7 @@ let
       };
     };
     imapnotify = {
-      enable = config.services.imapnotify.enable;
+      inherit (config.services.imapnotify) enable;
       boxes = [ "INBOX" ];
       extraConfig = {
         wait = 5;
@@ -62,7 +62,7 @@ let
         );
     };
     msmtp = {
-      enable = config.programs.msmtp.enable;
+      inherit (config.programs.msmtp) enable;
       extraConfig.auth = if oauth then "xoauth2" else "login";
     };
     mu.enable = config.programs.mu.enable;

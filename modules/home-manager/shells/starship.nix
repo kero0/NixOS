@@ -76,7 +76,7 @@ in
             untracked = "…";
           in
           {
-            conflicted = conflicted;
+            inherit conflicted;
             ahead = "${ahead} ✕ $count";
             behind = "${behind} ✕ $count";
             diverged = "${diverged} ${ahead} ✕ $ahead_count ${behind} ✕ $behind_count";

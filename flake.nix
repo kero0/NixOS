@@ -153,7 +153,7 @@
         })
         ++ (nixpkgs.lib.lists.optionals isLinux [
           inputs.catppuccin.nixosModules.catppuccin
-          ({ catppuccin.enable = true; })
+          { catppuccin.enable = true; }
         ]);
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
@@ -279,11 +279,12 @@
                   enable = true;
                   package = self.formatter.${system};
                 };
+                statix.enable = true;
               };
             };
           };
         in
-        (f "aarch64-darwin" // f "x86_64-linux");
+        f "aarch64-darwin" // f "x86_64-linux";
       devShells =
         let
           f = system: {
@@ -293,6 +294,6 @@
             };
           };
         in
-        (f "aarch64-darwin" // f "x86_64-linux");
+        f "aarch64-darwin" // f "x86_64-linux";
     };
 }
