@@ -23,13 +23,14 @@ in
 
         draw_bold_text_with_bright_colors = true;
 
-        font_size = "14.0";
+        font_size = 14.0;
         font_family = "JetBrainsMono Nerd Font";
         bold_font = "auto";
         italic_font = "auto";
         bold_italic_font = "auto";
 
-        background_opacity = "1";
+        background_opacity = 1;
+        confirm_os_window_close = 0;
       };
     };
   };
