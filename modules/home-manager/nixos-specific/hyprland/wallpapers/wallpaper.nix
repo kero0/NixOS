@@ -9,9 +9,13 @@ let
   cfg = config.my.home.hyprland.wallpaper;
   wallpaperRandomizer = pkgs.writeShellScript "wallpaperRandomizer" ''
     set -euo pipefail
+    if  [ "$XDG_CURRENT_DESKTOP" != "Hyprland" ]; then
+      echo "Not in hyprland"
+      exit
+    fi
     monitors=$(hyprctl monitors | awk '/Monitor/ {print $2}')
     wallpaper="$(
-      find ${config.xdg.configHome}/wallpapers -regextype posix-extended -regex '.*.(jpg|jpeg|png)$' |\
+      find ${config.xdg.configHome}/wallpapers -regextype posix-extended -regex '.*\.(jpe?g|png)$' |\
       shuf | head -n1
     )"
 
@@ -42,7 +46,7 @@ in
 
         Unit = {
           Description = "Set random desktop background using hyprpaper";
-          After = [ "graphical-session-pre.target" ];
+          After = [ "graphical-session.target" ];
           PartOf = [ "graphical-session.target" ];
         };
 
