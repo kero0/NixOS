@@ -104,6 +104,8 @@
         ++ [
           inputs.nix-index-database.hmModules.nix-index
           inputs.catppuccin.homeManagerModules.catppuccin
+          agenix.homeManagerModules.default
+          ./secrets
           (
             { osConfig, ... }:
             {
@@ -285,12 +287,17 @@
         f "aarch64-darwin" // f "x86_64-linux";
       devShells =
         let
-          f = system: {
-            ${system}.default = nixpkgs.legacyPackages.${system}.mkShell {
-              inherit (self.checks.${system}.pre-commit-check) shellHook;
-              buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+          f =
+            system:
+            let
+              pkgs = import nixpkgs (nixpkgsConfig // { inherit system; });
+            in
+            {
+              ${system}.default = pkgs.mkShell {
+                inherit (self.checks.${system}.pre-commit-check) shellHook;
+                buildInputs = self.checks.${system}.pre-commit-check.enabledPackages ++ [ pkgs.age ];
+              };
             };
-          };
         in
         f "aarch64-darwin" // f "x86_64-linux";
     };

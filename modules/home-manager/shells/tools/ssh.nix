@@ -27,7 +27,10 @@ in
           user = "kirolsb";
         };
       };
-      includes = [ "config.d/*" ];
+      includes = [
+        "config.d/*"
+        config.age.secrets.ssh-config-private.path
+      ];
     };
   };
 }
