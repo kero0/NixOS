@@ -52,7 +52,7 @@ in
         size = config.programs.zsh.history.save;
       };
 
-      initExtra =
+      initContent =
         let
           interactive_init =
             with pkgs;
@@ -113,12 +113,6 @@ in
                 [ -z "$TMUX" ] && tmux attach
               '')
 
-              # local only zshrc
-              ''
-                if [ -r  ${config.xdg.configHome}/zsh/localrc ]; then
-                   . ${config.xdg.configHome}/zsh/localrc
-                fi
-              ''
             ];
         in
         ''

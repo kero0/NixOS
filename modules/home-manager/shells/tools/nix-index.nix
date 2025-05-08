@@ -26,7 +26,7 @@ in
         body = "${comma}/bin/, $argv";
         onEvent = "fish_command_not_found";
       };
-      zsh.initExtra = ''
+      zsh.initContent = lib.mkBefore ''
         if [[ $options[interactive] = on ]]; then
         	function command_not_found_handler() {
         	${comma}/bin/, "$@"
