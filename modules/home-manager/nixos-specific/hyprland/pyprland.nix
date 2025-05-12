@@ -46,9 +46,11 @@ in
           animation = "fromTop";
           command = "kitty --class kitty-dropterm";
           class = "kitty-dropterm";
-          size = "75% 60%";
+          size = "100% 100%";
           max_size = "100% 100%";
-          margin = 50;
+          margin = 0;
+          multi = false;
+          preserve_aspect = true;
         };
         volume = {
           animation = "fromRight";

@@ -55,10 +55,10 @@ window > box {
 	border: none;
 }
 tooltip {
-	background: @sky;
+	background: @base;
 }
 tooltip label {
-	color: @sky;
+	color: @text;
 }
 #mode,
 #clock,

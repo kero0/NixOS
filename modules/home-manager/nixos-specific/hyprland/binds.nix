@@ -74,14 +74,14 @@ in
 
           "$mod SHIFT , N,      exec, swaync-client -t -sw"
           "$mod SHIFT , Return, exec, $fileManager"
-          "$mod       , Return, exec, $terminal"
+          "$mod CTRL  , Return, exec, $terminal"
           "$mod       , s,      exec, $menu"
 
           "$mod       , r,      togglespecialworkspace, ref"
           "$mod SHIFT , r,      movetoworkspacesilent, special:ref"
           "$mod CTRL  , b,      exec, pypr toggle bluetooth"
           "$mod CTRL  , v,      exec, pypr toggle volume"
-          "$mod CTRL  , Return, exec, pypr toggle term"
+          "$mod       , Return, exec, pypr toggle term"
 
           # move focus
           "$mod       , h, movefocus, l"
