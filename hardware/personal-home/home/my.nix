@@ -23,7 +23,6 @@
       binds.enable = false;
       lock.enable = false;
       pyprland.enable = false;
-      wallpaper.enable = false;
       waybar.enable = false;
     };
     shell = {
