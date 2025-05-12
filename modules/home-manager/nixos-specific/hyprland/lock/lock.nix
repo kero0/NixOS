@@ -11,28 +11,41 @@ in
 {
   options.my.home.hyprland.lock.enable = mkEnableOption "Enable screen lock";
   config = mkIf cfg.enable {
-    systemd.user.services.hypridle = {
-      Unit = {
-        Description = "Hyprland's idle daemon";
-        PartOf = [ "hyprland-session.target" ];
-        After = [ "hyprland-session.target" ];
-        ConditionEnvironment = "WAYLAND_DISPLAY";
-      };
-
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.hypridle}/bin/hypridle";
-        Restart = "always";
-      };
-
-      Install = {
-        WantedBy = [ "hyprland-session.target" ];
+    programs.hyprlock = {
+      enable = true;
+      settings = {
+        general = {
+          grace = 5;
+          ignore_empty_input = true;
+        };
       };
     };
-    home.packages = with pkgs; [ hyprlock ];
-    xdg.configFile = {
-      "hypr/hypridle.conf".source = ./hypridle.conf;
-      "hypr/hyprlock.conf".source = ./hyprlock.conf;
+    services.hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          lock_cmd = "pidof hyprlock || hyprlock";
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+          ignore_dbus_inhibit = "false";
+        };
+        listener = [
+          {
+            timeout = 300;
+            on-timeout = "loginctl lock-session";
+          }
+
+          {
+            timeout = 380;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+
+          {
+            timeout = 1800;
+            on-timeout = "systemctl suspend";
+          }
+        ];
+      };
     };
   };
 }

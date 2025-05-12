@@ -13,7 +13,10 @@ with lib;
   config = lib.mkIf cfg.enable {
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
     programs = {
-      hyprland.enable = true;
+      hyprland = {
+        enable = true;
+        withUWSM = true;
+      };
       seahorse.enable = true;
     };
     security.pam.services = {
@@ -29,7 +32,7 @@ with lib;
           enable = false;
           user = config.my.user.username;
         };
-        defaultSession = "hyprland";
+        defaultSession = "hyprland-uwsm";
       };
       xserver = {
         enable = true;

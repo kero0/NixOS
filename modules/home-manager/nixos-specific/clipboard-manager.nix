@@ -16,8 +16,8 @@ in
       wl-clip-persist = {
         Unit = {
           Description = "Persist clipboard when application exits";
-          PartOf = [ "graphical-session.target" ];
-          After = [ "graphical-session.target" ];
+          PartOf = [ "hyprland-session.target" ];
+          After = [ "hyprland-session.target" ];
           ConditionEnvironment = "WAYLAND_DISPLAY";
         };
 
@@ -28,7 +28,7 @@ in
         };
 
         Install = {
-          WantedBy = [ "graphical-session.target" ];
+          WantedBy = [ "hyprland-session.target" ];
         };
       };
     };

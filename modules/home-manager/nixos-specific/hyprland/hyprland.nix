@@ -31,6 +31,16 @@ in
       wdisplays
       wl-clipboard
     ];
+    services = {
+      hyprpaper = {
+        enable = true;
+        settings = {
+          ipc = "on";
+        };
+      };
+      hyprpolkitagent.enable = true;
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       systemd = {

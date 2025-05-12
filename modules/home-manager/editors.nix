@@ -21,6 +21,10 @@ in
       };
       vim.enable = true;
     };
+    services.emacs = {
+      enable = true;
+      client.enable = true;
+    };
 
     home =
       let

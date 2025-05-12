@@ -20,7 +20,7 @@ in
       enable = true;
       systemd = {
         enable = true;
-        target = "graphical-session.target";
+        target = "hyprland-session.target";
       };
       style = builtins.readFile ./theme.css;
       settings = [
