@@ -25,18 +25,19 @@ in
       inherit (cfg) userName userEmail;
       package = pkgs.gitAndTools.gitFull;
       enable = true;
+      lfs.enable = true;
       ignores = [
         "result"
         ".DS_STORE"
+        ".envrc"
+        "*~"
+        "*.swp"
       ];
       extraConfig = {
         commit.gpgSign = true;
         init.defaultBranch = "main";
       };
     };
-    home.packages = with pkgs; [ git-lfs ];
-    home.sessionVariables.GIT_EDITOR = lib.mkIf (
-      config.home.sessionVariables ? EDITOR
-    ) config.home.sessionVariables.EDITOR;
+    home.sessionVariables.GIT_EDITOR = config.home.sessionVariables.EDITOR or "${pkgs.neovim}/bin/nvim";
   };
 }
