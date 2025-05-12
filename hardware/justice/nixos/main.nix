@@ -27,15 +27,17 @@
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     loader.systemd-boot.enable = true;
-    resumeDevice = "/swapfile";
+    resumeDevice = "/.swapvol/swapfile";
   };
 
   swapDevices = [
     {
-      device = "/swap/swapfile";
+      device = "/.swapvol/swapfile";
       size = 32 * 1024;
     }
   ];
 
   networking.firewall.enable = true;
+
+  environment.systemPackages = with pkgs; [ pciutils ];
 }

@@ -23,7 +23,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.3.0";
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -154,6 +158,8 @@
         ++ (nixpkgs.lib.lists.optionals isLinux [
           inputs.catppuccin.nixosModules.catppuccin
           { catppuccin.enable = true; }
+          inputs.disko.nixosModules.disko
+          { networking.hostName = hostname; }
         ]);
       umport = import ./umport.nix nixpkgs;
       stateVersion = "22.05";
@@ -244,6 +250,27 @@
               nixos-hardware.nixosModules.common-hidpi
               nixos-hardware.nixosModules.common-pc-laptop
               nixos-hardware.nixosModules.common-pc-ssd
+            ];
+          };
+        justice =
+          let
+            myuser = "kirolsb";
+            system = "x86_64-linux";
+            hostname = "justice";
+          in
+          nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit
+                myuser
+                system
+                inputs
+                ;
+              public-keys = (import ./secrets/secrets.nix).keys;
+            };
+            modules = mmodules hostname myuser system ++ [
+              nixos-hardware.nixosModules.lenovo-thinkpad-l13-yoga
+              inputs.lanzaboote.nixosModules.lanzaboote
             ];
           };
       };
