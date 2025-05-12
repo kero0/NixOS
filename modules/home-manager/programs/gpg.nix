@@ -16,23 +16,18 @@ in
       homedir = "${config.xdg.configHome}/gnupg";
     };
 
-    home.file."${config.programs.gpg.homedir}/gpg-agent.conf".text = lib.mkIf pkgs.stdenv.isDarwin ''
-      default-cache-ttl ${toString (60 * 60 * 2)}
-      max-cache-ttl ${toString (60 * 60 * 2)}
-      pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
-      allow-emacs-pinentry
-      enable-ssh-support
-      ttyname $GPG_TTY
-      allow-loopback-pinentry
-    '';
-
     services.gpg-agent = {
-      enable = pkgs.stdenv.isLinux;
+      enable = true;
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableZshIntegration = true;
 
-      pinentryPackage = lib.mkIf pkgs.stdenv.isLinux pkgs.pinentry-qt;
+      enableExtraSocket = true;
+      defaultCacheTtl = 60 * 60 * 2;
+      maxCacheTtl = 60 * 60 * 2;
+
+      pinentry.package = if pkgs.stdenv.isLinux then pkgs.pinentry-qt else pkgs.pinentry_mac;
+
       extraConfig = ''
         allow-emacs-pinentry
         allow-loopback-pinentry
