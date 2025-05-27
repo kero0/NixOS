@@ -16,7 +16,6 @@
     casks = [
       "appcleaner"
       "disk-inventory-x"
-      "displaylink"
       "hammerspoon"
       "maccy"
       "nordvpn"
