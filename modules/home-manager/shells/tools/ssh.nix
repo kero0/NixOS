@@ -20,11 +20,17 @@ in
       controlMaster = "auto";
       controlPersist = "yes";
       controlPath = "${config.xdg.dataHome}/ssh-control/%C";
-      matchBlocks = {
+      matchBlocks = rec {
         nasy = {
           port = 9639;
           hostname = "nasy.lan";
           user = "kirolsb";
+        };
+        nasy-bash = nasy // {
+          extraOptions = {
+            RemoteCommand = "bash -l";
+            RequestTTY = "force";
+          };
         };
       };
       includes = [

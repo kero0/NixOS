@@ -60,9 +60,6 @@ in
               # use any-nix-shell to get nix-shell in zsh
               "source <(${any-nix-shell}/bin/any-nix-shell zsh --info-right)"
 
-              # show a random colorscript on startup
-              "${dwt1-shell-color-scripts}/bin/colorscript random"
-
               # disable bell
               "unsetopt BEEP"
 
@@ -112,7 +109,6 @@ in
                 bindkey -M viins '\es' sesh-sessions
                 [ -z "$TMUX" ] && tmux attach
               '')
-
             ];
         in
         ''

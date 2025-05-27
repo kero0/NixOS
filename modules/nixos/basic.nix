@@ -15,14 +15,17 @@
     zsh.enable = true;
   };
   nix = {
-    checkConfig = false; # incompatible with agenix
     extraOptions = builtins.concatStringsSep "\n" [
-      "experimental-features = nix-command flakes recursive-nix"
       "!include ${config.age.secrets.nix-conf.path}"
     ];
     settings = {
       auto-optimise-store = !pkgs.stdenv.isDarwin;
-      extra-sandbox-paths = [ "/etc/ssh" ];
+      experimental-features = [
+        "flakes"
+        "nix-command"
+        "recursive-nix"
+        "pipe-operators"
+      ];
       sandbox = true;
       substituters = [
         "https://nix-community.cachix.org"
