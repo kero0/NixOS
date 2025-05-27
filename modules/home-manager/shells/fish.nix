@@ -21,10 +21,6 @@ in
           end
         '';
         fish_greeting = "";
-        clear = ''
-          command clear
-          ${pkgs.dwt1-shell-color-scripts}/bin/colorscript random
-        '';
         sudo =
           # allows for sudo !! in fish
           ''
@@ -48,8 +44,6 @@ in
         with pkgs;
         lib.concatStringsSep "\n" [
           "${any-nix-shell}/bin/any-nix-shell fish --info-right | source"
-
-          "${dwt1-shell-color-scripts}/bin/colorscript random"
         ];
 
       plugins = [
