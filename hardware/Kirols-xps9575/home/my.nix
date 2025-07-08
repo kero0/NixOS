@@ -5,6 +5,7 @@
     clipboard-manager.enable = true;
     downloaders.enable = true;
     editors.enable = true;
+    floorp.enable = true;
     gpg.enable = true;
     notification-manager.enable = true;
     pass.enable = true;
