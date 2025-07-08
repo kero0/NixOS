@@ -32,7 +32,7 @@ in
       };
       msmtp = {
         enable = true;
-        extraAccounts = ''
+        configContent = ''
           auth on
           tls on
           logfile ${config.xdg.cacheHome}/msmtp.log
