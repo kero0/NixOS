@@ -6,6 +6,10 @@
     allpkgs.enable = true;
     fonts.enable = true;
 
+    services = {
+      ssh.enable = true;
+    };
+
     user = {
       enable = true;
       username = myuser;
