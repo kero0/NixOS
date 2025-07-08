@@ -24,6 +24,10 @@
                 name = "crypted";
                 settings = {
                   allowDiscards = true;
+                  crypttabExtraOpts = [
+                    "tpm2-device=auto"
+                    "tpm2-measure-pcr=yes"
+                  ];
                   # systemd-cryptenroll --tpm-device=auto
                 };
                 content = {
