@@ -32,6 +32,26 @@ in
             RequestTTY = "force";
           };
         };
+        tang = {
+          port = 9639;
+          hostname = "tang.lan";
+          user = "kirolsb";
+        };
+        macbook = {
+          port = 9639;
+          hostname = "Kirolss-MacBook-Pro.lan";
+          user = "kirolsbakheat";
+        };
+        justice = {
+          port = 9639;
+          hostname = "justice.lan";
+          user = "kirolsb";
+        };
+        xps = {
+          port = 9639;
+          hostname = "Kirols-xps9575.lan";
+          user = "kirolsb";
+        };
       };
       includes = [
         "config.d/*"
