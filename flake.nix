@@ -114,8 +114,18 @@
             { osConfig, ... }:
             {
               nixpkgs = (nixpkgs.lib.mkIf (!(osConfig.home-manager.useGlobalPkgs or false))) nixpkgsConfig;
+              _module.args = {
+                inherit
+                  myuser
+                  public-keys
+                  system
+
+                  inputs
+                  ;
+              };
             }
           )
+
         ];
       mmodules =
         hostname: myuser: system:
@@ -126,7 +136,19 @@
         [
           agenix.${if isLinux then "nixosModules" else "darwinModules"}.default
           ./secrets
-          { nixpkgs = nixpkgsConfig; }
+          {
+            nixpkgs = nixpkgsConfig // {
+              hostPlatform = { inherit system; };
+            };
+            _module.args = {
+              inherit
+                myuser
+                public-keys
+
+                inputs
+                ;
+            };
+          }
 
           home-manager.${if isLinux then "nixosModules" else "darwinModules"}.home-manager
           {
@@ -134,7 +156,13 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit myuser inputs;
+                inherit
+                  myuser
+                  public-keys
+                  system
+
+                  inputs
+                  ;
               };
               users.${myuser} = {
                 home.stateVersion = stateVersion;
@@ -162,6 +190,7 @@
           { networking.hostName = hostname; }
         ]);
       umport = import ./umport.nix nixpkgs;
+      public-keys = import ./secrets/keys.nix;
       stateVersion = "22.05";
     in
     {
@@ -180,11 +209,12 @@
             extraSpecialArgs = {
               inherit
                 myuser
+                public-keys
                 system
+
                 inputs
                 ;
               osConfig = { };
-              public-keys = (import ./secrets/secrets.nix).keys;
             };
             modules =
               mHMmodules hostname myuser system
@@ -208,15 +238,6 @@
         {
           "${myuser}" = home-manager.lib.homeManagerConfiguration {
             pkgs = import nixpkgs (nixpkgsConfig // { inherit system; });
-            extraSpecialArgs = {
-              inherit
-                myuser
-                system
-                inputs
-                ;
-              osConfig = { };
-              public-keys = (import ./secrets/secrets.nix).keys;
-            };
             modules = mHMmodules hostname myuser system ++ [
               {
                 my.home = {
@@ -235,15 +256,6 @@
             hostname = "Kirols-xps9575";
           in
           nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {
-              inherit
-                myuser
-                system
-                inputs
-                ;
-              public-keys = (import ./secrets/secrets.nix).keys;
-            };
             modules = mmodules hostname myuser system ++ [
               nixos-hardware.nixosModules.common-cpu-intel
               nixos-hardware.nixosModules.common-gpu-amd
@@ -259,15 +271,6 @@
             hostname = "justice";
           in
           nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {
-              inherit
-                myuser
-                system
-                inputs
-                ;
-              public-keys = (import ./secrets/secrets.nix).keys;
-            };
             modules = mmodules hostname myuser system ++ [
               nixos-hardware.nixosModules.lenovo-thinkpad-l13-yoga
               inputs.lanzaboote.nixosModules.lanzaboote
@@ -281,15 +284,6 @@
           myuser = "kirolsbakheat";
         in
         darwin.lib.darwinSystem {
-          inherit system;
-          specialArgs = {
-            inherit
-              myuser
-              system
-              inputs
-              ;
-            public-keys = (import ./secrets/secrets.nix).keys;
-          };
           modules = mmodules hostname myuser system;
         };
       formatter = {

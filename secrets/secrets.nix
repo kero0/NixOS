@@ -8,7 +8,7 @@ let
     foldl'
     ;
   # to update keys, I run "curl https://github.com/kero0.keys -o keys"
-  keys = filter (s: isString s && stringLength s > 0) (split "\n" (readFile ./keys));
+  keys = import ./keys.nix;
   files = [
     "nix.conf"
     "ssh-config-private"
