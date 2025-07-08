@@ -33,16 +33,20 @@ with lib;
           user = config.my.user.username;
         };
         defaultSession = "hyprland-uwsm";
+        gdm = {
+          enable = true;
+          wayland = true;
+        };
       };
       xserver = {
         enable = true;
         desktopManager.xterm.enable = false;
         xkb.layout = "us";
-        displayManager = {
-          gdm = {
-            enable = true;
-            wayland = true;
-          };
+        windowManager.xmonad = {
+          enable = true;
+          enableConfiguredRecompile = true;
+          enableContribAndExtras = true;
+          extraPackages = hp: with hp; [ taffybar ];
         };
       };
     };

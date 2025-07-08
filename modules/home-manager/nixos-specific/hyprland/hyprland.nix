@@ -16,6 +16,7 @@ let
         WALLPAPER=$(find ${config.xdg.configHome}/wallpapers -regextype posix-extended -regex '.*\.(jpe?g|png)$' |\
         shuf | head -n1
         )
+        $hyprctl hyprpaper preload "$WALLPAPER"
         $hyprctl hyprpaper reload ,"$WALLPAPER"
         sleep 1h
     done
@@ -54,7 +55,7 @@ in
         "$fileManager" = "${pkgs.nautilus}/bin/nautilus";
         "$menu" = "${config.programs.rofi.finalPackage}/bin/rofi -show-icons -show drun -sidebar-mode";
 
-        exec-once = [ "${wallpaper-randomizer}" ];
+        exec = [ "${wallpaper-randomizer}" ];
 
         monitor = ",preferred,auto,auto";
         misc.force_default_wallpaper = -1;
