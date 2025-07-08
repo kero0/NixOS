@@ -14,12 +14,12 @@ in
   config = mkIf cfg.enable {
     programs.floorp = {
       enable = true;
-      enableGnomeExtensions = osConfig.services.gnome.gnome-browser-connector.enable or true;
+      enableGnomeExtensions =
+        osConfig.services.gnome.gnome-browser-connector.enable or (!pkgs.stdenv.isDarwin);
       package = pkgs.floorp.override {
         nativeMessagingHosts = [
-          pkgs.gnome-browser-connector
           pkgs.tridactyl-native
-        ];
+        ] ++ lib.lists.optional config.programs.floorp.enableGnomeExtensions pkgs.gnome-browser-connector;
       };
       profiles = {
         default = {
