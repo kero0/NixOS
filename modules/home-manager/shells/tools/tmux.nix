@@ -81,6 +81,7 @@ in
             set -g @resurrect-processes 'false'
             ## Restore Panes
             set -g @resurrect-capture-pane-contents 'on'
+            set -g @resurrect-dir '${config.xdg.stateHome}/tmux/resurrect/'
             ";
           }
           {
