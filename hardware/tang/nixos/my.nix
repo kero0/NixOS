@@ -2,16 +2,15 @@
 {
   age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   my = {
-    allpkgs.enable = true;
-    desktop.enable = true;
-    fonts.enable = true;
-    gaming.enable = true;
-    samba.enable = true;
-    scripts.enable = true;
-    virtualization.enable = true;
+    allpkgs.enable = false;
+    desktop.enable = false;
+    fonts.enable = false;
+    gaming.enable = false;
+    samba.enable = false;
+    scripts.enable = false;
 
     services = {
-      basic.enable = true;
+      basic.enable = false;
       ssh.enable = true;
     };
 

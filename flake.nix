@@ -276,7 +276,22 @@
               inputs.lanzaboote.nixosModules.lanzaboote
             ];
           };
+        tang =
+          let
+            myuser = "kirolsb";
+            system = "aarch64-linux";
+            hostname = "tang";
+          in
+          nixpkgs.lib.nixosSystem {
+            modules = mmodules hostname myuser system;
+          };
       };
+      images.tang =
+        (self.nixosConfigurations.tang.extendModules {
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          ];
+        }).config.system.build.sdImage;
       darwinConfigurations."Kirolss-MacBook-Pro" =
         let
           system = "aarch64-darwin";

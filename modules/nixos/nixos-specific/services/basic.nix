@@ -1,20 +1,23 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  cfg = config.my.basic-services;
+  cfg = config.my.services.basic;
 in
 with lib;
 {
-  options.my.basic-services.enable = mkEnableOption "Basic linux services";
+  options.my.services.basic.enable = mkEnableOption "Basic linux services";
   config = lib.mkIf cfg.enable {
     services = {
       dbus.implementation = "broker";
-      flatpak.enable = true;
       gvfs.enable = true;
       journald.extraConfig = "SystemMaxUse=100M";
-      onedrive.enable = true;
       openssh = {
         enable = true;
-        # settings.PasswordAuthentication = false;
+        settings.PasswordAuthentication = false;
         ports = [ 9639 ];
       };
     };

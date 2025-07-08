@@ -8,6 +8,12 @@
     gaming.enable = true;
     samba.enable = true;
     scripts.enable = true;
+    virtualization.enable = true;
+
+    services = {
+      basic.enable = true;
+      ssh.enable = true;
+    };
 
     user = {
       enable = true;
