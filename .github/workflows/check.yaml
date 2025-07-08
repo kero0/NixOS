@@ -9,10 +9,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: nixosConfigurations.Kirols-xps9575.config.system.path
-            os: ubuntu-latest
           - target: darwinConfigurations.Kirolss-MacBook-Pro.system
             os: macos-15
+          - target: homeConfigurations.kirolsb.activationPackage
+            os: ubuntu-latest
+          - target: nixosConfigurations.Kirols-xps9575.config.system.path
+            os: ubuntu-latest
+          - target: nixosConfigurations.justice.config.system.path
+            os: ubuntu-latest
+          - target: nixosConfigurations.tang.config.system.path
+            os: ubuntu-24.04-arm
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
