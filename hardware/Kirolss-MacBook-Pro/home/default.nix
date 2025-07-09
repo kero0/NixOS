@@ -16,9 +16,6 @@
       (maven.overrideAttrs (old: {
         java = config.programs.java.package;
       }))
-
-      # communication
-      discord
     ];
 
     activation.InstallApps =
