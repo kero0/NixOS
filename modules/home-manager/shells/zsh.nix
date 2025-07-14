@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  osConfig ? { },
+  osConfig,
   ...
 }:
 with lib;
@@ -114,7 +114,7 @@ in
         ''
           ${
             # home manager path
-            (lib.strings.optionalString (osConfig == { }) ''
+            (lib.strings.optionalString (osConfig == null) ''
               if [ -r  /etc/zshrc ]; then
                   . /etc/zshrc
               fi

@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  osConfig ? { },
+  osConfig,
   ...
 }:
 with lib;

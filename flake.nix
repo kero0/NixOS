@@ -214,7 +214,6 @@
 
                 inputs
                 ;
-              osConfig = { };
             };
             modules =
               mHMmodules hostname myuser system
