@@ -1,7 +1,6 @@
 {
   my.home = {
     editors.enable = true;
-    floorp.enable = true;
     gpg.enable = true;
     pass.enable = true;
     theme.enable = true;
