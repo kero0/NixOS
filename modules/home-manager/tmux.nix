@@ -6,10 +6,10 @@
 }:
 with lib;
 let
-  cfg = config.my.home.shell.tools.tmux;
+  cfg = config.my.home.tmux;
 in
 {
-  options.my.home.shell.tools.tmux.enable = mkEnableOption "tmux module";
+  options.my.home.tmux.enable = mkEnableOption "tmux module";
   config = mkIf cfg.enable {
     home.packages = with pkgs; [ sesh ];
     programs = {

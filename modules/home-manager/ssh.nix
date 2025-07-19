@@ -6,10 +6,10 @@
 }:
 with lib;
 let
-  cfg = config.my.home.shell.tools.ssh;
+  cfg = config.my.home.ssh;
 in
 {
-  options.my.home.shell.tools.ssh.enable = mkEnableOption "Enable ssh config";
+  options.my.home.ssh.enable = mkEnableOption "Enable ssh config";
   config = mkIf cfg.enable {
     xdg.dataFile."ssh-control/.keep" = {
       enable = true;

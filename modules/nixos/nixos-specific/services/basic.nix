@@ -15,11 +15,6 @@ with lib;
       dbus.implementation = "broker";
       gvfs.enable = true;
       journald.extraConfig = "SystemMaxUse=100M";
-      openssh = {
-        enable = true;
-        settings.PasswordAuthentication = false;
-        ports = [ 9639 ];
-      };
     };
   };
 }

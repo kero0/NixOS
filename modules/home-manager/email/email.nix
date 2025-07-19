@@ -9,7 +9,13 @@ let
   cfg = config.my.home.email;
 in
 {
-  options.my.home.email.enable = mkEnableOption "Enable email module";
+  options.my.home.email = {
+    enable = mkEnableOption "Enable email module";
+    mainAddress = mkOption {
+      type = types.str;
+      default = throw "config.my.home.email.mainAddress is not be set";
+    };
+  };
   # initialize mail
   # mkdir ~/.local/share/mail/{bakheakm-udmercy,kbakheat-gmail,kirolsb5-gmail}
   # mbsync --pull -a

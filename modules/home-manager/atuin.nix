@@ -6,10 +6,10 @@
 }:
 with lib;
 let
-  cfg = config.my.home.shell.tools.atuin;
+  cfg = config.my.home.atuin;
 in
 {
-  options.my.home.shell.tools.atuin.enable = mkEnableOption "Enable atuin for shell history";
+  options.my.home.atuin.enable = mkEnableOption "Enable atuin for shell history";
   config = mkIf cfg.enable {
     programs.atuin = {
       enable = true;

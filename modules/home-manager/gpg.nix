@@ -9,7 +9,12 @@ let
   cfg = config.my.home.gpg;
 in
 {
-  options.my.home.gpg.enable = mkEnableOption "Enable gpg";
+  options.my.home.gpg = {
+    enable = mkEnableOption "Enable gpg";
+    pinentry = mkPackageOption pkgs "pinentry" {
+      default = if pkgs.stdenv.isLinux then "pinentry-qt" else "pinentry_mac";
+    };
+  };
   config = mkIf cfg.enable {
     programs.gpg = {
       enable = true;
@@ -26,7 +31,7 @@ in
       defaultCacheTtl = 60 * 60 * 2;
       maxCacheTtl = 60 * 60 * 2;
 
-      pinentry.package = if pkgs.stdenv.isLinux then pkgs.pinentry-qt else pkgs.pinentry_mac;
+      pinentry.package = cfg.pinentry;
 
       extraConfig = ''
         allow-emacs-pinentry

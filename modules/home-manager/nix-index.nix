@@ -7,10 +7,10 @@
 with lib;
 let
   inherit (pkgs) comma;
-  cfg = config.my.home.shell.tools.nix-index;
+  cfg = config.my.home.nix-index;
 in
 {
-  options.my.home.shell.tools.nix-index.enable = mkEnableOption "Enable nix-index config";
+  options.my.home.nix-index.enable = mkEnableOption "Enable nix-index config";
   config = mkIf cfg.enable {
     home.sessionVariables = {
       NIX_AUTO_RUN = "1";

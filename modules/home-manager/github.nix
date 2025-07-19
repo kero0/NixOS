@@ -6,10 +6,10 @@
 }:
 with lib;
 let
-  cfg = config.my.home.shell.tools.gh;
+  cfg = config.my.home.gh;
 in
 {
-  options.my.home.shell.tools.gh = {
+  options.my.home.gh = {
     enable = mkEnableOption "Enable github cli config";
   };
   config = mkIf cfg.enable {

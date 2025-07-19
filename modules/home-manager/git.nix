@@ -6,18 +6,18 @@
 }:
 with lib;
 let
-  cfg = config.my.home.shell.tools.git;
+  cfg = config.my.home.git;
 in
 {
-  options.my.home.shell.tools.git = {
+  options.my.home.git = {
     enable = mkEnableOption "Enable git config";
     userName = mkOption {
       type = types.str;
-      default = throw "config.my.home.shell.tools.git.userName must be set";
+      default = throw "config.my.home.git.userName must be set";
     };
     userEmail = mkOption {
       type = types.str;
-      default = throw "config.my.home.shell.tools.git.userEmail must be set";
+      default = config.my.home.email.mainAddress;
     };
   };
   config = mkIf cfg.enable {

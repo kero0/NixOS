@@ -6,10 +6,10 @@
 }:
 with lib;
 let
-  cfg = config.my.home.shell.tools.tealdeer;
+  cfg = config.my.home.tealdeer;
 in
 {
-  options.my.home.shell.tools.tealdeer.enable = mkEnableOption "Enable tealdeer config";
+  options.my.home.tealdeer.enable = mkEnableOption "Enable tealdeer config";
   config = mkIf cfg.enable {
     programs.tealdeer = {
       enable = true;
