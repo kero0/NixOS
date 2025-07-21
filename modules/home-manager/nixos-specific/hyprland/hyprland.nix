@@ -58,10 +58,11 @@ in
         exec = [ "${wallpaper-randomizer}" ];
 
         monitor = ",preferred,auto,auto";
-        misc.force_default_wallpaper = -1;
         gestures.workspace_swipe = true;
         master.new_status = "master";
         misc = {
+          force_default_wallpaper = -1;
+          disable_hyprland_logo = true;
           enable_swallow = true;
         };
 
