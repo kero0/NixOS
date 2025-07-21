@@ -4,6 +4,7 @@
   config,
   inputs,
   options,
+  age,
   ...
 }:
 {
@@ -16,7 +17,7 @@
   };
   nix = {
     extraOptions = builtins.concatStringsSep "\n" [
-      "!include ${config.age.secrets.nix-conf.path}"
+      (lib.strings.optionalString age "!include ${config.age.secrets.nix-conf.path}")
     ];
     settings = {
       auto-optimise-store = !pkgs.stdenv.isDarwin;

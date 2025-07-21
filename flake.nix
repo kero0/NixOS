@@ -91,7 +91,12 @@
           );
       };
       mHMmodules =
-        hostname: myuser: system:
+        {
+          hostname,
+          myuser,
+          system,
+          age ? true,
+        }:
         let
           isDarwin = nixpkgs.lib.strings.hasSuffix "darwin" system;
           isLinux = nixpkgs.lib.strings.hasSuffix "linux" system;
@@ -108,8 +113,6 @@
         ++ [
           inputs.nix-index-database.hmModules.nix-index
           inputs.catppuccin.homeModules.catppuccin
-          agenix.homeManagerModules.default
-          ./secrets
           (
             { osConfig, ... }:
             {
@@ -121,21 +124,28 @@
                   system
 
                   inputs
+                  age
                   ;
               };
             }
           )
-
+        ]
+        ++ nixpkgs.lib.lists.optionals age [
+          agenix.homeManagerModules.default
+          ./secrets
         ];
       mmodules =
-        hostname: myuser: system:
+        {
+          hostname,
+          myuser,
+          system,
+          age ? true,
+        }:
         let
           isDarwin = nixpkgs.lib.strings.hasSuffix "darwin" system;
           isLinux = nixpkgs.lib.strings.hasSuffix "linux" system;
         in
         [
-          agenix.${if isLinux then "nixosModules" else "darwinModules"}.default
-          ./secrets
           {
             nixpkgs = nixpkgsConfig // {
               hostPlatform = { inherit system; };
@@ -146,6 +156,7 @@
                 public-keys
 
                 inputs
+                age
                 ;
             };
           }
@@ -166,29 +177,33 @@
               };
               users.${myuser} = {
                 home.stateVersion = stateVersion;
-                imports = mHMmodules hostname myuser system;
+                imports = mHMmodules { inherit hostname myuser system; };
               };
             };
           }
         ]
-        ++ (umport {
+        ++ umport {
           ipath = ./modules/nixos;
           exclude = nixpkgs.lib.lists.optionals isDarwin [ ./modules/nixos/nixos-specific ];
-        })
-        ++ (nixpkgs.lib.lists.optionals (builtins.pathExists ./hardware/${hostname}/nixos) (umport {
+        }
+        ++ nixpkgs.lib.lists.optionals (builtins.pathExists ./hardware/${hostname}/nixos) (umport {
           ipath = ./hardware/${hostname}/nixos;
-        }))
-        ++ (nixpkgs.lib.lists.optional isLinux { system.stateVersion = stateVersion; })
-        ++ (nixpkgs.lib.lists.optional isDarwin {
+        })
+        ++ nixpkgs.lib.lists.optionals age [
+          agenix.${if isLinux then "nixosModules" else "darwinModules"}.default
+          ./secrets
+        ]
+        ++ nixpkgs.lib.lists.optional isLinux { system.stateVersion = stateVersion; }
+        ++ nixpkgs.lib.lists.optional isDarwin {
           programs.bash.enable = true;
           system.stateVersion = 4;
-        })
-        ++ (nixpkgs.lib.lists.optionals isLinux [
+        }
+        ++ nixpkgs.lib.lists.optionals isLinux [
           inputs.catppuccin.nixosModules.catppuccin
           { catppuccin.enable = true; }
           inputs.disko.nixosModules.disko
           { networking.hostName = hostname; }
-        ]);
+        ];
       umport = import ./umport.nix nixpkgs;
       public-keys = import ./secrets/keys.nix;
       stateVersion = "22.05";
@@ -216,7 +231,7 @@
                 ;
             };
             modules =
-              mHMmodules hostname myuser system
+              mHMmodules { inherit hostname myuser system; }
               ++ [
                 {
                   my.home = {
@@ -237,7 +252,7 @@
         {
           "${myuser}" = home-manager.lib.homeManagerConfiguration {
             pkgs = import nixpkgs (nixpkgsConfig // { inherit system; });
-            modules = mHMmodules hostname myuser system ++ [
+            modules = mHMmodules { inherit hostname myuser system; } ++ [
               {
                 my.home = {
                   username = myuser;
@@ -255,13 +270,29 @@
             hostname = "Kirols-xps9575";
           in
           nixpkgs.lib.nixosSystem {
-            modules = mmodules hostname myuser system ++ [
+            modules = mmodules { inherit hostname myuser system; } ++ [
               nixos-hardware.nixosModules.common-cpu-intel
               nixos-hardware.nixosModules.common-gpu-amd
               nixos-hardware.nixosModules.common-hidpi
               nixos-hardware.nixosModules.common-pc-laptop
               nixos-hardware.nixosModules.common-pc-ssd
             ];
+          };
+        hass =
+          let
+            myuser = "kirolsb";
+            system = "x86_64-linux";
+            hostname = "hass";
+          in
+          nixpkgs.lib.nixosSystem {
+            modules =
+              mmodules {
+                inherit hostname myuser system;
+                age = false;
+              }
+              ++ [
+                nixos-hardware.nixosModules.gmktec-nucbox-g3-plus
+              ];
           };
         justice =
           let
@@ -270,7 +301,7 @@
             hostname = "justice";
           in
           nixpkgs.lib.nixosSystem {
-            modules = mmodules hostname myuser system ++ [
+            modules = mmodules { inherit hostname myuser system; } ++ [
               nixos-hardware.nixosModules.lenovo-thinkpad-l13-yoga
               inputs.lanzaboote.nixosModules.lanzaboote
             ];
@@ -282,15 +313,32 @@
             hostname = "tang";
           in
           nixpkgs.lib.nixosSystem {
-            modules = mmodules hostname myuser system;
+            modules = mmodules {
+              inherit hostname myuser system;
+              age = false;
+            };
           };
       };
-      images.tang =
-        (self.nixosConfigurations.tang.extendModules {
-          modules = [
-            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-          ];
-        }).config.system.build.sdImage;
+      images = {
+        x86_64-linux-iso =
+          let
+            myuser = "kirolsb";
+            system = "x86_64-linux";
+            hostname = "nixos-installer";
+          in
+          nixpkgs.lib.nixosSystem {
+            modules = mmodules {
+              inherit hostname myuser system;
+              age = false;
+            };
+          };
+        tang =
+          (self.nixosConfigurations.tang.extendModules {
+            modules = [
+              "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+            ];
+          }).config.system.build.sdImage;
+      };
       darwinConfigurations."Kirolss-MacBook-Pro" =
         let
           system = "aarch64-darwin";
@@ -298,7 +346,7 @@
           myuser = "kirolsbakheat";
         in
         darwin.lib.darwinSystem {
-          modules = mmodules hostname myuser system;
+          modules = mmodules { inherit hostname myuser system; };
         };
       formatter = {
         aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;

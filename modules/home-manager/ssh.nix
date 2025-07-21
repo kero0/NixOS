@@ -21,6 +21,17 @@ in
       controlPersist = "yes";
       controlPath = "${config.xdg.dataHome}/ssh-control/%C";
       matchBlocks = rec {
+        hass = {
+          port = 9639;
+          hostname = "hass.lan";
+          user = "kirolsb";
+        };
+        hass-bash = hass // {
+          extraOptions = {
+            RemoteCommand = "bash -l";
+            RequestTTY = "force";
+          };
+        };
         nasy = {
           port = 9639;
           hostname = "nasy.lan";
@@ -39,7 +50,7 @@ in
         };
         macbook = {
           port = 9639;
-          hostname = "Kirolss-MacBook-Pro.lan";
+          hostname = "mac.lan";
           user = "kirolsbakheat";
         };
         justice = {
