@@ -107,7 +107,8 @@ in
                 bindkey -M emacs '\es' sesh-sessions
                 bindkey -M vicmd '\es' sesh-sessions
                 bindkey -M viins '\es' sesh-sessions
-                [ -z "$TMUX" ] && tmux attach
+                # check if in ssh or tmux
+                [ -z "$TMUX$SSH_CONNECTION$SSH_TTY$SSH_CLIENT" ] && tmux attach
               '')
             ];
         in

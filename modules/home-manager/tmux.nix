@@ -36,14 +36,16 @@ in
             | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
 
           bind-key x kill-pane # skip "kill-pane 1? (y/n)" prompt
-          bind \\ split-window -h -c "#{pane_current_path}"
-          bind - split-window -v -c "#{pane_current_path}"
+          # bind \\ split-window -h -c "#{pane_current_path}"
+          # bind - split-window -v -c "#{pane_current_path}"
 
           bind-key -n C-h  if-shell  "$is_vim"  "send-keys C-h"  "select-pane -L"
           bind-key -n C-j   if-shell  "$is_vim"  "send-keys C-j"   "select-pane -D"
           bind-key -n C-k  if-shell  "$is_vim"  "send-keys C-k"  "select-pane -U"
           bind-key -n C-l   if-shell  "$is_vim"  "send-keys C-l"   "select-pane -R"
           bind-key -n C-\   if-shell  "$is_vim"  "send-keys C-\\"  "select-pane -l"
+          bind-key -r "<" swap-window -d -t -1
+          bind-key -r ">" swap-window -d -t +1
         '';
         plugins = with pkgs.tmuxPlugins; [
           better-mouse-mode
@@ -85,19 +87,30 @@ in
             ";
           }
           {
-            # which-key
             plugin = mkTmuxPlugin {
-              pluginName = "tmux_which_key";
+              pluginName = "tmux-ssh-split";
               version = "1.0";
+              rtpFilePath = "ssh-split.tmux";
               src = pkgs.fetchFromGitHub {
-                owner = "alexwforsythe";
-                repo = "tmux-which-key";
-                rev = "1f419775caf136a60aac8e3a269b51ad10b51eb6";
-                hash = "sha256-X7FunHrAexDgAlZfN+JOUJvXFZeyVj9yu6WRnxMEA8E=";
+                owner = "pschmitt";
+                repo = "tmux-ssh-split";
+                rev = "f103c56f71ec947027bef028eeed8d171173e9cf";
+                hash = "sha256-SCUBH/DAfWTZPieUT+YOXIxg0eolYnGTZArsbAgF4C8=";
               };
             };
             extraConfig = ''
-              set -g @tmux-which-key-disable-autobuild 1
+              set-option -g @ssh-split-keep-cwd "true"
+              set-option -g @ssh-split-keep-remote-cwd "true"
+              set-option -g @ssh-split-fail "false"
+              set-option -g @ssh-split-no-env "false"
+              set-option -g @ssh-split-no-shell "true"
+              set-option -g @ssh-split-strip-cmd "true"
+              set-option -g @ssh-split-verbose "true"
+              set-option -g @ssh-split-debug "false"
+              set-option -g @ssh-split-h-key "\\"
+              set-option -g @ssh-split-v-key "-"
+              set-option -g @ssh-split-w-key "c"
+              set-option -g @ssh-split-r-key "r"
             '';
           }
         ];

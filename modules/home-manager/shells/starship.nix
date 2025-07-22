@@ -92,7 +92,7 @@ in
         hostname = {
           disabled = false;
           ssh_only = true;
-          format = "on [$hostname](bold pink)";
+          format = " [$hostname](bold cyan) ";
         };
         line_break.disabled = false;
         memory_usage = {
@@ -110,6 +110,7 @@ in
           pure_msg = "";
           impure_msg = "";
         };
+        username.disabled = true;
         package.disabled = true;
       };
     };
