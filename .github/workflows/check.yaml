@@ -40,7 +40,10 @@ jobs:
           docker-images: true
           swap-storage: true
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v1
+        uses: DeterminateSystems/nix-installer-action@v19
+        with:
+          extra-conf: |
+            extra-experimental-features = flakes nix-command recursive-nix pipe-operators
       - uses: cachix/cachix-action@v14
         with:
           name: kero0

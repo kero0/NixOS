@@ -8,12 +8,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v1
-      - uses: cachix/cachix-action@v14
+        uses: DeterminateSystems/nix-installer-action@v19
         with:
-          name: kero0
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          extraPullNames: nix-community
+          extra-conf: |
+            extra-experimental-features = flakes nix-command recursive-nix pipe-operators
       - name: Check OS build
         shell: bash
         run: |

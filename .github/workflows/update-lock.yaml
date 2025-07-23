@@ -12,9 +12,10 @@ jobs:
         with:
           ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v1
-      - name: Cache nix
-        uses: DeterminateSystems/magic-nix-cache-action@main
+        uses: DeterminateSystems/nix-installer-action@v19
+        with:
+          extra-conf: |
+            extra-experimental-features = flakes nix-command recursive-nix pipe-operators
       - name: Update flake.lock
         id: update
         uses: DeterminateSystems/update-flake-lock@v23
