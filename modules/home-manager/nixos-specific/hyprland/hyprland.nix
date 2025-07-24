@@ -115,9 +115,10 @@ in
           sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
         };
         env = [
-          # Some default env vars.
           "XCURSOR_SIZE,24"
-          "QT_QPA_PLATFORMTHEME,qt5ct" # change to qt6ct if you have that
+          "QT_QPA_PLATFORMTHEME,qt5ct"
+          "ELECTRON_OZONE_PLATFORM_HINT,wayland"
+          "NIXOS_OZONE_WL,1"
         ];
 
         bindel = [

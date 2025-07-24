@@ -11,7 +11,6 @@ with lib;
 {
   options.my.desktop.enable = mkEnableOption "Enable my desktop gui";
   config = lib.mkIf cfg.enable {
-    environment.sessionVariables.NIXOS_OZONE_WL = "1";
     programs = {
       hyprland = {
         enable = true;
