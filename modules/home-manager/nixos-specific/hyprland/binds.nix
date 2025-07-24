@@ -26,26 +26,29 @@ let
         # bash
         ''
           shopt -s extglob
-          ws="$(hyprctl workspaces -j |\
-                        ${pkgs.jq}/bin/jq -r 'map(.name) | .[]' |\
+          mapfile -t wss < <(hyprctl workspaces -j |\
+                        ${config.programs.jq.package}/bin/jq -r 'map(.name) | .[]')
+          ws="$(printf "%s\\n" "''${wss[@]}" |\
                         ${config.programs.rofi.finalPackage}/bin/rofi -dmenu -mesg '<b>Select a workspace</b>')"
-          case $ws in
-          +([0-9])|special:*)
-              x="$ws"
-          ;;
-          *[!0-9]*)
-              x="special:$ws"
-          ;;
-          esac
           case $ws in
           special:*) command=${
             if command == "focusworkspaceoncurrentmonitor" then "togglespecialworkspace" else command
           }
-                     x=''${x#${if command == "workspace" || true then "special:" else ""}}
+                     x=''${ws#special:}
           ;;
-          *) command=${command} ;;
+          *) command=${command}
+                     x=$ws
+          ;;
           esac
-          hyprctl dispatch $command  $x
+          if grep -q "$ws" <(printf "%s\\n" "''${wss[@]}"); then
+            hyprctl dispatch $command  $x
+          else
+            window="$(hyprctl activewindow -j | ${config.programs.jq.package}/bin/jq -r '.address')"
+            hyprctl dispatch workspace 99
+            hyprctl dispatch workspace emptynm
+            hyprctl dispatch renameworkspace "$(hyprctl activeworkspace -j | ${config.programs.jq.package}/bin/jq '.id')" "$x"
+            ${strings.optionalString (strings.hasInfix "move" command) ''hyprctl dispatch $command "$x,address:$window"''}
+          fi
         ''
     }/bin/hyprland-ws-${command}";
 in
