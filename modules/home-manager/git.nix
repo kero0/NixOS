@@ -36,6 +36,8 @@ in
       extraConfig = {
         commit.gpgSign = true;
         init.defaultBranch = "main";
+        push.autoSetupRemote = true;
+        pull.rebase = true;
       };
     };
     home.sessionVariables.GIT_EDITOR = config.home.sessionVariables.EDITOR or "${pkgs.neovim}/bin/nvim";
