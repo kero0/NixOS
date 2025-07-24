@@ -26,6 +26,7 @@ with lib;
           ]);
       }
       // (optionalAttrs pkgs.stdenv.isLinux {
+        enableDefaultPackages = true;
         fontconfig = {
           enable = true;
           defaultFonts = {
