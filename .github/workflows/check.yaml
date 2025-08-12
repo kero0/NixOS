@@ -52,7 +52,7 @@ jobs:
       - name: Check OS build
         shell: bash
         run: |
-          nix build --accept-flake-config --show-trace '.#${{ matrix.target }}'
+          nix build --accept-flake-config --show-trace -L '.#${{ matrix.target }}'
       - name: Diff profile
         id: diff
         run: |
