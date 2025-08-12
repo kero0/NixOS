@@ -31,7 +31,7 @@ in
       historySubstringSearch.enable = true;
 
       autocd = true;
-      dotDir = "${lib.strings.removePrefix config.home.homeDirectory config.xdg.configHome}/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
 
       history = {
         expireDuplicatesFirst = true;
