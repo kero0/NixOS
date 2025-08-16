@@ -17,9 +17,9 @@ in
     };
   };
   # initialize mail
-  # mkdir ~/.local/share/mail/{bakheakm-udmercy,kbakheat-gmail,kirolsb5-gmail}
+  # mkdir ~/.local/share/mail/{kbakheat3-gatech,kbakheat-gmail,kirolsb5-gmail}
   # mbsync --pull -a
-  # mu init --maildir ~/.local/share/mail --my-address kbakheat@gmail.com --my-address kirolsb5@gmail.com --my-address bakheakm@udmercy.edu
+  # mu init --maildir ~/.local/share/mail --my-address kbakheat@gmail.com --my-address kirolsb5@gmail.com --my-address kbakheat3@gatech.edu
   # mu index
   config = mkIf cfg.enable {
     programs = {
