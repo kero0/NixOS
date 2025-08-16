@@ -11,18 +11,21 @@ in
 {
   options.my.home.tmux.enable = mkEnableOption "tmux module";
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ sesh ];
+    home.packages = with pkgs; [
+      ansifilter
+      sesh
+    ];
     programs = {
       fzf.tmux.enableShellIntegration = true;
       tmux = {
         enable = true;
         clock24 = false;
-        historyLimit = 5000;
+        focusEvents = true;
+        historyLimit = 50000;
         keyMode = "vi";
         mouse = true;
         newSession = true;
-        secureSocket = true;
-        sensibleOnTop = true;
+        secureSocket = false;
         terminal = "screen-256color";
         tmuxinator.enable = false;
         tmuxp.enable = true;
@@ -36,8 +39,6 @@ in
             | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
 
           bind-key x kill-pane # skip "kill-pane 1? (y/n)" prompt
-          # bind \\ split-window -h -c "#{pane_current_path}"
-          # bind - split-window -v -c "#{pane_current_path}"
 
           bind-key -n C-h  if-shell  "$is_vim"  "send-keys C-h"  "select-pane -L"
           bind-key -n C-j   if-shell  "$is_vim"  "send-keys C-j"   "select-pane -D"
@@ -46,11 +47,23 @@ in
           bind-key -n C-\   if-shell  "$is_vim"  "send-keys C-\\"  "select-pane -l"
           bind-key -r "<" swap-window -d -t -1
           bind-key -r ">" swap-window -d -t +1
+
+          set-option -s escape-time 0
+          set-option -g display-time 4000
+          set-option -g status-interval 5
+
+          set-option -s default-terminal "screen-256color"
+          set-option -g status-keys emacs
+          set-window-option -g aggressive-resize on
+
+          bind-key C-p previous-window
+          bind-key C-n next-window
+
         '';
         plugins = with pkgs.tmuxPlugins; [
           better-mouse-mode
-          sessionist # better session management
-          tmux-fzf # manage tmux with fzf
+          sessionist
+          tmux-fzf
           yank
 
           {
@@ -77,7 +90,6 @@ in
             '';
           }
           {
-            # persist tmux across restarts
             plugin = resurrect;
             extraConfig = "
             set -g @resurrect-processes 'false'
@@ -103,7 +115,7 @@ in
               set-option -g @ssh-split-keep-remote-cwd "true"
               set-option -g @ssh-split-fail "false"
               set-option -g @ssh-split-no-env "false"
-              set-option -g @ssh-split-no-shell "true"
+              set-option -g @ssh-split-no-shell "false"
               set-option -g @ssh-split-strip-cmd "true"
               set-option -g @ssh-split-verbose "true"
               set-option -g @ssh-split-debug "false"
