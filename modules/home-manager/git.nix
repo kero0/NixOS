@@ -23,7 +23,6 @@ in
   config = mkIf cfg.enable {
     programs.git = {
       inherit (cfg) userName userEmail;
-      package = pkgs.gitAndTools.gitFull;
       enable = true;
       lfs.enable = true;
       ignores = [
