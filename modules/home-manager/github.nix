@@ -28,6 +28,7 @@ in
         gitCredentialsHelper = {
           enable = true;
           hosts = [
+            "https://github.gatech.edu"
             "https://github.com"
           ];
         };
