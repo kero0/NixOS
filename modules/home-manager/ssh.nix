@@ -21,6 +21,12 @@ in
       controlPersist = "yes";
       controlPath = "${config.xdg.dataHome}/ssh-control/%C";
       matchBlocks = rec {
+        "*github*" = {
+          extraOptions = {
+            ControlPersist = "no";
+            ControlMaster = "no";
+          };
+        };
         hass = {
           port = 9639;
           hostname = "hass.lan";
