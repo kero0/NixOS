@@ -14,6 +14,7 @@
     media.enable = true;
     nix-index.enable = true;
     pass.enable = true;
+    python.enable = true;
     ssh.enable = true;
     tealdeer.enable = true;
     theme.enable = true;

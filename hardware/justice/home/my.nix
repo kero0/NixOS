@@ -20,6 +20,7 @@
     nix-index.enable = true;
     notification-manager.enable = true;
     pass.enable = true;
+    python.enable = true;
     rofi.enable = true;
     ssh.enable = true;
     tealdeer.enable = true;
