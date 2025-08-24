@@ -36,14 +36,7 @@ in
           '';
         };
       };
-      msmtp = {
-        enable = true;
-        configContent = ''
-          auth on
-          tls on
-          logfile ${config.xdg.cacheHome}/msmtp.log
-        '';
-      };
+      msmtp.enable = true;
       mu.enable = true;
     };
 

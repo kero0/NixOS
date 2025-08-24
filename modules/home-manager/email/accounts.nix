@@ -70,7 +70,10 @@ let
       };
       msmtp = {
         inherit (config.programs.msmtp) enable;
-        extraConfig.auth = if oauth then "xoauth2" else "login";
+        extraConfig = {
+          auth = if oauth then "xoauth2" else "login";
+          logfile = "${config.xdg.cacheHome}/msmtp.log";
+        };
       };
       mu.enable = config.programs.mu.enable;
     };
