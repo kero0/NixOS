@@ -19,6 +19,9 @@ in
       type = types.str;
       default = config.my.home.email.mainAddress;
     };
+    enableSchoolConfig = mkEnableOption "Enable school specific config options" // {
+      default = true;
+    };
   };
   config = mkIf cfg.enable {
     programs.git = {
@@ -29,6 +32,7 @@ in
         "result"
         ".DS_STORE"
         ".envrc"
+        ".direnv"
         "*~"
         "*.swp"
       ];
@@ -37,6 +41,15 @@ in
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
         pull.rebase = true;
+      };
+      includes = lists.optional cfg.enableSchoolConfig {
+        condition = "hasconfig:remote.*.url:https://github.gatech.edu/**";
+        contents = {
+          user = {
+            email = "kbakheat3@gatech.edu";
+            name = "kbakheat3";
+          };
+        };
       };
     };
     home.sessionVariables.GIT_EDITOR = config.home.sessionVariables.EDITOR or "${pkgs.neovim}/bin/nvim";
