@@ -16,6 +16,7 @@
     pass.enable = true;
     python.enable = true;
     ssh.enable = true;
+    syncthing.enable = true;
     tealdeer.enable = true;
     theme.enable = true;
     tmux.enable = true;

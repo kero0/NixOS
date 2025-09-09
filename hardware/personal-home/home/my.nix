@@ -22,6 +22,7 @@
     pass.enable = true;
     rofi.enable = true;
     ssh.enable = true;
+    syncthing.enable = true;
     tealdeer.enable = true;
     tmux.enable = true;
     zoxide.enable = true;
