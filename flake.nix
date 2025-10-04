@@ -8,7 +8,6 @@
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "kero0.cachix.org-1:uzu0+ZP6R1U1izim/swa3bfyEiS0TElA8hLrGXQGAbA="
     ];
-    sandbox = false; # sandbox causing issues on darwin
   };
   inputs = {
     # NixOS related inputs
@@ -76,19 +75,20 @@
     let
       nixpkgsConfig = {
         config.allowUnfree = true;
-        overlays =
-          [ inputs.nixgl.overlay ]
-          ++ (
-            let
-              path = ./overlays;
-            in
-            with builtins;
-            map (n: import (path + ("/" + n))) (
-              filter (n: match ".*\\.nix" n != null || pathExists (path + ("/" + n + "/default.nix"))) (
-                attrNames (readDir path)
-              )
+        overlays = [
+          inputs.nixgl.overlay
+        ]
+        ++ (
+          let
+            path = ./overlays;
+          in
+          with builtins;
+          map (n: import (path + ("/" + n))) (
+            filter (n: match ".*\\.nix" n != null || pathExists (path + ("/" + n + "/default.nix"))) (
+              attrNames (readDir path)
             )
-          );
+          )
+        );
       };
       mHMmodules =
         {
