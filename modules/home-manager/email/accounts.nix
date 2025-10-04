@@ -3,11 +3,12 @@
   lib,
   pkgs,
   homedir,
+  osConfig,
   ...
 }:
 let
   maildir = "${config.xdg.dataHome}/mail";
-  name = "Kirols Bakheat";
+  name = osConfig.my.user.realName or "Kirols Bakheat";
   passwordEval = file: [
     "${./mutt_oauth2.py}"
     "${config.programs.password-store.settings.PASSWORD_STORE_DIR}/${file}"

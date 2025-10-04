@@ -15,6 +15,7 @@
     nix-index.enable = true;
     pass.enable = true;
     python.enable = true;
+    school.enable = true;
     ssh.enable = true;
     syncthing.enable = true;
     tealdeer.enable = true;

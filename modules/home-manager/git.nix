@@ -19,9 +19,6 @@ in
       type = types.str;
       default = config.my.home.email.mainAddress;
     };
-    enableSchoolConfig = mkEnableOption "Enable school specific config options" // {
-      default = true;
-    };
   };
   config = mkIf cfg.enable {
     programs.git = {
@@ -42,7 +39,7 @@ in
         push.autoSetupRemote = true;
         pull.rebase = true;
       };
-      includes = lists.optional cfg.enableSchoolConfig {
+      includes = lists.optional config.my.home.school.enable {
         condition = "hasconfig:remote.*.url:https://github.gatech.edu/**";
         contents = {
           user = {

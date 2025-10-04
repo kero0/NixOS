@@ -21,6 +21,7 @@
     notification-manager.enable = true;
     pass.enable = true;
     rofi.enable = true;
+    school.enable = true;
     ssh.enable = true;
     tealdeer.enable = true;
     tmux.enable = true;
