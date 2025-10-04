@@ -44,14 +44,16 @@ in
               "a" # archive mode
               "H" # preserve hard links
               "h" # human readable
-              "r" # recursive
               "P" # progress
               "S" # sparse files
+              "u" # update (don't copy older files)
               "v" # verbose
+              "z" # compress
             ];
             long-args = mklong-args [
               "numeric-ids" # don't map uid/gid values by user/group name
               "stats" # show transfer stats
+              "filter=':- .gitignore'" # respect gitignores
             ];
           in
           mkcommand "rsync" short-args long-args;
