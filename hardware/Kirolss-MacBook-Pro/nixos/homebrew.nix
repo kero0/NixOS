@@ -25,7 +25,7 @@
       "vivaldi"
       "vlc"
       "wine@staging"
-      "zen-browser"
+      "zen"
     ];
   };
   environment.systemPath = [ config.homebrew.brewPrefix ];
