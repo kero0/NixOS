@@ -17,9 +17,7 @@ in
     };
     programs.ssh = {
       enable = true;
-      controlMaster = "auto";
-      controlPersist = "yes";
-      controlPath = "${config.xdg.dataHome}/ssh-control/%C";
+      enableDefaultConfig = false;
       matchBlocks = rec {
         "*github*" = {
           extraOptions = {
@@ -68,6 +66,11 @@ in
           port = 9639;
           hostname = "Kirols-xps9575.lan";
           user = "kirolsb";
+        };
+        "*" = {
+          controlMaster = "auto";
+          controlPersist = "yes";
+          controlPath = "${config.xdg.dataHome}/ssh-control/%C";
         };
       };
       includes = [
