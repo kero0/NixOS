@@ -8,6 +8,27 @@
 with lib;
 let
   cfg = config.my.home;
+  rebuildScript = pkgs.writeShellScriptBin "rebuild" (
+    if osConfig == null then
+      ''
+        ${pkgs.nh}/bin/nh home switch --ask ${cfg.configDir}
+      ''
+
+    else if pkgs.stdenv.isLinux then
+      ''
+        ${pkgs.nh}/bin/nh os switch --ask ${cfg.configDir}
+      ''
+    else if pkgs.stdenv.isDarwin then
+      ''
+        ${pkgs.nh}/bin/nh darwin switch --ask ${cfg.configDir}
+      ''
+    else
+
+      ''
+        echo "Unsupported OS: ${osConfig.name or "unknown"}"
+          exit 1
+      ''
+  );
 in
 {
   options.my.home = {
@@ -20,6 +41,19 @@ in
       type = types.str;
       default = osConfig.my.user.homedir or (throw "Homedir unset");
     };
+
+    configDir = mkOption {
+      type = types.str;
+      default =
+        if osConfig == null then
+          "${cfg.homedir}/.config/home-manager"
+        else if pkgs.stdenv.isLinux then
+          "${cfg.homedir}/.config/nixos"
+        else if pkgs.stdenv.isDarwin then
+          "${cfg.homedir}/.config/darwin"
+        else
+          (throw "Unsupported OS: ${osConfig.name or "unknown"}");
+    };
   };
 
   config = {
@@ -28,6 +62,10 @@ in
     home = {
       inherit (cfg) username;
       homeDirectory = lib.mkIf pkgs.stdenv.isLinux cfg.homedir;
+      packages = [
+        rebuildScript
+        pkgs.nh
+      ];
     };
 
     fonts.fontconfig.enable = true;
