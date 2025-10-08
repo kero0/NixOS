@@ -58,7 +58,9 @@ in
         exec = [ "${wallpaper-randomizer}" ];
 
         monitor = ",preferred,auto,auto";
-        gestures.workspace_swipe = true;
+        gesture = [
+           "3, horizontal, workspace"
+        ];
         master.new_status = "master";
         misc = {
           force_default_wallpaper = -1;
