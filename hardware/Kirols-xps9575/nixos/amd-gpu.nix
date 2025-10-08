@@ -3,7 +3,21 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   # services.xserver.videoDrivers = [ "amdgpu" ];
 
-  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  systemd.tmpfiles.rules =
+  let
+    rocmEnv = pkgs.symlinkJoin {
+      name = "rocm-combined";
+      paths = with pkgs.rocmPackages; [
+        rocblas
+        hipblas
+        clr
+      ];
+    };
+  in [
+    "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+  ];
+
+  services.lact.enable = true;
 
   hardware.graphics = {
     enable = true;
@@ -11,15 +25,12 @@
     extraPackages = with pkgs; [
       rocmPackages.clr.icd
       clinfo
-      amdvlk
 
       # intel
-      vaapiVdpau
-      libvdpau-va-gl
+      intel-media-driver
     ];
     extraPackages32 = with pkgs.driversi686Linux; [
-      amdvlk
-      intel-vaapi-driver
+      intel-media-driver
     ];
   };
   hardware.nvidia.prime = {
@@ -32,7 +43,5 @@
   };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
-  }; # Force intel-media-driver
-
-  # environment.variables = { ROC_ENABLE_PRE_VEGA = "1"; };
+  };
 }
