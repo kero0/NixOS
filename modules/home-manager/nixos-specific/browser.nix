@@ -18,7 +18,13 @@ in
             package = pkgs.${pkg}.override {
               commandLineArgs =
                 if pkgs.stdenv.isLinux then
-                  "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode --ignore-gpu-blocklist --enable-gpu-rasterization"
+                  ''
+                    --enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode
+                    --ignore-gpu-blocklist
+                    --enable-gpu-rasterization
+                    --ozone-platform-hint=auto
+                    --enable-features=UseOzonePlatform
+                  ''
                 else
                   null;
             };
