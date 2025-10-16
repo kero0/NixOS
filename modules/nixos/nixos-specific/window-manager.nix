@@ -37,17 +37,6 @@ with lib;
           wayland = true;
         };
       };
-      xserver = {
-        enable = true;
-        desktopManager.xterm.enable = false;
-        xkb.layout = "us";
-        windowManager.xmonad = {
-          enable = true;
-          enableConfiguredRecompile = true;
-          enableContribAndExtras = true;
-          extraPackages = hp: with hp; [ taffybar ];
-        };
-      };
     };
   };
 }
