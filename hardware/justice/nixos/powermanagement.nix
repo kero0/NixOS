@@ -1,9 +1,9 @@
 {
   powerManagement.powertop.enable = true;
   services = {
-    logind = {
-      lidSwitch = "hybrid-sleep";
-      lidSwitchExternalPower = "hybrid-sleep";
+    logind.settings.Login = {
+      HandleLidSwitch = "hybrid-sleep";
+      HandleLidSwitchExternalPower = "hybrid-sleep";
     };
     thermald.enable = true;
     power-profiles-daemon.enable = false;

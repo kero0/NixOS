@@ -13,9 +13,9 @@
     blueman.enable = true;
 
     # Lid switch
-    logind = {
-      lidSwitch = "hybrid-sleep";
-      lidSwitchExternalPower = "hybrid-sleep";
+    logind.settings.Login = {
+      HandleLidSwitch = "hybrid-sleep";
+      HandleLidSwitchExternalPower = "hybrid-sleep";
     };
 
     # Mouse
