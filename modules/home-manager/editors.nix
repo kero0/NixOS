@@ -36,7 +36,11 @@ in
           EDITOR = pkgs.writeShellScriptBin "editor" ''${emacs}/bin/emacsclient -nw "$@" '' + /bin/editor;
           VISUAL = pkgs.writeShellScriptBin "visual" ''${emacs}/bin/emacsclient -c "$@" '' + /bin/visual;
         };
-        shellAliases.emacs = config.home.sessionVariables.VISUAL;
+        shellAliases = {
+          emacs = config.home.sessionVariables.VISUAL;
+          e = config.home.sessionVariables.EDITOR;
+          v = config.home.sessionVariables.VISUAL;
+        };
       };
   };
 }
