@@ -11,22 +11,21 @@ let
   rebuildScript = pkgs.writeShellScriptBin "rebuild" (
     if osConfig == null then
       ''
-        ${pkgs.nh}/bin/nh home switch --ask ${cfg.configDir}
+        ${pkgs.nh}/bin/nh home switch ${cfg.configDir}
       ''
 
     else if pkgs.stdenv.isLinux then
       ''
-        ${pkgs.nh}/bin/nh os switch --ask ${cfg.configDir}
+        ${pkgs.nh}/bin/nh os switch ${cfg.configDir}
       ''
     else if pkgs.stdenv.isDarwin then
       ''
-        ${pkgs.nh}/bin/nh darwin switch --ask ${cfg.configDir}
+        ${pkgs.nh}/bin/nh darwin switch ${cfg.configDir}
       ''
     else
-
       ''
         echo "Unsupported OS: ${osConfig.name or "unknown"}"
-          exit 1
+        exit 1
       ''
   );
 in
