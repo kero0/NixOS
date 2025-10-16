@@ -19,6 +19,7 @@ in
       overrideFolders = false;
       settings = {
         options = {
+          relaysEnabled = false;
           listenAddresses = [
             "default"
           ];
@@ -28,10 +29,25 @@ in
           };
           localAnnounceEnabled = true;
           urAccepted = -1;
+          defaults.ignores = [
+            "(?d)__pycache__"
+            "(?d).venv"
+            "(?d)venv"
+            "(?d).DS_Store"
+            "*.part"
+            "*.crdownload"
+            "(?d).Spotlight-V100"
+            "(?d).Trashes"
+            "(?d)._*"
+            "(?d)desktop.ini"
+            "(?d)ehthumbs.db"
+            "(?d)Thumbs.db"
+          ];
         };
         folders = {
           Org = {
             path = "~/org";
+            type = "sendreceive";
             versioning = {
               type = "simple";
               params.keep = "10";
@@ -39,6 +55,7 @@ in
           };
           Documents = {
             path = "~/Documents";
+            type = "sendreceive";
             versioning = {
               type = "simple";
               params.keep = "10";
