@@ -34,7 +34,7 @@ in
     };
 
     wayland.windowManager.hyprland.settings = {
-      "$cliphist-rofi-img" = "${pkgs.cliphist-rofi-img}/bin/cliphist-rofi-img";
+      "$cliphist-rofi-img" = "${pkgs.cliphist}/bin/cliphist-rofi-img";
       bind = [
         "$mod SHIFT , V,      exec, rofi -modi clipboard:$cliphist-rofi-img -show clipboard -show-icons"
       ];

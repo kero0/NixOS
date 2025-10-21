@@ -17,7 +17,9 @@
   };
   nix = {
     extraOptions = builtins.concatStringsSep "\n" [
-      (lib.strings.optionalString age "!include ${config.age.secrets.nix-conf.path}")
+      (lib.strings.optionalString (
+        age && config.age.secrets ? nix-conf
+      ) "!include ${config.age.secrets.nix-conf.path}")
     ];
     settings = {
       auto-optimise-store = !pkgs.stdenv.isDarwin;

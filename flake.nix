@@ -30,10 +30,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixgl = {
-      url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    authentik-nix.url = "github:nix-community/authentik-nix";
 
     catppuccin.url = "github:catppuccin/nix";
 
@@ -64,7 +61,6 @@
     inputs@{
       self,
       nixpkgs,
-      nix,
       nixos-hardware,
       darwin,
       home-manager,
@@ -75,10 +71,7 @@
     let
       nixpkgsConfig = {
         config.allowUnfree = true;
-        overlays = [
-          inputs.nixgl.overlay
-        ]
-        ++ (
+        overlays =
           let
             path = ./overlays;
           in
@@ -87,8 +80,7 @@
             filter (n: match ".*\\.nix" n != null || pathExists (path + ("/" + n + "/default.nix"))) (
               attrNames (readDir path)
             )
-          )
-        );
+          );
       };
       mHMmodules =
         {
@@ -96,6 +88,8 @@
           myuser,
           system,
           age ? true,
+          defaultsecrets ? age,
+          exclude ? [ ],
         }:
         let
           isDarwin = nixpkgs.lib.strings.hasSuffix "darwin" system;
@@ -103,12 +97,15 @@
         in
         (umport {
           ipath = ./modules/home-manager;
-          exclude = nixpkgs.lib.lists.optionals isDarwin [
-            ./modules/home-manager/nixos-specific
-          ];
+          exclude =
+            nixpkgs.lib.lists.optionals isDarwin [
+              ./modules/home-manager/nixos-specific
+            ]
+            ++ exclude;
         })
         ++ (nixpkgs.lib.lists.optionals (builtins.pathExists ./hardware/${hostname}/home) (umport {
           ipath = ./hardware/${hostname}/home;
+          inherit exclude;
         }))
         ++ [
           inputs.nix-index-database.homeModules.nix-index
@@ -130,16 +127,16 @@
             }
           )
         ]
-        ++ nixpkgs.lib.lists.optionals age [
-          agenix.homeManagerModules.default
-          ./secrets
-        ];
+        ++ nixpkgs.lib.lists.optional age agenix.homeManagerModules.default
+        ++ nixpkgs.lib.lists.optional defaultsecrets ./secrets;
       mmodules =
         {
           hostname,
           myuser,
           system,
           age ? true,
+          defaultsecrets ? age,
+          exclude ? [ ],
         }:
         let
           isDarwin = nixpkgs.lib.strings.hasSuffix "darwin" system;
@@ -177,22 +174,31 @@
               };
               users.${myuser} = {
                 home.stateVersion = stateVersion;
-                imports = mHMmodules { inherit hostname myuser system; };
+                imports = mHMmodules {
+                  inherit
+                    hostname
+                    myuser
+                    system
+                    exclude
+                    ;
+                };
               };
             };
           }
         ]
         ++ umport {
           ipath = ./modules/nixos;
-          exclude = nixpkgs.lib.lists.optionals isDarwin [ ./modules/nixos/nixos-specific ];
+          exclude = nixpkgs.lib.lists.optionals isDarwin [ ./modules/nixos/nixos-specific ] ++ exclude;
         }
         ++ nixpkgs.lib.lists.optionals (builtins.pathExists ./hardware/${hostname}/nixos) (umport {
           ipath = ./hardware/${hostname}/nixos;
+          inherit exclude;
         })
-        ++ nixpkgs.lib.lists.optionals age [
-          agenix.${if isLinux then "nixosModules" else "darwinModules"}.default
-          ./secrets
-        ]
+        ++
+          nixpkgs.lib.lists.optional age
+            agenix.${if isLinux then "nixosModules" else "darwinModules"}.default
+        ++ nixpkgs.lib.lists.optional defaultsecrets ./secrets
+
         ++ nixpkgs.lib.lists.optional isLinux { system.stateVersion = stateVersion; }
         ++ nixpkgs.lib.lists.optional isDarwin {
           programs.bash.enable = true;
@@ -209,7 +215,7 @@
       stateVersion = "22.05";
     in
     {
-      umport = ./umport.nix;
+      inherit mmodules umport public-keys;
       mkHomeConfiguration =
         {
           myuser,
@@ -217,6 +223,7 @@
           hostname,
           homedir ? "/home/${myuser}",
           extraModules ? [ ],
+          exclude ? [ ],
         }:
         {
           "${myuser}" = home-manager.lib.homeManagerConfiguration {
@@ -231,7 +238,14 @@
                 ;
             };
             modules =
-              mHMmodules { inherit hostname myuser system; }
+              mHMmodules {
+                inherit
+                  hostname
+                  myuser
+                  system
+                  exclude
+                  ;
+              }
               ++ [
                 {
                   my.home = {

@@ -41,7 +41,6 @@
     };
     hyprland = {
       enable = true;
-      binds.enable = true;
       lock.enable = true;
       pyprland.enable = true;
       waybar.enable = true;

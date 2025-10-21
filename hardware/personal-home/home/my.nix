@@ -39,7 +39,6 @@
     };
     hyprland = {
       enable = false;
-      binds.enable = false;
       lock.enable = false;
       pyprland.enable = false;
       waybar.enable = false;

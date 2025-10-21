@@ -6,8 +6,6 @@
 }:
 with lib;
 let
-  cfg = config.my.home.hyprland.binds;
-
   togglefloat = pkgs.writeShellScriptBin "togglefloat" ''
     floating=$(hyprctl activewindow -j | jq .floating)
     if [ $floating = "true" ]; then
@@ -53,11 +51,33 @@ let
     }/bin/hyprland-ws-${command}";
 in
 {
-  options.my.home.hyprland.binds.enable = mkEnableOption "Enable hyprland default bindings";
-  config = mkIf cfg.enable {
+  config = mkIf config.my.home.hyprland.enable {
     wayland.windowManager.hyprland.settings = {
+      "$mod" = "SUPER";
+      "$terminal" = "${config.programs.kitty.package}/bin/kitty";
+      "$fileManager" = "${pkgs.nautilus}/bin/nautilus";
+      "$menu" = "${config.programs.rofi.finalPackage}/bin/rofi -show-icons -show drun -sidebar-mode";
+
       "$movetoWS" = wsCommand "movetoworkspacesilent";
       "$gotoWS" = wsCommand "focusworkspaceoncurrentmonitor";
+      gesture = [
+        "3, horizontal, workspace"
+      ];
+      bindel = [
+        ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume +5"
+        ", XF86AudioLowerVolume, exec, swayosd-client --output-volume -5"
+        ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
+        ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
+
+        ", XF86MonBrightnessUp, exec, swayosd-client --brightness +5"
+        ", XF86MonBrightnessDown, exec, swayosd-client --brightness -5"
+        "CAPS, Caps_Lock, exec, swayosd-client --caps-lock"
+      ];
+      bindm = [
+        # Move/resize windows with mainMod + LMB/RMB and dragging
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
       # repeatable bindings
       binde = [
         # resize window
@@ -66,65 +86,64 @@ in
         "$mod CTRL  , k, resizeactive, 0 -10"
         "$mod CTRL  , j, resizeactive, 0 10"
       ];
-      bind =
-        [
-          "$mod Shift , Q, killactive,"
-          "$mod Shift , C, exec,${pkgs.wlogout}/bin/wlogout"
-          "$mod       , t, exec, ${togglefloat}/bin/togglefloat"
-          "$mod       , f, fullscreen,"
-          "$mod       , p, pseudo, # dwindle"
-          "$mod       , j, togglesplit, # dwindle"
+      bind = [
+        "$mod Shift , Q, killactive,"
+        "$mod Shift , C, exec,${pkgs.wlogout}/bin/wlogout"
+        "$mod       , t, exec, ${togglefloat}/bin/togglefloat"
+        "$mod       , f, fullscreen,"
+        "$mod       , p, pseudo, # dwindle"
+        "$mod       , j, togglesplit, # dwindle"
 
-          "$mod SHIFT , N,      exec, swaync-client -t -sw"
-          "$mod SHIFT , Return, exec, $fileManager"
-          "$mod CTRL  , Return, exec, $terminal"
-          "$mod       , s,      exec, $menu"
+        "$mod SHIFT , N,      exec, swaync-client -t -sw"
+        "$mod SHIFT , Return, exec, $fileManager"
+        "$mod CTRL  , Return, exec, $terminal"
+        "$mod       , s,      exec, $menu"
 
-          "$mod       , r,      togglespecialworkspace, ref"
-          "$mod SHIFT , r,      movetoworkspacesilent, special:ref"
-          "$mod CTRL  , b,      exec, pypr toggle bluetooth"
-          "$mod CTRL  , v,      exec, pypr toggle volume"
-          "$mod       , Return, exec, pypr toggle term"
+        "$mod       , r,      togglespecialworkspace, ref"
+        "$mod SHIFT , r,      movetoworkspacesilent, special:ref"
+        "$mod CTRL  , b,      exec, pypr toggle bluetooth"
+        "$mod CTRL  , v,      exec, pypr toggle volume"
+        "$mod       , Return, exec, pypr toggle term"
 
-          # move focus
-          "$mod       , h, movefocus, l"
-          "$mod       , l, movefocus, r"
-          "$mod       , k, movefocus, u"
-          "$mod       , j, movefocus, d"
-          # move window
-          "$mod SHIFT , H, movewindow, l"
-          "$mod SHIFT , L, movewindow, r"
-          "$mod SHIFT , K, movewindow, u"
-          "$mod SHIFT , J, movewindow, d"
+        # move focus
+        "$mod       , h, movefocus, l"
+        "$mod       , l, movefocus, r"
+        "$mod       , k, movefocus, u"
+        "$mod       , j, movefocus, d"
+        # move window
+        "$mod SHIFT , H, movewindow, l"
+        "$mod SHIFT , L, movewindow, r"
+        "$mod SHIFT , K, movewindow, u"
+        "$mod SHIFT , J, movewindow, d"
 
-          "           , XF86AudioPlay, exec, playerctl play-pause"
-          "           , XF86AudioNext, exec, playerctl next"
-          "           , XF86AudioPrev, exec, playerctl previous"
-          "           , Print, exec, grim - | tee ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png | wl-copy --type image/png"
+        "           , XF86AudioPlay, exec, playerctl play-pause"
+        "           , XF86AudioNext, exec, playerctl next"
+        "           , XF86AudioPrev, exec, playerctl previous"
+        "           , Print, exec, grim - | tee ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png | wl-copy --type image/png"
 
-          "$mod Shift , Tab, exec, $movetoWS"
-          "$mod       , Tab, exec, $gotoWS"
-        ]
-        ++ (
-          # workspaces
-          # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-          builtins.concatLists (
-            builtins.genList (
-              x:
-              let
-                ws =
-                  let
-                    c = (x + 1) / 10;
-                  in
-                  builtins.toString (x + 1 - (c * 10));
-              in
-              [
-                "$mod       , ${ws}, focusworkspaceoncurrentmonitor , ${toString (x + 1)}"
-                "$mod SHIFT , ${ws}, movetoworkspacesilent          , ${toString (x + 1)}"
-              ]
-            ) 10
-          )
-        );
+        "$mod Shift , Tab, exec, $movetoWS"
+        "$mod       , Tab, exec, $gotoWS"
+      ]
+      ++ (
+        # workspaces
+        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+        builtins.concatLists (
+          builtins.genList (
+            x:
+            let
+              ws =
+                let
+                  c = (x + 1) / 10;
+                in
+                builtins.toString (x + 1 - (c * 10));
+            in
+            [
+              "$mod       , ${ws}, focusworkspaceoncurrentmonitor , ${toString (x + 1)}"
+              "$mod SHIFT , ${ws}, movetoworkspacesilent          , ${toString (x + 1)}"
+            ]
+          ) 10
+        )
+      );
     };
   };
 }
