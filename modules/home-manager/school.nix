@@ -50,6 +50,7 @@ in
             needspace
             pdfcol
             siunitx
+            soul
             standalone
             subfiles
             tcolorbox
