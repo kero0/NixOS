@@ -20,6 +20,11 @@ in
       settings = {
         options = {
           relaysEnabled = false;
+          globalAnnounceEnabled = false;
+          localAnnounceEnabled = true;
+          urAccepted = -1;
+          crashReportingEnabled = false;
+
           listenAddresses = [
             "default"
           ];
@@ -27,8 +32,6 @@ in
             unit = "%";
             value = 1;
           };
-          localAnnounceEnabled = true;
-          urAccepted = -1;
           defaults.ignores = [
             "(?d)__pycache__"
             "(?d).venv"
