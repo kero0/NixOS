@@ -22,7 +22,6 @@ in
   };
   config = mkIf cfg.enable {
     programs.git = {
-      inherit (cfg) userName userEmail;
       enable = true;
       lfs.enable = true;
       ignores = [
@@ -33,11 +32,15 @@ in
         "*~"
         "*.swp"
       ];
-      extraConfig = {
+      settings = {
         commit.gpgSign = true;
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
         pull.rebase = true;
+        user = {
+          name = cfg.userName;
+          email = cfg.userEmail;
+        };
       };
       includes = lists.optional config.my.home.school.enable {
         condition = "hasconfig:remote.*.url:https://github.gatech.edu/**";

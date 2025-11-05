@@ -34,6 +34,6 @@ in
         sync_interval = 60 * 60;
       };
     };
-    home.packages = [ pkgs.bitwarden ];
+    home.packages = [ pkgs.bitwarden-desktop ];
   };
 }
