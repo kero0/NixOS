@@ -23,7 +23,7 @@ with lib;
       };
     };
     environment.systemPackages = with pkgs; [
-      steam-run-native
+      steam-run
       config.programs.steam.package.run
       lutris
     ];
