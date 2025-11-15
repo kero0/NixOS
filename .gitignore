@@ -5,3 +5,5 @@ store.*
 .pre-commit-config.yaml
 .envrc
 .dir-locals.el
+*.qcow2
+*.fd

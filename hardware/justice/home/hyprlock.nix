@@ -1,5 +1,5 @@
 {
-  programs.hyprlock.settings.fingerprint = {
+  programs.hyprlock.settings.auth.fingerprint = {
     enabled = true;
   };
 }

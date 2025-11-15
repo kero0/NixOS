@@ -16,7 +16,7 @@ with lib;
       steam = {
         enable = true;
         gamescopeSession.enable = true;
-        extraCompatPackages = with pkgs; [ proton-ge-bin ];
+        # extraCompatPackages = with pkgs; [ proton-ge-bin ];
         package = pkgs.steam.override { };
         localNetworkGameTransfers.openFirewall = true;
         remotePlay.openFirewall = true;

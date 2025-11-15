@@ -17,7 +17,7 @@ with lib;
       default = throw "config.my.user.username must be set";
     };
     passwordHash = mkOption {
-      type = types.str;
+      type = types.nullOr types.str;
       default = "$6$jAVQ7IamcuYQ7qVF$3rUJsm03bpI7SSrzFo2I8/aRQKcZ/upLH3l5NfqnxQWs8FgU2MlcbS0HnLXF2ehBR8dnAWj.ROuCsK91zzNgz.";
     };
     homedir = mkOption {

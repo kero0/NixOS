@@ -22,15 +22,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    authentik-nix.url = "github:nix-community/authentik-nix";
 
     catppuccin.url = "github:catppuccin/nix";
 
@@ -163,6 +161,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              backupFileExtension = "backup";
               extraSpecialArgs = {
                 inherit
                   myuser
@@ -292,6 +291,25 @@
               nixos-hardware.nixosModules.common-pc-ssd
             ];
           };
+        theater =
+          let
+            myuser = "kirolsb";
+            system = "x86_64-linux";
+            hostname = "theater";
+          in
+          nixpkgs.lib.nixosSystem {
+            modules =
+              mmodules {
+                inherit hostname myuser system;
+                age = false;
+              }
+              ++ [
+                nixos-hardware.nixosModules.common-cpu-intel
+                nixos-hardware.nixosModules.common-gpu-amd
+                nixos-hardware.nixosModules.common-pc
+                nixos-hardware.nixosModules.common-pc-ssd
+              ];
+          };
         hass =
           let
             myuser = "kirolsb";
@@ -333,26 +351,8 @@
             };
           };
       };
-      images = {
-        x86_64-linux-iso =
-          let
-            myuser = "kirolsb";
-            system = "x86_64-linux";
-            hostname = "nixos-installer";
-          in
-          nixpkgs.lib.nixosSystem {
-            modules = mmodules {
-              inherit hostname myuser system;
-              age = false;
-            };
-          };
-        tang =
-          (self.nixosConfigurations.tang.extendModules {
-            modules = [
-              "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-            ];
-          }).config.system.build.sdImage;
-      };
+      images = import ./utils/images.nix { inherit mmodules nixpkgs self; };
+      vms = import ./utils/vms.nix { inherit nixpkgs self; };
       darwinConfigurations."Kirolss-MacBook-Pro" =
         let
           system = "aarch64-darwin";

@@ -17,6 +17,8 @@ jobs:
             os: ubuntu-latest
           - target: nixosConfigurations.justice.config.system.path
             os: ubuntu-latest
+          - target: nixosConfigurations.theater.config.system.path
+            os: ubuntu-latest
           - target: nixosConfigurations.tang.config.system.path
             os: ubuntu-24.04-arm
     runs-on: ${{ matrix.os }}

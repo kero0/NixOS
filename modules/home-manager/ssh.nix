@@ -36,6 +36,15 @@ in
             RequestTTY = "force";
           };
         };
+        installer = {
+          port = 9639;
+          hostname = "nixos-installer.lan";
+          user = "kirolsb";
+          extraOptions = {
+            StrictHostKeyChecking = "no";
+            UserKnownHostsFile = "/dev/null";
+          };
+        };
         nasy = {
           port = 9639;
           hostname = "nasy.lan";
@@ -50,6 +59,11 @@ in
         tang = {
           port = 9639;
           hostname = "tang.lan";
+          user = "kirolsb";
+        };
+        theater = {
+          port = 9639;
+          hostname = "theater.lan";
           user = "kirolsb";
         };
         macbook = {
