@@ -11,7 +11,9 @@ with lib;
 {
   options.my.virtualization.enable = mkEnableOption "Enable my virtualization setup";
   config = lib.mkIf cfg.enable {
-    boot.binfmt.emulatedSystems = lib.lists.optional (pkgs.system == "x86_64-linux") "aarch64-linux";
+    boot.binfmt.emulatedSystems = lib.lists.optional (
+      pkgs.stdenv.targetPlatform.system == "x86_64-linux"
+    ) "aarch64-linux";
     virtualisation = {
       podman = {
         enable = true;

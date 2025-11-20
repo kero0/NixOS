@@ -17,7 +17,7 @@ in
     programs = {
       emacs = {
         enable = true;
-        package = inputs.emacs.packages.${pkgs.system}.default;
+        package = inputs.emacs.packages.${pkgs.stdenv.targetPlatform.system}.default;
       };
       vim.enable = true;
     };
