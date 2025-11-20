@@ -209,7 +209,7 @@
           inputs.disko.nixosModules.disko
           { networking.hostName = hostname; }
         ];
-      umport = import ./umport.nix nixpkgs;
+      umport = import ./utils/umport.nix nixpkgs;
       public-keys = import ./secrets/keys.nix;
       stateVersion = "22.05";
     in
