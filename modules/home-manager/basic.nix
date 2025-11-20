@@ -3,6 +3,7 @@
   lib,
   config,
   osConfig,
+  inputs,
   ...
 }:
 with lib;
@@ -64,6 +65,8 @@ in
       packages = [
         rebuildScript
         pkgs.nh
+        pkgs.age
+        inputs.agenix.packages.${pkgs.stdenv.targetPlatform.system}.default
       ];
     };
 
