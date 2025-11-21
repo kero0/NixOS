@@ -15,7 +15,7 @@
       env' = pkgs.buildEnv {
         name = "macOS-applications";
         paths = config.environment.systemPackages ++ config.users.users."${myuser}".packages;
-        pathsToLink = "/Applications";
+        pathsToLink = [ "/Applications" ];
       };
       env = "${env'}/Applications";
 
