@@ -15,6 +15,7 @@
     };
     casks = [
       "appcleaner"
+      "bambu-studio"
       "disk-inventory-x"
       "hammerspoon"
       "maccy"
