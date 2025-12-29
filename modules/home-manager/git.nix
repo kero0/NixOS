@@ -37,6 +37,9 @@ in
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
         pull.rebase = true;
+        rebase.autostash = true;
+        merge.autostash = true;
+        pull.autoStash = true;
         user = {
           name = cfg.userName;
           email = cfg.userEmail;
