@@ -107,7 +107,7 @@ in
                 bindkey -M vicmd '\es' sesh-sessions
                 bindkey -M viins '\es' sesh-sessions
                 # check if in ssh or tmux
-                [ -z "$TMUX$SSH_CONNECTION$SSH_TTY$SSH_CLIENT" ] && tmux attach
+                [ -z "$TMUX$SSH_CONNECTION$SSH_TTY$SSH_CLIENT" ] && [ "$TERM_PROGRAM" != "vscode" ] && tmux attach
               '')
             ];
         in
