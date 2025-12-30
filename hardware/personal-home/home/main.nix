@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 {
+  targets.genericLinux.enable = true;
   programs.git = {
     lfs.enable = true;
     settings = {
