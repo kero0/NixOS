@@ -25,8 +25,8 @@ in
     programs = {
       mpv = {
         enable = true;
-        package = pkgs.mpv-unwrapped.wrapper {
-          mpv = pkgs.mpv-unwrapped.override { vapoursynthSupport = true; };
+        package = pkgs.mpv.wrapper {
+          mpv = pkgs.mpv.override { vapoursynthSupport = true; };
           scripts =
             with pkgs.mpvScripts;
             [
