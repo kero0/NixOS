@@ -12,7 +12,7 @@
     basalt-monado
     monado-vulkan-layers
     opencomposite
-    wlx-overlay-s
+    wayvr
     xrizer
   ];
   systemd.user.services.monado.environment = {
