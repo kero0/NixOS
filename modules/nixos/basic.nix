@@ -44,9 +44,11 @@
       ];
     };
     gc = {
-      automatic = !pkgs.stdenv.isDarwin;
-      dates = pkgs.lib.mkIf pkgs.stdenv.isLinux "daily";
-      options = "--delete-older-than 7d";
+      automatic = true;
+      options = "--delete-older-than 14d";
+    };
+    optimise = {
+      automatic = true;
     };
   };
 
