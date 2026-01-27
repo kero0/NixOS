@@ -12,16 +12,16 @@ let
   rebuildScript = pkgs.writeShellScriptBin "rebuild" (
     if osConfig == null then
       ''
-        ${pkgs.nh}/bin/nh home switch ${cfg.configDir}
+        ${pkgs.nh}/bin/nh home switch ${cfg.configDir} --show-trace
       ''
 
     else if pkgs.stdenv.isLinux then
       ''
-        ${pkgs.nh}/bin/nh os switch ${cfg.configDir}
+        ${pkgs.nh}/bin/nh os switch ${cfg.configDir} --show-trace
       ''
     else if pkgs.stdenv.isDarwin then
       ''
-        ${pkgs.nh}/bin/nh darwin switch ${cfg.configDir}
+        ${pkgs.nh}/bin/nh darwin switch ${cfg.configDir} --show-trace
       ''
     else
       ''
