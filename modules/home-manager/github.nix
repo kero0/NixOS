@@ -16,7 +16,7 @@ in
     programs.gh = {
       enable = true;
       extensions = with pkgs; [
-        gh-copilot
+        github-copilot-cli
         gh-eco
         gh-poi
         gh-s
