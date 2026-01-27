@@ -1,20 +1,21 @@
 { lib, ... }:
 let
-  inherit (builtins)
+  inherit (lib)
     attrNames
-    foldl'
     map
+    mergeAttrsList
+    pipe
     replaceStrings
     ;
+  mkSecret = f: {
+    ${replaceStrings [ ".age" "." ] [ "" "-" ] f}.file = ./${f};
+  };
 in
 {
-  age = {
-    secrets =
-      let
-        files = map (replaceStrings [ ".age" ] [ "" ]) (attrNames (import ./secrets.nix));
-      in
-      foldl' (
-        acc: elem: acc // { "${lib.strings.replaceStrings [ "." ] [ "-" ] elem}".file = ./${elem}.age; }
-      ) { } files;
-  };
+  age.secrets = pipe ./secrets.nix [
+    import
+    attrNames
+    (map mkSecret)
+    mergeAttrsList
+  ];
 }
