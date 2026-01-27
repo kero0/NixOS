@@ -1,7 +1,5 @@
 {
   config,
-  lib,
-  pkgs,
   ...
 }:
 {
@@ -13,6 +11,7 @@
       cleanup = "zap";
       upgrade = true;
     };
+    greedyCasks = true;
     casks = [
       "appcleaner"
       "bambu-studio"

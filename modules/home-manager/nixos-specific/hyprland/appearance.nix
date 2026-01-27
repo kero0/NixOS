@@ -1,51 +1,9 @@
 {
-  pkgs,
   lib,
   config,
   ...
 }:
 with lib;
-let
-  togglefloat = pkgs.writeShellScriptBin "togglefloat" ''
-    floating=$(hyprctl activewindow -j | ${config.programs.jq.package}/bin/jq .floating)
-    if [ $floating = "true" ]; then
-        hyprctl dispatch togglefloating
-    else
-        hyprctl --batch					\
-    	    dispatch togglefloating ';'			\
-    	    dispatch resizeactive 'exact 80% 85%' ';'	\
-    	    dispatch centerwindow
-    fi
-  '';
-  wsCommand =
-    command:
-    "${pkgs.writeShellScriptBin "hyprland-ws-${command}" ''
-      shopt -s extglob
-      mapfile -t wss < <(hyprctl workspaces -j |\
-                    ${config.programs.jq.package}/bin/jq -r 'map(.name) | .[]')
-      ws="$(printf "%s\\n" "''${wss[@]}" |\
-                    ${config.programs.rofi.finalPackage}/bin/rofi -dmenu -mesg '<b>Select a workspace</b>')"
-      case $ws in
-      special:*) command=${
-        if command == "focusworkspaceoncurrentmonitor" then "togglespecialworkspace" else command
-      }
-                 x=''${ws#special:}
-      ;;
-      *) command=${command}
-                 x=$ws
-      ;;
-      esac
-      if grep -q "$ws" <(printf "%s\\n" "''${wss[@]}"); then
-        hyprctl dispatch $command  $x
-      else
-        window="$(hyprctl activewindow -j | ${config.programs.jq.package}/bin/jq -r '.address')"
-        hyprctl dispatch workspace 99
-        hyprctl dispatch workspace emptynm
-        hyprctl dispatch renameworkspace "$(hyprctl activeworkspace -j | ${config.programs.jq.package}/bin/jq '.id')" "$x"
-        ${strings.optionalString (strings.hasInfix "move" command) ''hyprctl dispatch $command "$x,address:$window"''}
-      fi
-    ''}/bin/hyprland-ws-${command}";
-in
 {
   config = mkIf config.my.home.hyprland.enable {
     wayland.windowManager.hyprland.settings = {

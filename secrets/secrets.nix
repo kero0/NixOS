@@ -1,10 +1,5 @@
 let
   inherit (builtins)
-    split
-    readFile
-    filter
-    isString
-    stringLength
     foldl'
     ;
   # to update keys, I run "curl https://github.com/kero0.keys -o keys"

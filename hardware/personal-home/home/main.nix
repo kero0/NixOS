@@ -1,4 +1,3 @@
-{ config, pkgs, ... }:
 {
   targets.genericLinux.enable = true;
   programs.git = {

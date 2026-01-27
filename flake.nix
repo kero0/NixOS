@@ -91,15 +91,10 @@
         }:
         let
           isDarwin = nixpkgs.lib.strings.hasSuffix "darwin" system;
-          isLinux = nixpkgs.lib.strings.hasSuffix "linux" system;
         in
         (umport {
           ipath = ./modules/home-manager;
-          exclude =
-            nixpkgs.lib.lists.optionals isDarwin [
-              ./modules/home-manager/nixos-specific
-            ]
-            ++ exclude;
+          exclude = nixpkgs.lib.lists.optional isDarwin ./modules/home-manager/nixos-specific ++ exclude;
         })
         ++ (nixpkgs.lib.lists.optionals (builtins.pathExists ./hardware/${hostname}/home) (umport {
           ipath = ./hardware/${hostname}/home;

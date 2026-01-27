@@ -26,7 +26,7 @@
   services.monado.package =
     with pkgs;
     monado.overrideAttrs (
-      finalAttrs: previousAttrs: {
+      _: _: {
         src = fetchFromGitLab {
           domain = "gitlab.freedesktop.org";
           owner = "thaytan";

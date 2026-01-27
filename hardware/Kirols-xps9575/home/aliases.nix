@@ -1,4 +1,4 @@
-{ pkgs, myuser, ... }:
+{ pkgs, ... }:
 let
   dbox-com = name: "${pkgs.distrobox}/bin/distrobox enter ${name}";
 in
