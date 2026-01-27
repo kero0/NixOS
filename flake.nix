@@ -363,8 +363,8 @@
           modules = mmodules { inherit hostname myuser system; };
         };
       formatter = {
-        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
-        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt;
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
       };
       checks =
         let
@@ -372,11 +372,14 @@
             ${system}.pre-commit-check = git-hooks.lib.${system}.run {
               src = ./.;
               hooks = {
+                deadnix.enable = true;
+                flake-checker.enable = true;
+                statix.enable = true;
+
                 nixfmt-rfc-style = {
                   enable = true;
                   package = self.formatter.${system};
                 };
-                statix.enable = true;
               };
             };
           };
