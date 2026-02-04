@@ -2,7 +2,6 @@
   pkgs,
   lib,
   config,
-  osConfig,
   ...
 }:
 with lib;
@@ -20,15 +19,7 @@ in
       python.enable = true;
     };
     programs = {
-      pandoc = {
-        enable = true;
-        defaults = {
-          pdf-engine = "xelatex";
-          metadata = {
-            author = osConfig.my.user.realName;
-          };
-        };
-      };
+      pandoc.enable = true;
     };
     home.packages =
       let
