@@ -13,14 +13,12 @@ in
     enable = mkEnableOption "Enable school specific config options";
   };
   config = mkIf cfg.enable {
-    my.home = mkDefault {
-      gh.enable = true;
-      git.enable = true;
-      python.enable = true;
+    my.home = {
+      gh.enable = mkDefault true;
+      git.enable = mkDefault true;
+      python.enable = mkDefault true;
     };
-    programs = {
-      pandoc.enable = true;
-    };
+    programs.pandoc.enable = true;
     home.packages =
       let
         jdf = pkgs.stdenvNoCC.mkDerivation {
