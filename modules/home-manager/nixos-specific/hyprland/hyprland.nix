@@ -54,6 +54,7 @@ in
 
         monitor = ",preferred,auto,auto";
         master.new_status = "master";
+        ecosystem.no_update_news = true;
         misc = {
           force_default_wallpaper = -1;
           disable_hyprland_logo = true;
