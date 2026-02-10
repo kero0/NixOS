@@ -7,6 +7,8 @@
   services.monado = {
     enable = true;
     defaultRuntime = true;
+    highPriority = true;
+    forceDefaultRuntime = false;
   };
   environment.systemPackages = with pkgs; [
     basalt-monado
@@ -23,21 +25,6 @@
     # Enable debugging if needed
     XRT_DEBUG_GUI = "0";
   };
-  services.monado.package =
-    with pkgs;
-    monado.overrideAttrs (
-      _: _: {
-        src = fetchFromGitLab {
-          domain = "gitlab.freedesktop.org";
-          owner = "thaytan";
-          repo = "monado";
-          rev = "dev-constellation-controller-tracking";
-          hash = "sha256-KB+LNwmnlXQAS1vRUy9eLn/ECkPNePUmoFW0O2obYno=";
-        };
-
-        patches = [ ];
-      }
-    );
   boot.kernelPatches = [
     {
       name = "amdgpu-ignore-ctx-privileges";
