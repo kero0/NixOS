@@ -5,7 +5,7 @@
 {
   homebrew = {
     enable = true;
-    brewPrefix = "/opt/homebrew/bin";
+    prefix = "/opt/homebrew";
     onActivation = {
       autoUpdate = true;
       cleanup = "zap";
@@ -23,5 +23,5 @@
       "vlc"
     ];
   };
-  environment.systemPath = [ config.homebrew.brewPrefix ];
+  environment.systemPath = [ "${config.homebrew.prefix}/bin" ];
 }
