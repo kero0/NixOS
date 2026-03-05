@@ -29,7 +29,7 @@ in
           scripts =
             with pkgs.mpvScripts;
             [
-              mpv-cheatsheet
+              mpv-cheatsheet-ng
               mpv-playlistmanager
               mpv-subtitle-lines
               quality-menu
