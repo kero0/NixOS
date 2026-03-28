@@ -1,8 +1,10 @@
 {
-  programs.git.settings = {
-    github.user = "kero0";
+  programs.git = {
     signing.format = "openpgp";
-    user.signingKey = "BF4A784C05A2643D2E183040ADB2FDBBC5956C03";
+    settings = {
+      github.user = "kero0";
+      user.signingKey = "BF4A784C05A2643D2E183040ADB2FDBBC5956C03";
+    };
   };
 
   xresources = {
