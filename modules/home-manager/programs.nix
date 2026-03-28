@@ -5,7 +5,10 @@
   };
   home.packages = with pkgs; [
     file
+    lsof
+    pciutils
     rsync
+    usbutils
     wget
   ];
 }
