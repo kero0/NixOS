@@ -1,6 +1,7 @@
 {
   programs.git.settings = {
     github.user = "kero0";
+    signing.format = "openpgp";
     user.signingKey = "8CC80E4BB584DBB46EA9F284514638168B6842B2";
   };
 }
