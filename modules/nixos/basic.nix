@@ -42,7 +42,7 @@
       ];
     };
     gc = {
-      automatic = true;
+      automatic = !pkgs.stdenv.isDarwin;
       options = "--delete-older-than 14d";
     };
     optimise = {

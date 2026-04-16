@@ -22,6 +22,19 @@ in
 
   };
   config = mkIf cfg.enable {
+    my.default-apps =
+      map
+        (extension: {
+          app_id = "io.mpv";
+          inherit extension;
+        })
+        [
+          "mkv"
+          "mov"
+          "mp4"
+          "avi"
+          "m4v"
+        ];
     programs = {
       mpv = {
         enable = true;
@@ -38,6 +51,10 @@ in
             ]
             ++ lists.optionals pkgs.stdenv.isLinux [ mpris ];
           youtubeSupport = true;
+        };
+        config = {
+          keep-open = true;
+          save-position-on-quit = false;
         };
       };
       ncmpcpp = {
