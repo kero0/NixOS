@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }:
 with lib;
@@ -103,12 +104,7 @@ in
               pluginName = "tmux-ssh-split";
               version = "1.0";
               rtpFilePath = "ssh-split.tmux";
-              src = pkgs.fetchFromGitHub {
-                owner = "pschmitt";
-                repo = "tmux-ssh-split";
-                rev = "f103c56f71ec947027bef028eeed8d171173e9cf";
-                hash = "sha256-SCUBH/DAfWTZPieUT+YOXIxg0eolYnGTZArsbAgF4C8=";
-              };
+              src = inputs.packages-tmux-ssh-split;
             };
             extraConfig = ''
               set-option -g @ssh-split-keep-cwd "true"

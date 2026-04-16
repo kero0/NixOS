@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }:
 with lib;
@@ -23,12 +24,7 @@ in
       let
         jdf = pkgs.stdenvNoCC.mkDerivation {
           name = "jdf";
-          src = pkgs.fetchFromGitHub {
-            owner = "iamjakewarner";
-            repo = "jdf";
-            rev = "4456167bfec748fcf4bede166df7b9c5a2e56a6b";
-            hash = "sha256-uJKgo8ZQDGlc+hgVVkmVvW+XPyf/St8lxPjQBaY9egI=";
-          };
+          src = inputs.packages-jdf;
           nativeBuildInputs = [
             (pkgs.writeShellScript "force-tex-output.sh" ''
               out="''${tex-}"

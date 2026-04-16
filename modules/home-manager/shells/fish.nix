@@ -45,18 +45,6 @@ in
         lib.concatStringsSep "\n" [
           "${any-nix-shell}/bin/any-nix-shell fish --info-right | source"
         ];
-
-      plugins = [
-        {
-          name = "bass";
-          src = pkgs.fetchFromGitHub {
-            owner = "edc";
-            repo = "bass";
-            rev = "79b62958ecf4e87334f24d6743e5766475bcf4d0";
-            sha256 = "0dy53vzzpclw811gxv1kazb8rm7r9dyx56f5ahwd1g38x0pympyx";
-          };
-        }
-      ];
     };
   };
 }

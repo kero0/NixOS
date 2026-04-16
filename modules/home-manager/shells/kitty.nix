@@ -33,7 +33,7 @@ in
         scrollback_lines = 10000;
         enable_audio_bell = false;
         clipboard_control = "write-clipboard write-primary no-append";
-        macos_quit_when_last_window_closed = lib.mkIf pkgs.stdenv.isDarwin "no";
+        macos_quit_when_last_window_closed = lib.mkIf pkgs.stdenv.isDarwin "yes";
         shell = lib.mkIf (cfg.shell != null) cfg.shell;
 
         draw_bold_text_with_bright_colors = true;
