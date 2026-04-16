@@ -54,6 +54,15 @@
     };
 
     emacs.url = "github:kero0/emacs";
+
+    packages-jdf = {
+      url = "github:iamjakewarner/jdf";
+      flake = false;
+    };
+    packages-tmux-ssh-split = {
+      url = "github:pschmitt/tmux-ssh-split";
+      flake = false;
+    };
   };
   outputs =
     inputs@{
