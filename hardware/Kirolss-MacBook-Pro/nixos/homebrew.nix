@@ -16,7 +16,6 @@
       "bambu-studio"
       "hammerspoon"
       "maccy"
-      "orion"
       "the-unarchiver"
       "unnaturalscrollwheels"
       "vivaldi"
