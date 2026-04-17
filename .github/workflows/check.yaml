@@ -28,7 +28,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@v1.3.1
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         if: runner.os == 'Linux'
         with:
           # this might remove tools that are actually needed,
@@ -44,11 +44,11 @@ jobs:
           docker-images: true
           swap-storage: true
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v19
+        uses: DeterminateSystems/nix-installer-action@92148bb48b9a0c5458c53dd0b368fbfbfbaa3210
         with:
           extra-conf: |
             extra-experimental-features = flakes nix-command recursive-nix pipe-operators
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@a593539ec5b1ba1eb95f89a396efd45ca2cdaf5d
         with:
           name: kero0
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
@@ -65,13 +65,13 @@ jobs:
               "github:${{ github.repository }}/${{ github.event.before }}#${{ matrix.target }}" \
               ".#${{ matrix.target }}" | sed 's/\x1b\[[0-9;]*m//g' >> message-body
       - name: Comment PR
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@57232238742e38b2ccc27136ce596ccae7ca28b4
         if: github.event_name == 'pull_request'
         with:
           body-path: message-body
           issue-number: ${{ github.event.pull_request.number }}
       - name: Comment Commit
-        uses: peter-evans/commit-comment@v3
+        uses: peter-evans/commit-comment@7bef1534f8904aa6a06c51c9c362573085cf6092
         if: github.event_name == 'push'
         with:
           body-path: message-body
