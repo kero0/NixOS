@@ -24,7 +24,7 @@ in
       let
         jdf = pkgs.stdenvNoCC.mkDerivation {
           name = "jdf";
-          src = inputs.packages-jdf;
+          src = inputs.jdf;
           nativeBuildInputs = [
             (pkgs.writeShellScript "force-tex-output.sh" ''
               out="''${tex-}"

@@ -320,6 +320,22 @@
         "type": "github"
       }
     },
+    "jdf": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1657068690,
+        "narHash": "sha256-uJKgo8ZQDGlc+hgVVkmVvW+XPyf/St8lxPjQBaY9egI=",
+        "owner": "iamjakewarner",
+        "repo": "jdf",
+        "rev": "4456167bfec748fcf4bede166df7b9c5a2e56a6b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "iamjakewarner",
+        "repo": "jdf",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -474,22 +490,6 @@
         "type": "github"
       }
     },
-    "packages-jdf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1657068690,
-        "narHash": "sha256-uJKgo8ZQDGlc+hgVVkmVvW+XPyf/St8lxPjQBaY9egI=",
-        "owner": "iamjakewarner",
-        "repo": "jdf",
-        "rev": "4456167bfec748fcf4bede166df7b9c5a2e56a6b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "iamjakewarner",
-        "repo": "jdf",
-        "type": "github"
-      }
-    },
     "packages-logview": {
       "flake": false,
       "locked": {
@@ -520,22 +520,6 @@
       "original": {
         "owner": "tecosaur",
         "repo": "ox-chameleon",
-        "type": "github"
-      }
-    },
-    "packages-tmux-ssh-split": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1773127677,
-        "narHash": "sha256-v/8Jo62tisVMqmgTge/nZtFBgFHQxIt/wGCZ48znUIk=",
-        "owner": "pschmitt",
-        "repo": "tmux-ssh-split",
-        "rev": "cf4577613a49736a5bc17e5ae01112ff42ee53c4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pschmitt",
-        "repo": "tmux-ssh-split",
         "type": "github"
       }
     },
@@ -571,12 +555,12 @@
         "emacs": "emacs",
         "git-hooks": "git-hooks_2",
         "home-manager": "home-manager",
+        "jdf": "jdf",
         "lanzaboote": "lanzaboote",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
-        "packages-jdf": "packages-jdf",
-        "packages-tmux-ssh-split": "packages-tmux-ssh-split"
+        "tmux-ssh-split": "tmux-ssh-split"
       }
     },
     "rust-overlay": {
@@ -612,6 +596,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tmux-ssh-split": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773127677,
+        "narHash": "sha256-v/8Jo62tisVMqmgTge/nZtFBgFHQxIt/wGCZ48znUIk=",
+        "owner": "pschmitt",
+        "repo": "tmux-ssh-split",
+        "rev": "cf4577613a49736a5bc17e5ae01112ff42ee53c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pschmitt",
+        "repo": "tmux-ssh-split",
         "type": "github"
       }
     }

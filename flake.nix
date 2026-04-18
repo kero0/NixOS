@@ -55,11 +55,11 @@
 
     emacs.url = "github:kero0/emacs";
 
-    packages-jdf = {
+    jdf = {
       url = "github:iamjakewarner/jdf";
       flake = false;
     };
-    packages-tmux-ssh-split = {
+    tmux-ssh-split = {
       url = "github:pschmitt/tmux-ssh-split";
       flake = false;
     };

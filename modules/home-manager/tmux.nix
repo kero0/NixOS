@@ -104,7 +104,7 @@ in
               pluginName = "tmux-ssh-split";
               version = "1.0";
               rtpFilePath = "ssh-split.tmux";
-              src = inputs.packages-tmux-ssh-split;
+              src = inputs.tmux-ssh-split;
             };
             extraConfig = ''
               set-option -g @ssh-split-keep-cwd "true"
