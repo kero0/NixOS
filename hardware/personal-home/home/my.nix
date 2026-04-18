@@ -5,7 +5,7 @@
     bat.enable = true;
     bitwarden.enable = true;
     bottom.enable = true;
-    browser.enable = true;
+    browser.enable = false;
     clipboard-manager.enable = false;
     curl.enable = true;
     downloaders.enable = false;
@@ -20,15 +20,15 @@
     nix-index.enable = true;
     notification-manager.enable = false;
     pass.enable = true;
-    rofi.enable = true;
+    rofi.enable = false;
     ssh.enable = true;
-    syncthing.enable = true;
+    syncthing.enable = false;
     tealdeer.enable = true;
     tmux.enable = true;
     zoxide.enable = true;
 
     theme = {
-      cursor.enable = true;
+      cursor.enable = false;
       enable = true;
     };
 
