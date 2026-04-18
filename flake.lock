@@ -45,6 +45,26 @@
         "type": "github"
       }
     },
+    "coptic-font-conversion": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1776474836,
+        "narHash": "sha256-VooQgbrmsnTYjlDC2qpBDAfiAmoCGDMLfoOwzLQ2P/o=",
+        "owner": "kero0",
+        "repo": "coptic-font-conversion",
+        "rev": "0fc5ca81e3ff00ad82cbd1f87028fb89d9af23d6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kero0",
+        "repo": "coptic-font-conversion",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1773189535,
@@ -550,6 +570,7 @@
       "inputs": {
         "agenix": "agenix",
         "catppuccin": "catppuccin",
+        "coptic-font-conversion": "coptic-font-conversion",
         "darwin": "darwin",
         "disko": "disko",
         "emacs": "emacs",

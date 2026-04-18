@@ -55,6 +55,12 @@
 
     emacs.url = "github:kero0/emacs";
 
+    coptic-font-conversion = {
+      url = "github:kero0/coptic-font-conversion";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     jdf = {
       url = "github:iamjakewarner/jdf";
       flake = false;
