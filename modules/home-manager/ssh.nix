@@ -55,6 +55,11 @@ in
             RequestTTY = "force";
           };
         };
+        opnsense = {
+          port = 22;
+          hostname = "opnsense.lan";
+          user = "admin";
+        };
         tang = {
           port = 9639;
           hostname = "tang.lan";
@@ -66,7 +71,7 @@ in
           user = "kirolsb";
         };
         macbook = {
-          port = 9639;
+          port = 22;
           hostname = "mac.lan";
           user = "kirolsbakheat";
         };

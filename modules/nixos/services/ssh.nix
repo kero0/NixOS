@@ -13,7 +13,7 @@ with lib;
     enable = mkEnableOption "My openssh config";
     port = mkOption {
       type = types.port;
-      default = 9639;
+      default = if pkgs.stdenv.isDarwin then 22 else 9639;
     };
   };
   config = lib.mkIf cfg.enable {
