@@ -120,3 +120,14 @@ jobs:
             exit 1
           fi
           echo "All tests passed"
+  auto-close-dependabot:
+    name: All builds succeeded
+    needs: builds-passed
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Check test results
+        run: gh pr close -d -c 'Closing failed dependabot update' "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
