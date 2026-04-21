@@ -386,7 +386,7 @@
                 flake-checker.enable = true;
                 statix.enable = true;
 
-                nixfmt-rfc-style = {
+                nixfmt = {
                   enable = true;
                   package = self.formatter.${system};
                 };
