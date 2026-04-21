@@ -5,7 +5,6 @@
   ...
 }:
 {
-  security.sudo.wheelNeedsPassword = false;
   hardware = {
     steam-hardware.enable = true;
     graphics.enable32Bit = true;

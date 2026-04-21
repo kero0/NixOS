@@ -1,5 +1,4 @@
 {
-  security.sudo.wheelNeedsPassword = false;
   documentation = {
     enable = false;
     doc.enable = false;
