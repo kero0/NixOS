@@ -96,5 +96,6 @@ in
       mpd-mpris.enable = pkgs.stdenv.isLinux;
       mpris-proxy.enable = pkgs.stdenv.isLinux;
     };
+    home.packages = [ pkgs.ffmpeg ];
   };
 }
