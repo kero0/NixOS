@@ -128,7 +128,7 @@ jobs:
     steps:
       - name: Check test results
         run: |
-          if [ "${{ needs.build-check.result }}" != "success" ]; then
+          if [ "${{ needs.builds-passed.result }}" != "success" ]; then
             gh pr close -d -c 'Closing failed dependabot update' "$PR_URL"
             echo "Some tests failed"
           fi
