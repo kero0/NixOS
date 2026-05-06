@@ -32,18 +32,20 @@ in
             value = 1;
           };
           defaults.ignores = [
-            "(?d)__pycache__"
-            "(?d).venv"
-            "(?d)venv"
             "(?d).DS_Store"
-            "*.part"
-            "*.crdownload"
             "(?d).Spotlight-V100"
             "(?d).Trashes"
             "(?d)._*"
+            "(?d).direnv"
+            "(?d).venv"
+            "(?d)Thumbs.db"
+            "(?d)__pycache__"
             "(?d)desktop.ini"
             "(?d)ehthumbs.db"
-            "(?d)Thumbs.db"
+            "(?d)result"
+            "(?d)venv"
+            "*.crdownload"
+            "*.part"
           ];
         };
         folders = {
