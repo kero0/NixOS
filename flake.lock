@@ -130,11 +130,11 @@
         "packages-ox-chameleon": "packages-ox-chameleon"
       },
       "locked": {
-        "lastModified": 1777543771,
-        "narHash": "sha256-0m4wfsbuZw49SmTWA9yGSV1/m7eeC6A4AKgz36Takb4=",
+        "lastModified": 1778147509,
+        "narHash": "sha256-h242Lw03dLR1pZQ2SiqOG2gYcCdSwtikwn2XhOKXSXU=",
         "owner": "kero0",
         "repo": "emacs",
-        "rev": "0ece67e5e3c36a7e28f24db39d5ef72bd8506fb1",
+        "rev": "06a77566e60944ea2d100dcbf1d437189d8508c9",
         "type": "github"
       },
       "original": {
