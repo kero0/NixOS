@@ -11,6 +11,12 @@ in
 {
   options.my.home.shell.tools.enable = mkEnableOption "Basic shell tools";
   config = mkIf cfg.enable {
+    services = {
+      lorri = {
+        enable = pkgs.lib.mkIf pkgs.stdenv.isLinux true;
+        enableNotifications = true;
+      };
+    };
     programs = {
       command-not-found.enable = false;
       eza.enable = true;

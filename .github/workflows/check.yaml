@@ -35,7 +35,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
+        uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         if: ${{ matrix.free-space }}
@@ -62,6 +62,7 @@ jobs:
           name: kero0
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           extraPullNames: nix-community
+          pushFilter: '(-source$|\.tar\.gz$|\.xz$|\.zip$|\.iso$|\.img$)'
       - name: Check OS build
         shell: bash
         run: |
@@ -120,19 +121,3 @@ jobs:
             exit 1
           fi
           echo "All tests passed"
-  auto-close-dependabot:
-    name: Auto close dependabot failed PRs
-    needs: builds-passed
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
-    steps:
-      - name: Check test results
-        run: |
-          if [ "${{ needs.builds-passed.result }}" != "success" ]; then
-            gh pr close -d -c 'Closing failed dependabot update' "$PR_URL"
-            echo "Some tests failed"
-          fi
-          echo "All tests passed"
-        env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
