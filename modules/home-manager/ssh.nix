@@ -17,12 +17,10 @@ in
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = rec {
+      settings = rec {
         "*github*" = {
-          extraOptions = {
-            ControlPersist = "no";
-            ControlMaster = "no";
-          };
+          ControlPersist = "no";
+          ControlMaster = "no";
         };
         hass = {
           port = 9639;
@@ -30,19 +28,15 @@ in
           user = "kirolsb";
         };
         hass-bash = hass // {
-          extraOptions = {
-            RemoteCommand = "bash -l";
-            RequestTTY = "force";
-          };
+          RemoteCommand = "bash -l";
+          RequestTTY = "force";
         };
         installer = {
           port = 9639;
           hostname = "nixos-installer.lan";
           user = "kirolsb";
-          extraOptions = {
-            StrictHostKeyChecking = "no";
-            UserKnownHostsFile = "/dev/null";
-          };
+          StrictHostKeyChecking = "no";
+          UserKnownHostsFile = "/dev/null";
         };
         nasy = {
           port = 9639;
@@ -50,10 +44,8 @@ in
           user = "kirolsb";
         };
         nasy-bash = nasy // {
-          extraOptions = {
-            RemoteCommand = "bash -l";
-            RequestTTY = "force";
-          };
+          RemoteCommand = "bash -l";
+          RequestTTY = "force";
         };
         opnsense = {
           port = 22;
