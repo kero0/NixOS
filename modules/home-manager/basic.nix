@@ -77,5 +77,11 @@ in
       path = lib.mkForce (cfg.homedir + "/.config");
     };
     xdg.enable = true;
+    assertions = [
+      {
+        assertion = config.warnings == [ ];
+        message = "Build aborted due to warnings:\n\t" + (lib.concatStringsSep "\n\t" config.warnings);
+      }
+    ];
   };
 }
