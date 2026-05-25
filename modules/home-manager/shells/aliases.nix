@@ -35,8 +35,6 @@ in
     {
       home.shellAliases = with pkgs; {
         cat = lib.mkIf config.programs.bat.enable "bat";
-        rm = pkgs.lib.mkIf pkgs.stdenv.isDarwin "${darwin.trash}/bin/trash -F";
-        trash = pkgs.lib.mkIf pkgs.stdenv.isDarwin "${darwin.trash}/bin/trash -F";
         rs =
           let
             short-args = mkshort-args [
