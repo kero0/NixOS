@@ -27,6 +27,11 @@ in
           hostname = "hass.lan";
           user = "kirolsb";
         };
+        backy = {
+          port = 9639;
+          hostname = "209.209.10.60";
+          user = "kirolsb";
+        };
         hass-bash = hass // {
           RemoteCommand = "bash -l";
           RequestTTY = "force";
