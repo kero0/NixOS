@@ -38,7 +38,7 @@
   networking.firewall.enable = true;
 
   environment.systemPackages = with pkgs; [
-    bambu-studio
+    # bambu-studio
     pciutils
   ];
 }
