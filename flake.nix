@@ -215,7 +215,7 @@
         }
         ++ nixpkgs.lib.lists.optionals isLinux [
           inputs.catppuccin.nixosModules.catppuccin
-          { catppuccin.enable = true; }
+          { catppuccin.autoEnable = true; }
           inputs.disko.nixosModules.disko
           { networking.hostName = hostname; }
         ];
