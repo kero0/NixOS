@@ -152,8 +152,8 @@
 
       # mine
       gperftools
-      libsForQt5.qt5.qtbase
-      libsForQt5.qt5.qtmultimedia
+      qt5.qtbase
+      qt5.qtmultimedia
       openvr
     ];
   };
