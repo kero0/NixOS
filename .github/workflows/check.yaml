@@ -20,22 +20,23 @@ jobs:
           - target: homeConfigurations.kirolsb.activationPackage
             os: ubuntu-latest
             free-space: false
-          - target: nixosConfigurations.Kirols-xps9575.config.system.path
+          - target: nixosConfigurations.Kirols-xps9575.config.system.toplevel
             os: ubuntu-latest
             free-space: true
-          - target: nixosConfigurations.justice.config.system.path
+          - target: nixosConfigurations.justice.config.system.toplevel
             os: ubuntu-latest
             free-space: true
-          - target: nixosConfigurations.theater.config.system.path
+          - target: nixosConfigurations.theater.config.system.toplevel
             os: ubuntu-latest
             free-space: true
-          - target: nixosConfigurations.tang.config.system.path
+          - target: nixosConfigurations.tang.config.system.toplevel
             os: ubuntu-24.04-arm
             free-space: false
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         if: ${{ matrix.free-space }}
@@ -52,21 +53,19 @@ jobs:
           large-packages: true
           docker-images: true
           swap-storage: true
+
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@1d87d45818068401a10cf16bdc5f00b24994a83f
         with:
           extra-conf: |
             extra-experimental-features = flakes nix-command recursive-nix pipe-operators
-      - uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71
-        with:
-          name: kero0
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          extraPullNames: nix-community
-          pushFilter: '(-source$|\.tar\.gz$|\.xz$|\.zip$|\.iso$|\.img$)'
+
       - name: Check OS build
+        id: build
         shell: bash
         run: |
-          nix build --accept-flake-config --show-trace -L '.#${{ matrix.target }}'
+          echo "result=$(nix build --accept-flake-config --show-trace --print-out-paths --no-link -L '.#${{ matrix.target }}')" >> $GITHUB_OUTPUT
+
       - name: Diff profile
         id: diff
         run: |
@@ -80,6 +79,14 @@ jobs:
 
             echo 'EOF'
           } >> $GITHUB_OUTPUT
+
+      - uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71
+        with:
+          name: kero0
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          extraPullNames: nix-community
+          pathsToPush: ${{ steps.build.outputs.result }}
+
       - name: Comment on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
