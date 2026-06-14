@@ -118,6 +118,12 @@
         ++ [
           inputs.nix-index-database.homeModules.nix-index
           inputs.catppuccin.homeModules.catppuccin
+          {
+            catppuccin = {
+              enable = true;
+              autoEnable = true;
+            };
+          }
           (
             { osConfig, ... }:
             {
@@ -215,7 +221,12 @@
         }
         ++ nixpkgs.lib.lists.optionals isLinux [
           inputs.catppuccin.nixosModules.catppuccin
-          { catppuccin.autoEnable = true; }
+          {
+            catppuccin = {
+              enable = true;
+              autoEnable = true;
+            };
+          }
           inputs.disko.nixosModules.disko
           { networking.hostName = hostname; }
         ];
