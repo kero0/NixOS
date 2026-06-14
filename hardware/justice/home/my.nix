@@ -26,7 +26,7 @@
     ssh.enable = true;
     syncthing.enable = true;
     tealdeer.enable = true;
-    tmux.enable = true;
+    zellij.enable = true;
     zoxide.enable = true;
 
     theme = {

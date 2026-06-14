@@ -20,7 +20,7 @@
     syncthing.enable = true;
     tealdeer.enable = true;
     theme.enable = true;
-    tmux.enable = true;
+    zellij.enable = true;
     zoxide.enable = true;
 
     email = {
