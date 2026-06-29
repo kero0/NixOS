@@ -30,8 +30,8 @@ in
             };
             enable = true;
             extensions = [
-              # ublock origin
-              { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; }
+              # ublock origin lite
+              { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; }
               # bitwarden
               { id = "nngceckbapebfimnlniiiahkandclblb"; }
               # video speed controller
