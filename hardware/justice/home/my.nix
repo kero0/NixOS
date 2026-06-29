@@ -48,7 +48,6 @@
     shell = {
       alias.enable = true;
       bash.enable = true;
-      fish.enable = true;
       kitty.enable = true;
       readline.enable = true;
       tools.enable = true;
