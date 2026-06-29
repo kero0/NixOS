@@ -1,4 +1,5 @@
 {
+  security.sudo.wheelNeedsPassword = false;
   networking.wireless.enable = true;
   # Preserve space by sacrificing documentation and history
   documentation = {
