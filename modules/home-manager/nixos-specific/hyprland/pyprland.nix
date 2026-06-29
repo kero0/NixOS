@@ -31,7 +31,7 @@ in
         WantedBy = [ "hyprland-session.target" ];
       };
     };
-    xdg.configFile."hypr/pyprland.toml".source = (pkgs.formats.toml { }).generate "pyprland.toml" {
+    xdg.configFile."pypr/config.toml".source = (pkgs.formats.toml { }).generate "config.toml" {
       pyprland.plugins = [ "scratchpads" ];
       scratchpads = {
         bluetooth = {

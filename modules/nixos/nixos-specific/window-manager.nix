@@ -31,10 +31,7 @@ with lib;
           user = config.my.user.username;
         };
         defaultSession = "hyprland-uwsm";
-        gdm = {
-          enable = true;
-          wayland = true;
-        };
+        gdm.enable = true;
       };
     };
   };

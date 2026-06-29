@@ -33,11 +33,13 @@ in
       };
     };
 
-    wayland.windowManager.hyprland.settings = {
-      "$cliphist-rofi-img" = "${pkgs.cliphist}/bin/cliphist-rofi-img";
-      bind = [
-        "$mod SHIFT , V,      exec, rofi -modi clipboard:$cliphist-rofi-img -show clipboard -show-icons"
-      ];
-    };
+    wayland.windowManager.hyprland.settings.bind = [
+      {
+        _args = [
+          (lib.mkLuaInline "mod .. \" + SHIFT + V\"")
+          (lib.mkLuaInline ''hl.dsp.exec_cmd("rofi -modi clipboard:${pkgs.cliphist}/bin/cliphist-rofi-img -show clipboard -show-icons")'')
+        ];
+      }
+    ];
   };
 }

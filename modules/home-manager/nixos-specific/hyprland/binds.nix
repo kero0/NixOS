@@ -6,128 +6,113 @@
 }:
 with lib;
 let
-  togglefloat = pkgs.writeShellScriptBin "togglefloat" ''
-    floating=$(hyprctl activewindow -j | jq .floating)
-    if [ $floating = "true" ]; then
-        hyprctl dispatch togglefloating
-    else
-        hyprctl --batch					\
-    	    dispatch togglefloating ';'			\
-    	    dispatch resizeactive 'exact 80% 85%' ';'	\
-    	    dispatch centerwindow
-    fi
-  '';
-  wsCommand =
-    command:
-    "${
-      pkgs.writeShellScriptBin "hyprland-ws-${command}"
-        # bash
-        ''
-          shopt -s extglob
-          mapfile -t wss < <(hyprctl workspaces -j |\
-                        ${config.programs.jq.package}/bin/jq -r 'map(.name) | .[]')
-          ws="$(printf "%s\\n" "''${wss[@]}" |\
-                        ${config.programs.rofi.finalPackage}/bin/rofi -dmenu -mesg '<b>Select a workspace</b>')"
-          case $ws in
-          special:*) command=${
-            if command == "focusworkspaceoncurrentmonitor" then "togglespecialworkspace" else command
-          }
-                     x=''${ws#special:}
-          ;;
-          *) command=${command}
-                     x=$ws
-          ;;
-          esac
-          if grep -q "$ws" <(printf "%s\\n" "''${wss[@]}"); then
-            hyprctl dispatch $command  $x
-          else
-            window="$(hyprctl activewindow -j | ${config.programs.jq.package}/bin/jq -r '.address')"
-            hyprctl dispatch workspace 99
-            hyprctl dispatch workspace emptynm
-            hyprctl dispatch renameworkspace "$(hyprctl activeworkspace -j | ${config.programs.jq.package}/bin/jq '.id')" "$x"
-            ${strings.optionalString (strings.hasInfix "move" command) ''hyprctl dispatch $command "$x,address:$window"''}
-          fi
-        ''
-    }/bin/hyprland-ws-${command}";
+  mod = "SUPER";
+  terminal = "${config.programs.kitty.package}/bin/kitty";
+  fileManager = "${pkgs.nautilus}/bin/nautilus";
+  menu = "${config.programs.rofi.finalPackage}/bin/rofi -show-icons -show drun -sidebar-mode";
+  exec = cmd: ''hl.dsp.exec_cmd("${cmd}")'';
 in
 {
   config = mkIf config.my.home.hyprland.enable {
     wayland.windowManager.hyprland.settings = {
-      "$mod" = "SUPER";
-      "$terminal" = "${config.programs.kitty.package}/bin/kitty";
-      "$fileManager" = "${pkgs.nautilus}/bin/nautilus";
-      "$menu" = "${config.programs.rofi.finalPackage}/bin/rofi -show-icons -show drun -sidebar-mode";
-
-      "$movetoWS" = wsCommand "movetoworkspacesilent";
-      "$gotoWS" = wsCommand "focusworkspaceoncurrentmonitor";
+      mod._var = "SUPER";
       gesture = [
-        "3, horizontal, workspace"
+        {
+          _args = [
+            {
+              fingers = 3;
+              direction = "horizontal";
+              action = "workspace";
+            }
+          ];
+        }
       ];
-      bindel = [
-        ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume +5"
-        ", XF86AudioLowerVolume, exec, swayosd-client --output-volume -5"
-        ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
-        ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
+      bind =
+        lib.mapAttrsToList
+          (k: v: {
+            _args = [
+              k
+              (mkLuaInline v)
+            ];
+          })
+          {
+            "XF86AudioPlay" = exec "playerctl play-pause";
+            "XF86AudioNext" = exec "playerctl next";
+            "XF86AudioPrev" = exec "playerctl previous";
+            "Print" =
+              exec "grim - | tee ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png | wl-copy --type image/png";
+            "XF86AudioRaiseVolume" = exec "swayosd-client --output-volume +5";
+            "XF86AudioLowerVolume" = exec "swayosd-client --output-volume -5";
+            "XF86AudioMute" = exec "swayosd-client --output-volume mute-toggle";
+            "XF86AudioMicMute" = exec "swayosd-client --input-volume mute-toggle";
+            "XF86MonBrightnessUp" = exec "swayosd-client --brightness +5";
+            "XF86MonBrightnessDown" = exec "swayosd-client --brightness -5";
+            "CAPS" = exec "swayosd-client --caps-lock";
+            "${mod} + SHIFT + Q" = "hl.dsp.window.close()";
+            "${mod} + SHIFT + C" = exec "${pkgs.wlogout}/bin/wlogout";
+            "${mod}         + t" = ''
+              function()
+                  local win = hl.get_active_window()
 
-        ", XF86MonBrightnessUp, exec, swayosd-client --brightness +5"
-        ", XF86MonBrightnessDown, exec, swayosd-client --brightness -5"
-        "CAPS, Caps_Lock, exec, swayosd-client --caps-lock"
-      ];
-      bindm = [
-        # Move/resize windows with mainMod + LMB/RMB and dragging
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
-      ];
-      # repeatable bindings
-      binde = [
-        # resize window
-        "$mod CTRL  , l, resizeactive, 10 0"
-        "$mod CTRL  , h, resizeactive, -10 0"
-        "$mod CTRL  , k, resizeactive, 0 -10"
-        "$mod CTRL  , j, resizeactive, 0 10"
-      ];
-      bind = [
-        "$mod Shift , Q, killactive,"
-        "$mod Shift , C, exec,${pkgs.wlogout}/bin/wlogout"
-        "$mod       , t, exec, ${togglefloat}/bin/togglefloat"
-        "$mod       , f, fullscreen,"
-        "$mod       , p, pseudo, # dwindle"
-        "$mod       , j, togglesplit, # dwindle"
+                  if win.floating then
+                      hl.dispatch(hl.dsp.window.float()) -- toggle floating off
+                  else
+                      hl.dispatch(hl.dsp.window.float()) -- toggle floating on
 
-        "$mod SHIFT , N,      exec, swaync-client -t -sw"
-        "$mod SHIFT , Return, exec, $fileManager"
-        "$mod CTRL  , Return, exec, $terminal"
-        "$mod       , s,      exec, $menu"
+                      local monitor = hl.get_active_monitor()
 
-        "$mod       , r,      togglespecialworkspace, ref"
-        "$mod SHIFT , r,      movetoworkspacesilent, special:ref"
-        "$mod CTRL  , b,      exec, pypr toggle bluetooth"
-        "$mod CTRL  , v,      exec, pypr toggle volume"
-        "$mod       , Return, exec, pypr toggle term"
+                      hl.dispatch(hl.dsp.window.resize({
+                          x = monitor.width * 0.8,
+                          y = monitor.height * 0.85,
+                          relative = false,
+                      }))
+                      hl.dispatch(hl.dsp.window.center())
+                  end
+              end
+            '';
+            "${mod}         + f" = ''hl.dsp.window.fullscreen({mode = "fullscreen", action = toggle})'';
+            "${mod} + SHIFT + N" = exec "swaync-client -t -sw";
+            "${mod} + SHIFT + Return" = exec "${fileManager}";
+            "${mod} + CTRL  + Return" = exec "${terminal}";
+            "${mod}         + s" = exec menu;
+            "${mod} + CTRL  + b" = exec "pypr toggle bluetooth";
+            "${mod} + CTRL  + v" = exec "pypr toggle volume";
+            "${mod}         + Return" = exec "pypr toggle term";
 
-        # move focus
-        "$mod       , h, movefocus, l"
-        "$mod       , l, movefocus, r"
-        "$mod       , k, movefocus, u"
-        "$mod       , j, movefocus, d"
-        # move window
-        "$mod SHIFT , H, movewindow, l"
-        "$mod SHIFT , L, movewindow, r"
-        "$mod SHIFT , K, movewindow, u"
-        "$mod SHIFT , J, movewindow, d"
+            "${mod} +       + k" = ''hl.dsp.layout("focus l")'';
+            "${mod} +       + j" = ''hl.dsp.layout("focus r")'';
 
-        "           , XF86AudioPlay, exec, playerctl play-pause"
-        "           , XF86AudioNext, exec, playerctl next"
-        "           , XF86AudioPrev, exec, playerctl previous"
-        "           , Print, exec, grim - | tee ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png | wl-copy --type image/png"
+            "${mod} + CTRL  + k" = ''hl.dsp.layout("+conf")'';
+            "${mod} + CTRL  + j" = ''hl.dsp.layout("-conf")'';
 
-        "$mod Shift , Tab, exec, $movetoWS"
-        "$mod       , Tab, exec, $gotoWS"
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-        builtins.concatLists (
+            "${mod} + SHIFT + k" = ''hl.dsp.layout("swapcol l")'';
+            "${mod} + SHIFT + j" = ''hl.dsp.layout("swapcol r")'';
+            # "${mod} + SHIFT + :" = ''hl.dsp.layout("promote")'';
+          }
+        ++ [
+          {
+            _args = [
+              "${mod} +       + mouse:272"
+              (mkLuaInline "hl.dsp.window.drag()")
+              { mouse = true; }
+            ];
+          }
+          {
+            _args = [
+              "${mod} + SHIFT + mouse:272"
+              (mkLuaInline "hl.dsp.window.resize()")
+              { mouse = true; }
+            ];
+          }
+          {
+            _args = [
+              "${mod} +       + mouse:273"
+              (mkLuaInline "hl.dsp.window.resize()")
+              { mouse = true; }
+            ];
+          }
+        ]
+        ++ (builtins.concatLists (
           builtins.genList (
             x:
             let
@@ -138,12 +123,21 @@ in
                 builtins.toString (x + 1 - (c * 10));
             in
             [
-              "$mod       , ${ws}, focusworkspaceoncurrentmonitor , ${toString (x + 1)}"
-              "$mod SHIFT , ${ws}, movetoworkspacesilent          , ${toString (x + 1)}"
+              {
+                _args = [
+                  "${mod} +       + ${ws}"
+                  (mkLuaInline "hl.dsp.focus({ workspace = ${toString (x + 1)} })")
+                ];
+              }
+              {
+                _args = [
+                  "${mod} + SHIFT + ${ws}"
+                  (mkLuaInline "hl.dsp.window.move({ workspace = ${toString (x + 1)} })")
+                ];
+              }
             ]
           ) 10
-        )
-      );
+        ));
     };
   };
 }
