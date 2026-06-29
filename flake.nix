@@ -373,6 +373,19 @@
           };
       };
       images = import ./utils/images.nix { inherit mmodules nixpkgs self; };
+      packages = nixpkgs.lib.foldr nixpkgs.lib.recursiveUpdate { } (
+        map
+          (system: {
+            ${system} = import ./utils/scripts {
+              inherit self;
+              pkgs = import nixpkgs (nixpkgsConfig // { inherit system; });
+            };
+          })
+          [
+            "aarch64-darwin"
+            "x86_64-linux"
+          ]
+      );
       vms = import ./utils/vms.nix { inherit nixpkgs self; };
       darwinConfigurations."Kirolss-MacBook-Pro" =
         let

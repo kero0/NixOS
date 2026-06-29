@@ -29,5 +29,9 @@
         CPU_BOOST_ON_BAT = 0;
       };
     };
+    upower = {
+      enable = true;
+      criticalPowerAction = "Hibernate";
+    };
   };
 }

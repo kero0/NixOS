@@ -25,9 +25,9 @@
   security.sudo.wheelNeedsPassword = false;
 
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
     loader.systemd-boot.enable = true;
-    resumeDevice = "/.swapvol/swapfile";
+    # resumeDevice = "/.swapvol/swapfile";
   };
 
   swapDevices = [
