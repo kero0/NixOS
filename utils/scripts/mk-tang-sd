@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -eux
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 /path/to/TARGET_DEVICE"
+    exit 1
+fi
+
+dev="$1"
+
+if [[ ! -b "$dev" ]]; then
+    echo "$dev must be a block device"
+    exit 1
+fi
+
+tmp_dir=$(mktemp -d)
+trap 'rm -rf "$tmp_dir"' EXIT
+
+unzstd -d $image -o "$tmp_dir/tang.img"
+sudo dd if="$tmp_dir/tang.img" of="$dev" bs=1M status=progress
+sudo umount "$dev"{p1,p2}
