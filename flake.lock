@@ -127,14 +127,15 @@
         "nixpkgs": "nixpkgs_3",
         "packages-eglot-booster": "packages-eglot-booster",
         "packages-logview": "packages-logview",
-        "packages-ox-chameleon": "packages-ox-chameleon"
+        "packages-ox-chameleon": "packages-ox-chameleon",
+        "packages-revealjs": "packages-revealjs"
       },
       "locked": {
-        "lastModified": 1782381677,
-        "narHash": "sha256-iLQditYaTSR3qoOOjli/F8ppVvtKFCeDW42uG/hnleQ=",
+        "lastModified": 1782692286,
+        "narHash": "sha256-A9zSMppv+fNwUP12WeTlIDZYbpXkd2Xr+EppsRfRM5I=",
         "owner": "kero0",
         "repo": "emacs",
-        "rev": "2ab3fe5e37859d4cc23f2bd6219daf6b3281e5e0",
+        "rev": "a6e96970c37f3f78c8b61a76087a61980c204821",
         "type": "github"
       },
       "original": {
@@ -464,11 +465,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1781607440,
-        "narHash": "sha256-rxO+uc/KFbSJp+pgyXRuAX6QlG9hJdnt0BXpEQRXY+U=",
+        "lastModified": 1782545840,
+        "narHash": "sha256-PkBPmP5ofNtunCU7/tfn6wi9OLlzFGcHAqqmY+/mwUI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "3e41b24abd260e8f71dbe2f5737d24122f972158",
+        "rev": "3d46470bb3030020f7e1361f33514854f5bfa86d",
         "type": "github"
       },
       "original": {
@@ -553,6 +554,23 @@
       "original": {
         "owner": "tecosaur",
         "repo": "ox-chameleon",
+        "type": "github"
+      }
+    },
+    "packages-revealjs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1743166283,
+        "narHash": "sha256-f5g09Xj4XF+v6Y6zW13R4PUTWkAt3wwGpa9nSypUV6w=",
+        "owner": "hakimel",
+        "repo": "reveal.js",
+        "rev": "25e52e26af09933a98afb24cfdd3574e9055034d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hakimel",
+        "ref": "5.2.1",
+        "repo": "reveal.js",
         "type": "github"
       }
     },
