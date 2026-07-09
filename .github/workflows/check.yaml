@@ -64,12 +64,14 @@ jobs:
         id: build
         shell: bash
         run: |
+          set -eux -o pipefail
           echo "result=$(nix build --accept-flake-config --show-trace --print-out-paths --no-link -L '.#${{ matrix.target }}')" >> $GITHUB_OUTPUT
 
       - name: Diff profile
         id: diff
         run: |
           {
+            set -eux -o pipefail
             echo 'body<<EOF'
             echo "# ${{ matrix.target }} changes"
 
