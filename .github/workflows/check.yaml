@@ -64,23 +64,37 @@ jobs:
         id: build
         shell: bash
         run: |
-          set -eux -o pipefail
-          echo "result=$(nix build --accept-flake-config --show-trace --print-out-paths --no-link -L '.#${{ matrix.target }}')" >> $GITHUB_OUTPUT
+          result=$(nix build --accept-flake-config --show-trace --print-out-paths --no-link -L '.#${{ matrix.target }}')
+          res=$?
+
+          echo "result=$result" >> $GITHUB_OUTPUT
+          if [ $res -eq 0 ]; then
+            echo "build result: success" >> $GITHUB_OUTPUT
+          else
+            echo "build result: failure" >> $GITHUB_OUTPUT
+            exit $res
+          fi
 
       - name: Diff profile
         id: diff
         run: |
           {
-            set -eux -o pipefail
             echo 'body<<EOF'
             echo "# ${{ matrix.target }} changes"
 
             nix store diff-closures --accept-flake-config --derivation \
                 "github:${{ github.repository }}/${{ github.event.before }}#${{ matrix.target }}" \
                 ".#${{ matrix.target }}" | sed 's/\x1b\[[0-9;]*m//g'
+            res=$?
 
             echo 'EOF'
           } >> $GITHUB_OUTPUT
+          if [ $res -eq 0 ]; then
+            echo "diff result: success" >> $GITHUB_OUTPUT
+          else
+            echo "diff result: failure" >> $GITHUB_OUTPUT
+            exit $res
+          fi
 
       - uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71
         with:
