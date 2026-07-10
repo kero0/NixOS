@@ -1,8 +1,11 @@
 {
   lib,
-  enable_root ? true,
+  config,
   ...
 }:
+let
+  enable_root = config.module.args.enable_root or true;
+in
 {
   boot = {
     loader = {
