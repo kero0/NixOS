@@ -50,6 +50,7 @@ in
         enable = true;
         enableFishIntegration = true;
         enableZshIntegration = true;
+        historyWidget.command = "";
       };
 
       ripgrep = {
