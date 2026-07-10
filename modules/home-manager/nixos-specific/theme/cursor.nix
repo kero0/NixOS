@@ -12,6 +12,7 @@ in
   options.my.home.theme.cursor.enable = mkEnableOption "Cursor theme";
   config = mkIf cfg.enable {
     home.pointerCursor = {
+      enable = true;
       name = "Vanilla-DMZ";
       package = pkgs.vanilla-dmz;
       size = 32;
