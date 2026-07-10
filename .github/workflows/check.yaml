@@ -20,16 +20,16 @@ jobs:
           - target: homeConfigurations.kirolsb.activationPackage
             os: ubuntu-latest
             free-space: false
-          - target: nixosConfigurations.Kirols-xps9575.config.system.toplevel
+          - target: nixosConfigurations.Kirols-xps9575.config.system.build.toplevel
             os: ubuntu-latest
             free-space: true
-          - target: nixosConfigurations.justice.config.system.toplevel
+          - target: nixosConfigurations.justice.config.system.build.toplevel
             os: ubuntu-latest
             free-space: true
-          - target: nixosConfigurations.theater.config.system.toplevel
+          - target: nixosConfigurations.theater.config.system.build.toplevel
             os: ubuntu-latest
             free-space: true
-          - target: nixosConfigurations.tang.config.system.toplevel
+          - target: nixosConfigurations.tang.config.system.build.toplevel
             os: ubuntu-24.04-arm
             free-space: false
     runs-on: ${{ matrix.os }}
