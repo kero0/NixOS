@@ -69,9 +69,9 @@ jobs:
 
           echo "result=$result" >> $GITHUB_OUTPUT
           if [ $res -eq 0 ]; then
-            echo "build result: success" >> $GITHUB_OUTPUT
+            echo "build_result=success" >> $GITHUB_OUTPUT
           else
-            echo "build result: failure" >> $GITHUB_OUTPUT
+            echo "build_result=failure" >> $GITHUB_OUTPUT
             exit $res
           fi
 
@@ -79,20 +79,29 @@ jobs:
         id: diff
         run: |
           {
+            new_path="${{ steps.build.outputs.result }}"
+            echo "new_path=$new_path" >> $GITHUB_OUTPUT
+            old_path=$(nix eval --accept-flake-config --raw ".#${{ matrix.target }}")
+            res=$?
+            if [ $res -ne 0 ]; then
+              echo "Failed to get old path for ${{ matrix.target }}" >> $GITHUB_OUTPUT
+              exit 0
+            fi
             echo 'body<<EOF'
             echo "# ${{ matrix.target }} changes"
 
+
             nix store diff-closures --accept-flake-config --derivation \
-                "github:${{ github.repository }}/${{ github.event.before }}#${{ matrix.target }}" \
-                ".#${{ matrix.target }}" | sed 's/\x1b\[[0-9;]*m//g'
+                "$old_path" \
+                "$new_path" | sed 's/\x1b\[[0-9;]*m//g'
             res=$?
 
             echo 'EOF'
           } >> $GITHUB_OUTPUT
           if [ $res -eq 0 ]; then
-            echo "diff result: success" >> $GITHUB_OUTPUT
+            echo "diff_result=success" >> $GITHUB_OUTPUT
           else
-            echo "diff result: failure" >> $GITHUB_OUTPUT
+            echo "diff_result=failure" >> $GITHUB_OUTPUT
             exit $res
           fi
 
