@@ -64,7 +64,7 @@ jobs:
         id: build
         shell: bash
         run: |
-          result=$(nix build --accept-flake-config --show-trace --print-out-paths --no-link -L '.#${{ matrix.target }}')
+          result=$(nix build --accept-flake-config --show-trace --print-out-paths --no-link -L .#${{ matrix.target }})
           res=$?
 
           echo "result=$result" >> $GITHUB_OUTPUT
