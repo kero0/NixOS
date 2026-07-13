@@ -131,11 +131,11 @@
         "packages-revealjs": "packages-revealjs"
       },
       "locked": {
-        "lastModified": 1783637644,
-        "narHash": "sha256-yhgke484yKUDi9/EQOKnm2RiYIPw2YE9n2+bptutjp8=",
+        "lastModified": 1783738694,
+        "narHash": "sha256-+ZbYzR7q6jTLtTBFr76RobY4g5unY2XFtugxwUUckrs=",
         "owner": "kero0",
         "repo": "emacs",
-        "rev": "7ced8255a626342c5f13b79afbfa883d593b350a",
+        "rev": "7ce7e5ea3921f20af92f009a09fa4f0924ad4be9",
         "type": "github"
       },
       "original": {
