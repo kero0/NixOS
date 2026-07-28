@@ -27,7 +27,7 @@ in
           ];
           long-args = mklong-args [
             "group-directories-first" # group directories before files
-            "color=automatic" # colorize the output if not piping
+            "color=auto" # colorize the output if not piping
           ];
         in
         mkcommand "eza" short-args long-args;
