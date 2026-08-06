@@ -19,7 +19,6 @@ in
         else
           "${config.home.homeDirectory}/Music";
     };
-
   };
   config = mkIf cfg.enable {
     my.default-apps =
@@ -34,6 +33,7 @@ in
           "mp4"
           "avi"
           "m4v"
+          "wmv"
         ];
     programs = {
       mpv = {
@@ -55,6 +55,8 @@ in
         config = {
           keep-open = true;
           save-position-on-quit = false;
+          autofit-smaller = "50%x50%";
+          autofit-larger = "100%x100%";
         };
       };
       ncmpcpp = {
