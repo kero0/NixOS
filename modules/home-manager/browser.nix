@@ -9,21 +9,32 @@ let
   cfg = config.my.home.browser;
 in
 {
-  options.my.home.browser.enable = mkEnableOption "Enable browser config";
+  options.my.home.browser = {
+    enable = mkEnableOption "Enable browser config";
+    commandLineArgs = mkOption {
+      type = types.listOf types.str;
+      default =
+        if pkgs.stdenv.isLinux then
+          [
+            "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode"
+            "--ignore-gpu-blocklist"
+            "--enable-gpu-rasterization"
+            "--ozone-platform-hint=auto"
+            "--enable-features=UseOzonePlatform"
+          ]
+        else
+          [ ];
+      description = "List of common command line arguments for all browsers";
+    };
+  };
   config = mkIf cfg.enable {
     programs = attrsets.mergeAttrsList (
       map
         (pkg: {
           ${pkg} = {
-            package = pkgs.${pkg};
-            commandLineArgs = lib.mkIf pkgs.stdenv.isLinux [
-              "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode"
-              "--ignore-gpu-blocklist"
-              "--enable-gpu-rasterization"
-              "--ozone-platform-hint=auto"
-              "--enable-features=UseOzonePlatform"
-            ];
             enable = true;
+            inherit (cfg) commandLineArgs;
+            package = mkIf pkgs.stdenv.isDarwin null;
             extensions = [
               # ublock origin lite
               { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; }
@@ -33,7 +44,9 @@ in
               { id = "nffaoalbilbmmfgbnbgppjihopabppdk"; }
               # sponsorblock
               { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; }
-            ];
+            ]
+            # nordvpn
+            ++ lists.optional (pkg == "vivaldi") { id = "fjoaledfpmneenckfbpdfhkmimnjocfa"; };
           };
         })
         [
@@ -42,7 +55,7 @@ in
         ]
     );
     xdg.mimeApps = {
-      enable = true;
+      enable = mkDefault pkgs.stdenv.isLinux;
       defaultApplications = {
         "text/html" = "chromium.desktop";
         "x-scheme-handler/http" = "chromium.desktop";

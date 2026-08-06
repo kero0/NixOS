@@ -4,6 +4,7 @@
     bat.enable = true;
     bitwarden.enable = true;
     bottom.enable = true;
+    browser.enable = true;
     editors.enable = true;
     git = {
       enable = true;
