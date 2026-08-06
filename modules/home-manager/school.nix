@@ -41,57 +41,52 @@ in
         };
       in
       [
-        (
-          with pkgs.texlive;
-          combine {
-            inherit
-              scheme-small
-              biblatex
-              dvipng
-              dvisvgm
-              latexmk
-              ;
-            inherit
-              amsmath
-              babel
-              capt-of
-              caption
-              changepage
-              cm-super
-              csquotes
-              enumitem
-              environ
-              etoolbox
-              eulervm
-              everypage
-              float
-              footmisc
-              footnotebackref
-              fvextra
-              geometry
-              hyperref
-              jdf
-              ly1
-              mathpazo
-              mdframed
-              microtype
-              needspace
-              nowidow
-              pdfcol
-              siunitx
-              soul
-              sourcecodepro
-              standalone
-              subfiles
-              tcolorbox
-              titlesec
-              type1cm
-              wrapfig
-              xcolor
-              zref
-              ;
-          }
-        )
+        (pkgs.texliveBasic.withPackages (
+          ps: with ps; [
+            biblatex
+            dvipng
+            dvisvgm
+            latexmk
+
+            amsmath
+            babel
+            capt-of
+            caption
+            changepage
+            cm-super
+            csquotes
+            enumitem
+            environ
+            etoolbox
+            eulervm
+            everypage
+            float
+            footmisc
+            footnotebackref
+            fvextra
+            geometry
+            hyperref
+            jdf
+            ly1
+            mathpazo
+            mdframed
+            microtype
+            needspace
+            nowidow
+            pdfcol
+            siunitx
+            soul
+            sourcecodepro
+            standalone
+            subfiles
+            tcolorbox
+            titlesec
+            type1cm
+            wrapfig
+            xcolor
+            zref
+          ]
+        ))
       ];
   };
 }
