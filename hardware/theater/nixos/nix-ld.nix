@@ -67,7 +67,7 @@
       libxi
       libSM
       libICE
-      gnome2.GConf
+      # gnome2.GConf
       nspr
       nss
       cups
