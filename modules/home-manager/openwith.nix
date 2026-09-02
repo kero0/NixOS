@@ -7,7 +7,7 @@
 let
   inherit (lib) mkOption types concatMapStringsSep;
   cfg = config.my.default-apps;
-  mkCommand = app: "${pkgs.openwith}/bin/openwith ${app.app_id} ${app.extension}";
+  mkCommand = app: "${pkgs.duti}/bin/duti -s ${app.app_id} ${app.extension} all";
   commands = concatMapStringsSep "\n" mkCommand cfg;
 in
 {
@@ -32,7 +32,7 @@ in
   };
 
   config = lib.mkIf (cfg != [ ] && pkgs.stdenv.isDarwin) {
-    home.packages = [ pkgs.openwith ];
+    home.packages = [ pkgs.duti ];
     home.activation.my-default-apps = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       run echo "Setting default apps"
       run ${commands}
