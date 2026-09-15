@@ -13,7 +13,7 @@ with lib;
     services = {
       dbus.implementation = "broker";
       gvfs.enable = true;
-      journald.extraConfig = "SystemMaxUse=100M";
+      journald.settings.Journal.SystemMaxUse = "100M";
     };
   };
 }
