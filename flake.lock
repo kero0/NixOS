@@ -586,11 +586,11 @@
     "tmux-ssh-split": {
       "flake": false,
       "locked": {
-        "lastModified": 1773127677,
-        "narHash": "sha256-v/8Jo62tisVMqmgTge/nZtFBgFHQxIt/wGCZ48znUIk=",
+        "lastModified": 1789636831,
+        "narHash": "sha256-F9UtG0sLL437BCGFMmdrVKeGkmHWDnasJa5/GBPOMKs=",
         "owner": "pschmitt",
         "repo": "tmux-ssh-split",
-        "rev": "cf4577613a49736a5bc17e5ae01112ff42ee53c4",
+        "rev": "338bc3254be2749216d3d2f76a3314af9f7da815",
         "type": "github"
       },
       "original": {
