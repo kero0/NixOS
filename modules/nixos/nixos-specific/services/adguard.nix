@@ -12,7 +12,10 @@ with lib;
     enable = mkEnableOption "AdGuard Home DNS server";
     bind_hosts = mkOption {
       type = with lib.types; listOf str;
-      default = [ "0.0.0.0" ];
+      default = [
+        "0.0.0.0"
+        "::"
+      ];
       description = "List of hosts to bind AdGuard Home to.";
     };
     openPorts = mkEnableOption "Open firewall ports for AdGuard Home";
@@ -59,17 +62,17 @@ with lib;
             {
               enabled = true;
               domain = "*.whvdjsi.duckdns.org";
-              answer = "kirols.duckdns.org";
+              answer = "nasy.localdomain";
             }
             {
               enabled = true;
               domain = "*.kirols.duckdns.org";
-              answer = "kirols.duckdns.org";
+              answer = "nasy.localdomain";
             }
             {
               enabled = true;
               domain = "whvdjsi.duckdns.org";
-              answer = "kirols.duckdns.org";
+              answer = "nasy.localdomain";
             }
             {
               enabled = true;

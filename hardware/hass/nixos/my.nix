@@ -8,7 +8,10 @@
     scripts.enable = false;
 
     services = {
-      adguardserver.enable = true;
+      adguardserver = {
+        enable = true;
+        openPorts = true;
+      };
       basic.enable = false;
       ssh.enable = true;
     };
