@@ -17,12 +17,14 @@ in
           avg_cpu = true;
           temperature_type = "c";
           rate = 1000;
-          cpu_left_legend = false;
-          current_usage = false;
-          group_processes = false;
-          case_sensitive = false;
-          whole_word = false;
-          regex = true;
+          cpu.left_legend = false;
+          processes = {
+            default_grouped = false;
+            case_sensitive = false;
+            whole_word = false;
+            regex = true;
+            current_usage = false;
+          };
           default_widget_type = "cpu";
           default_widget_count = 1;
         };
