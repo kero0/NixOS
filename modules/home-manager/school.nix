@@ -41,7 +41,7 @@ in
         };
       in
       [
-        (pkgs.texliveBasic.withPackages (
+        (pkgs.texliveMedium.withPackages (
           ps: with ps; [
             biblatex
             dvipng
@@ -50,6 +50,7 @@ in
 
             amsmath
             babel
+            booktabs
             capt-of
             caption
             changepage
@@ -61,12 +62,14 @@ in
             eulervm
             everypage
             float
+            fontspec
             footmisc
             footnotebackref
             fvextra
             geometry
             hyperref
             jdf
+            koma-script
             ly1
             mathpazo
             mdframed
@@ -82,8 +85,10 @@ in
             tcolorbox
             titlesec
             type1cm
+            upquote
             wrapfig
             xcolor
+            ulem
             zref
           ]
         ))

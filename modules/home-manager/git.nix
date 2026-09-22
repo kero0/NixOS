@@ -45,15 +45,28 @@ in
           email = cfg.userEmail;
         };
       };
-      includes = lists.optional config.my.home.school.enable {
-        condition = "hasconfig:remote.*.url:https://github.gatech.edu/**";
-        contents = {
-          user = {
-            email = "kbakheat3@gatech.edu";
-            name = "kbakheat3";
+      includes = lists.optionals config.my.home.school.enable (
+        let
+
+          contents = {
+            user = {
+              email = "kbakheat3@gatech.edu";
+              name = "kbakheat3";
+              signingKey = "1AB9DFCE109F2A50DC4A61FC8348A11C840BFD05";
+            };
           };
-        };
-      };
+        in
+        [
+          {
+            condition = "hasconfig:remote.*.url:https://github.gatech.edu/**";
+            inherit contents;
+          }
+          {
+            condition = "hasconfig:remote.*.url:git@github.gatech.edu:*/**";
+            inherit contents;
+          }
+        ]
+      );
     };
     home.sessionVariables.GIT_EDITOR = config.home.sessionVariables.EDITOR or "${pkgs.neovim}/bin/nvim";
   };
