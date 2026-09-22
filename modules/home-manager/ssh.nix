@@ -24,7 +24,7 @@ in
         };
         hass = {
           port = 9639;
-          hostname = "hass.lan";
+          hostname = "hass.localdomain";
           user = "kirolsb";
         };
         backy = {
@@ -38,14 +38,14 @@ in
         };
         installer = {
           port = 9639;
-          hostname = "nixos-installer.lan";
+          hostname = "nixos-installer.localdomain";
           user = "kirolsb";
           StrictHostKeyChecking = "no";
           UserKnownHostsFile = "/dev/null";
         };
         nasy = {
           port = 9639;
-          hostname = "nasy.lan";
+          hostname = "nasy.localdomain";
           user = "kirolsb";
         };
         nasy-bash = nasy // {
@@ -54,32 +54,32 @@ in
         };
         opnsense = {
           port = 22;
-          hostname = "opnsense.lan";
+          hostname = "opnsense.localdomain";
           user = "admin";
         };
         tang = {
           port = 9639;
-          hostname = "tang.lan";
+          hostname = "tang.localdomain";
           user = "kirolsb";
         };
         theater = {
           port = 9639;
-          hostname = "theater.lan";
+          hostname = "theater.localdomain";
           user = "kirolsb";
         };
         macbook = {
           port = 22;
-          hostname = "mac.lan";
+          hostname = "mac.localdomain";
           user = "kirolsbakheat";
         };
         justice = {
           port = 9639;
-          hostname = "justice.lan";
+          hostname = "justice.localdomain";
           user = "kirolsb";
         };
         xps = {
           port = 9639;
-          hostname = "Kirols-xps9575.lan";
+          hostname = "Kirols-xps9575.localdomain";
           user = "kirolsb";
         };
         "*" = {
