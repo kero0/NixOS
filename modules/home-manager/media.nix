@@ -49,7 +49,7 @@ in
               sponsorblock
               youtube-upnext
             ]
-            ++ lists.optionals pkgs.stdenv.isLinux [ mpris ];
+            ++ lists.optionals pkgs.stdenv.hostPlatform.isLinux [ mpris ];
           youtubeSupport = true;
         };
         config = {
@@ -93,10 +93,10 @@ in
       mpd = {
         inherit (cfg) musicDirectory;
         enable = true;
-        network.startWhenNeeded = pkgs.stdenv.isLinux;
+        network.startWhenNeeded = pkgs.stdenv.hostPlatform.isLinux;
       };
-      mpd-mpris.enable = pkgs.stdenv.isLinux;
-      mpris-proxy.enable = pkgs.stdenv.isLinux;
+      mpd-mpris.enable = pkgs.stdenv.hostPlatform.isLinux;
+      mpris-proxy.enable = pkgs.stdenv.hostPlatform.isLinux;
     };
     home.packages = [ pkgs.ffmpeg ];
   };

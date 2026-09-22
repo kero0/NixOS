@@ -15,11 +15,11 @@ let
         ${pkgs.nh}/bin/nh home switch ${cfg.configDir} --show-trace
       ''
 
-    else if pkgs.stdenv.isLinux then
+    else if pkgs.stdenv.hostPlatform.isLinux then
       ''
         ${pkgs.nh}/bin/nh os switch ${cfg.configDir} --show-trace
       ''
-    else if pkgs.stdenv.isDarwin then
+    else if pkgs.stdenv.hostPlatform.isDarwin then
       ''
         ${pkgs.nh}/bin/nh darwin switch ${cfg.configDir} --show-trace
       ''
@@ -46,10 +46,10 @@ in
       type = types.str;
       default =
         if osConfig == null then
-          "${cfg.homedir}/.config/home-manager"
-        else if pkgs.stdenv.isLinux then
           "${cfg.homedir}/.config/nixos"
-        else if pkgs.stdenv.isDarwin then
+        else if pkgs.stdenv.hostPlatform.isLinux then
+          "${cfg.homedir}/.config/nixos"
+        else if pkgs.stdenv.hostPlatform.isDarwin then
           "${cfg.homedir}/.config/darwin"
         else
           (throw "Unsupported OS: ${osConfig.name or "unknown"}");
@@ -61,7 +61,7 @@ in
 
     home = {
       inherit (cfg) username;
-      homeDirectory = lib.mkIf pkgs.stdenv.isLinux cfg.homedir;
+      homeDirectory = lib.mkIf pkgs.stdenv.hostPlatform.isLinux cfg.homedir;
       packages = [
         rebuildScript
         pkgs.nh

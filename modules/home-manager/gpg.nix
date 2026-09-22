@@ -12,7 +12,7 @@ in
   options.my.home.gpg = {
     enable = mkEnableOption "Enable gpg";
     pinentry = mkPackageOption pkgs "pinentry" {
-      default = if pkgs.stdenv.isLinux then "pinentry-qt" else "pinentry_mac";
+      default = if pkgs.stdenv.hostPlatform.isLinux then "pinentry-qt" else "pinentry_mac";
     };
   };
   config = mkIf cfg.enable {

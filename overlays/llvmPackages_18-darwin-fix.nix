@@ -5,7 +5,7 @@ final: prev: {
       compiler-rt-libc = llvmPrev.compiler-rt-libc.overrideAttrs (old: {
         cmakeFlags =
           old.cmakeFlags or [ ]
-          ++ final.lib.lists.optionals final.stdenv.isDarwin [
+          ++ final.lib.lists.optionals final.stdenv.hostPlatform.isDarwin [
             (final.lib.cmakeBool "COMPILER_RT_BUILD_XRAY" false)
             (final.lib.cmakeBool "COMPILER_RT_BUILD_LIBFUZZER" false)
             (final.lib.cmakeBool "COMPILER_RT_BUILD_MEMPROF" false)

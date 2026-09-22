@@ -14,7 +14,7 @@ in
     commandLineArgs = mkOption {
       type = types.listOf types.str;
       default =
-        if pkgs.stdenv.isLinux then
+        if pkgs.stdenv.hostPlatform.isLinux then
           [
             "--enable-features=TouchpadOverscrollHistoryNavigation,VaapiVideoDecode"
             "--ignore-gpu-blocklist"
@@ -34,7 +34,7 @@ in
           ${pkg} = {
             enable = true;
             inherit (cfg) commandLineArgs;
-            package = mkIf pkgs.stdenv.isDarwin null;
+            package = mkIf pkgs.stdenv.hostPlatform.isDarwin null;
             extensions = [
               # ublock origin lite
               { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; }
@@ -55,7 +55,7 @@ in
         ]
     );
     xdg.mimeApps = {
-      enable = mkDefault pkgs.stdenv.isLinux;
+      enable = mkDefault pkgs.stdenv.hostPlatform.isLinux;
       defaultApplications = {
         "text/html" = "chromium.desktop";
         "x-scheme-handler/http" = "chromium.desktop";

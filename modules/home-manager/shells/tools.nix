@@ -13,17 +13,17 @@ in
   config = mkIf cfg.enable {
     services = {
       lorri = {
-        enable = pkgs.lib.mkIf pkgs.stdenv.isLinux true;
+        enable = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
         enableNotifications = true;
       };
     };
     programs = {
       command-not-found.enable = false;
       eza.enable = true;
-      feh.enable = pkgs.lib.mkIf pkgs.stdenv.isLinux true;
+      feh.enable = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
       jq.enable = true;
       man.enable = true;
-      zathura.enable = pkgs.lib.mkIf pkgs.stdenv.isLinux true;
+      zathura.enable = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
 
       direnv = {
         enable = true;

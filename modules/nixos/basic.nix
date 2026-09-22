@@ -19,7 +19,7 @@
       ) "!include ${config.age.secrets.nix-conf.path}")
     ];
     settings = {
-      auto-optimise-store = !pkgs.stdenv.isDarwin;
+      auto-optimise-store = !pkgs.stdenv.hostPlatform.isDarwin;
       experimental-features = [
         "flakes"
         "nix-command"
@@ -41,7 +41,7 @@
       ];
     };
     gc = {
-      automatic = !pkgs.stdenv.isDarwin;
+      automatic = !pkgs.stdenv.hostPlatform.isDarwin;
       options = "--delete-older-than 14d";
     };
     optimise = {

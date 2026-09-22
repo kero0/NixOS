@@ -11,7 +11,7 @@ in
 {
   options.my.home.rofi.enable = mkEnableOption "Enable rofi";
   config = mkIf cfg.enable {
-    programs.rofi = pkgs.lib.mkIf pkgs.stdenv.isLinux {
+    programs.rofi = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       enable = true;
       font = "JetBrainsMono Nerd Font 28";
       terminal = lib.mkIf config.programs.kitty.enable "kitty";

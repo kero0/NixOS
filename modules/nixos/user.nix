@@ -22,7 +22,8 @@ with lib;
     };
     homedir = mkOption {
       type = types.str;
-      default = if pkgs.stdenv.isDarwin then "/Users/${cfg.username}" else "/home/${cfg.username}";
+      default =
+        if pkgs.stdenv.hostPlatform.isDarwin then "/Users/${cfg.username}" else "/home/${cfg.username}";
     };
     shell = mkOption {
       type = types.str;
@@ -35,7 +36,7 @@ with lib;
   };
   config = lib.mkIf cfg.enable {
     users =
-      if pkgs.stdenv.isDarwin then
+      if pkgs.stdenv.hostPlatform.isDarwin then
         {
           users."${cfg.username}" = {
             home = cfg.homedir;

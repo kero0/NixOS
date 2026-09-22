@@ -11,7 +11,7 @@ in
 {
   options.my.home.applets.enable = mkEnableOption "Enable applets config";
   config = mkIf cfg.enable {
-    services = pkgs.lib.mkIf pkgs.stdenv.isLinux {
+    services = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       network-manager-applet.enable = true;
       blueman-applet.enable = true;
       udiskie = {

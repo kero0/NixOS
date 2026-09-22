@@ -20,7 +20,7 @@ with lib;
         noto-fonts-color-emoji
       ];
     }
-    // (optionalAttrs pkgs.stdenv.isLinux {
+    // (optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
       enableDefaultPackages = true;
       fontconfig = {
         enable = true;

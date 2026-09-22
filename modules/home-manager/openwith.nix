@@ -31,7 +31,7 @@ in
     description = "Declarative default application mappings via duti.";
   };
 
-  config = lib.mkIf (cfg != [ ] && pkgs.stdenv.isDarwin) {
+  config = lib.mkIf (cfg != [ ] && pkgs.stdenv.hostPlatform.isDarwin) {
     home.packages = [ pkgs.duti ];
     home.activation.my-default-apps = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       run echo "Setting default apps"
