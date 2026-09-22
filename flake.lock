@@ -131,11 +131,11 @@
         "packages-revealjs": "packages-revealjs"
       },
       "locked": {
-        "lastModified": 1789035014,
-        "narHash": "sha256-DH/yM63OIhSmAkQ8h+vB6vizAwPvvQW6S6De0tUKutM=",
+        "lastModified": 1789640582,
+        "narHash": "sha256-ukYOqvDlMEeBoGdwQAHH2YIhmntx/f5gAO/3eDd7jmA=",
         "owner": "kero0",
         "repo": "emacs",
-        "rev": "d49f6504a931556a6c1b6b25eed27fea435d7273",
+        "rev": "31c7b48132bb7cbf562997798579036901649f16",
         "type": "github"
       },
       "original": {
@@ -398,11 +398,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1788608636,
-        "narHash": "sha256-RqeFOwW329f4i1f5QlJgQYwgEZvxIHJsUYlzIBxsKsY=",
+        "lastModified": 1789264731,
+        "narHash": "sha256-llGJbC0CcU8DfROr6mZjRJgMLQd/SKwfpzxJH/2lHO4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0af3d1402dec3fc7e93635e511d1f7428c89cebf",
+        "rev": "02f5696b0e6097e589076d886b317b83ff0437d7",
         "type": "github"
       },
       "original": {
@@ -493,16 +493,16 @@
     "packages-revealjs": {
       "flake": false,
       "locked": {
-        "lastModified": 1775891818,
-        "narHash": "sha256-J0CeWxL0Gs/1pOgszHUYgSl1+9nXibgb3fNyDVMr2OQ=",
+        "lastModified": 1789052901,
+        "narHash": "sha256-yh9Fwp8PT6fFrbSsih7cD9EzH2wbfd3idjyemOQTqF8=",
         "owner": "hakimel",
         "repo": "reveal.js",
-        "rev": "52c6c8b2a9626915cfaa8a87ae47add261f282be",
+        "rev": "75dff6f515d2d08df0c32cf2b7328b89425c6f25",
         "type": "github"
       },
       "original": {
         "owner": "hakimel",
-        "ref": "6.0.1",
+        "ref": "6.0.2",
         "repo": "reveal.js",
         "type": "github"
       }
