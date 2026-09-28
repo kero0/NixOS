@@ -60,6 +60,12 @@ jobs:
           extra-conf: |
             extra-experimental-features = flakes nix-command recursive-nix pipe-operators
 
+      - uses: cachix/cachix-action@38b082610b782e7e93e209c35fd730d399dee866
+        with:
+          name: kero0
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          extraPullNames: nix-community
+
       - name: Check OS build
         id: build
         shell: bash
@@ -104,13 +110,6 @@ jobs:
             echo "diff_result=failure" >> $GITHUB_OUTPUT
             exit $res
           fi
-
-      - uses: cachix/cachix-action@38b082610b782e7e93e209c35fd730d399dee866
-        with:
-          name: kero0
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          extraPullNames: nix-community
-          pathsToPush: ${{ steps.build.outputs.result }}
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'
