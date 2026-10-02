@@ -24,6 +24,7 @@ in
     services.emacs = {
       enable = true;
       client.enable = true;
+      package = inputs.emacs.packages.${pkgs.stdenv.targetPlatform.system}.default;
     };
 
     home =
