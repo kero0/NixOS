@@ -118,17 +118,16 @@
         "emacs-overlay": "emacs-overlay",
         "git-hooks": "git-hooks",
         "nixpkgs": "nixpkgs_3",
-        "packages-eglot-booster": "packages-eglot-booster",
         "packages-logview": "packages-logview",
         "packages-ox-chameleon": "packages-ox-chameleon",
         "packages-revealjs": "packages-revealjs"
       },
       "locked": {
-        "lastModified": 1790850232,
-        "narHash": "sha256-coY54cD3Gf5bVA0VjSL/+6+SU8MeUuSaKHCPq3h6SLM=",
+        "lastModified": 1792163941,
+        "narHash": "sha256-aqJUx+G58fw3wxMjcxYR3srx8K5YxOjzTUNqV7c6o5Q=",
         "owner": "kero0",
         "repo": "emacs",
-        "rev": "0d3cbb8d131c78d04e0bed9eb9e7bdb87bd8e3b2",
+        "rev": "74d3712503e2f96d30200004294f7093215f8a7b",
         "type": "github"
       },
       "original": {
@@ -431,22 +430,6 @@
         "owner": "nixos",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "packages-eglot-booster": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1782829258,
-        "narHash": "sha256-HhWR40j/WFcorp8QttXtOz5yxL1B4JUXL+9IuNpoND0=",
-        "owner": "jdtsmith",
-        "repo": "eglot-booster",
-        "rev": "510f579409627c333ef0e9157db713b1004da842",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jdtsmith",
-        "repo": "eglot-booster",
         "type": "github"
       }
     },
