@@ -7,16 +7,23 @@
 with lib;
 let
   cfg = config.my.home.zellij;
+  autoStart = shell: ''
+    if [[ "$TERM" != "dumb" && -z "$INSIDE_EMACS" ]]; then
+        eval "$(${getExe config.programs.zellij.finalPackage} setup --generate-auto-start ${shell})"
+    fi
+  '';
 in
 {
   options.my.home.zellij.enable = mkEnableOption "zellij module";
   config = mkIf cfg.enable {
     programs = {
+      bash.initExtra = autoStart "bash";
+      zsh.initContent = mkOrder 200 (autoStart "zsh");
       zellij = {
         enable = true;
-        enableBashIntegration = true;
+        enableBashIntegration = false;
         enableFishIntegration = true;
-        enableZshIntegration = true;
+        enableZshIntegration = false;
         exitShellOnExit = false;
         settings = {
           attach_to_session = true;
