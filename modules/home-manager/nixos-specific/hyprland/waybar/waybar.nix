@@ -25,10 +25,11 @@ in
           layer = "bottom";
           position = "top";
           modules-left = [
-            "hyprland/workspaces"
+            "ext/workspaces"
             "hyprland/window"
           ];
           modules-center = [ ];
+          "ext/workspaces".on-click = "activate";
           "hyprland/window" = {
             format = "{}";
             max-length = 85;

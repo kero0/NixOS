@@ -70,7 +70,7 @@ in
                   end
               end
             '';
-            "${mod}         + f" = ''hl.dsp.window.fullscreen({mode = "fullscreen", action = toggle})'';
+            "${mod}         + f" = ''hl.dsp.window.fullscreen({mode = "fullscreen", action = "toggle"})'';
             "${mod} + SHIFT + N" = exec "swaync-client -t -sw";
             "${mod} + SHIFT + Return" = exec "${fileManager}";
             "${mod} + CTRL  + Return" = exec "${terminal}";
@@ -82,8 +82,8 @@ in
             "${mod} +       + k" = ''hl.dsp.layout("focus l")'';
             "${mod} +       + j" = ''hl.dsp.layout("focus r")'';
 
-            "${mod} + CTRL  + k" = ''hl.dsp.layout("+conf")'';
-            "${mod} + CTRL  + j" = ''hl.dsp.layout("-conf")'';
+            "${mod} + CTRL  + k" = ''hl.dsp.layout("colresize +conf")'';
+            "${mod} + CTRL  + j" = ''hl.dsp.layout("colresize -conf")'';
 
             "${mod} + SHIFT + k" = ''hl.dsp.layout("swapcol l")'';
             "${mod} + SHIFT + j" = ''hl.dsp.layout("swapcol r")'';
@@ -126,7 +126,7 @@ in
               {
                 _args = [
                   "${mod} +       + ${ws}"
-                  (mkLuaInline "hl.dsp.focus({ workspace = ${toString (x + 1)} })")
+                  (mkLuaInline "hl.dsp.focus({ workspace = ${toString (x + 1)}, on_current_monitor = true })")
                 ];
               }
               {
