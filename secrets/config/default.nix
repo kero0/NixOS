@@ -8,11 +8,11 @@ let
     replaceStrings
     ;
   mkSecret = f: {
-    ${replaceStrings [ ".age" "." ] [ "" "-" ] f}.file = ./${f};
+    ${replaceStrings [ ".age" "." ] [ "" "-" ] f}.file = ../${f};
   };
 in
 {
-  age.secrets = pipe ./secrets.nix [
+  age.secrets = pipe ../secrets.nix [
     import
     attrNames
     (map mkSecret)

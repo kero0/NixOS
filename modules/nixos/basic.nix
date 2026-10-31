@@ -12,10 +12,6 @@
     };
     zsh.enable = true;
   };
-  age.secrets.nix-conf = {
-    group = "wheel";
-    mode = "0440";
-  };
   nix = {
     extraOptions = builtins.concatStringsSep "\n" [
       (lib.strings.optionalString (
