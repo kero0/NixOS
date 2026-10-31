@@ -6,22 +6,22 @@
   inputs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkIf mkOption types;
   cfg = config.my.home;
   rebuildScript = pkgs.writeShellScriptBin "rebuild" (
     if osConfig == null then
       ''
-        ${pkgs.nh}/bin/nh home switch ${cfg.configDir} --show-trace
+        ${lib.getExe config.programs.nh.package} home switch ${cfg.configDir} --show-trace
       ''
 
     else if pkgs.stdenv.hostPlatform.isLinux then
       ''
-        ${pkgs.nh}/bin/nh os switch ${cfg.configDir} --show-trace
+        ${lib.getExe config.programs.nh.package} os switch ${cfg.configDir} --show-trace
       ''
     else if pkgs.stdenv.hostPlatform.isDarwin then
       ''
-        ${pkgs.nh}/bin/nh darwin switch ${cfg.configDir} --show-trace
+        ${lib.getExe config.programs.nh.package} darwin switch ${cfg.configDir} --show-trace
       ''
     else
       ''
@@ -64,17 +64,34 @@ in
       homeDirectory = lib.mkIf pkgs.stdenv.hostPlatform.isLinux cfg.homedir;
       packages = [
         rebuildScript
-        pkgs.nh
         pkgs.age
-        inputs.agenix.packages.${pkgs.stdenv.targetPlatform.system}.default
+        inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
     };
 
     fonts.fontconfig.enable = true;
 
-    programs.home-manager = {
-      enable = true;
-      path = lib.mkForce (cfg.homedir + "/.config");
+    programs = {
+      nh = {
+        enable = true;
+        flake = cfg.configDir;
+        clean = mkIf (osConfig == null) {
+          enable = true;
+          extraArgs = [
+            "--keep-since"
+            "14d"
+            "--keep"
+            "3"
+          ];
+        };
+      };
+
+      man.generateCaches = true;
+
+      home-manager = {
+        enable = true;
+        path = lib.mkForce (cfg.homedir + "/.config");
+      };
     };
     xdg.enable = true;
     assertions = [

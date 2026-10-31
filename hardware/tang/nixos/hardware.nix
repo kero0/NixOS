@@ -1,11 +1,4 @@
-{
-  lib,
-  config,
-  ...
-}:
-let
-  enable_root = config.module.args.enable_root or true;
-in
+{ lib, ... }:
 {
   boot = {
     loader = {
@@ -31,8 +24,8 @@ in
 
   hardware.enableRedistributableFirmware = true;
 
-  fileSystems."/" = lib.mkIf enable_root {
-    device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+  fileSystems."/" = {
+    device = lib.mkDefault "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
     fsType = "ext4";
   };
 

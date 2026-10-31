@@ -27,15 +27,17 @@
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
     loader.systemd-boot.enable = true;
-    # resumeDevice = "/.swapvol/swapfile";
   };
 
-  swapDevices = [
-    {
-      device = "/.swapvol/swapfile";
-      size = 32 * 1024;
-    }
-  ];
+  fileSystems."/run/nixenc" = {
+    device = "/dev/mapper/crypted";
+    fsType = "btrfs";
+    options = [
+      "subvolid=5"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
 
   networking.firewall.enable = true;
 

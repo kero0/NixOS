@@ -5,8 +5,8 @@
   inputs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.editors;
 in
 {
@@ -17,14 +17,14 @@ in
     programs = {
       emacs = {
         enable = true;
-        package = inputs.emacs.packages.${pkgs.stdenv.targetPlatform.system}.default;
+        package = inputs.emacs.packages.${pkgs.stdenv.hostPlatform.system}.default;
       };
       vim.enable = true;
     };
     services.emacs = {
       enable = true;
       client.enable = true;
-      package = inputs.emacs.packages.${pkgs.stdenv.targetPlatform.system}.default;
+      package = inputs.emacs.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
 
     home =

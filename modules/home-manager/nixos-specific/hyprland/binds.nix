@@ -4,8 +4,8 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkIf mkLuaInline;
   mod = "SUPER";
   terminal = "${config.programs.kitty.package}/bin/kitty";
   fileManager = "${pkgs.nautilus}/bin/nautilus";
@@ -116,11 +116,7 @@ in
           builtins.genList (
             x:
             let
-              ws =
-                let
-                  c = (x + 1) / 10;
-                in
-                builtins.toString (x + 1 - (c * 10));
+              ws = toString (lib.mod (x + 1) 10);
             in
             [
               {

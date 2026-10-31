@@ -32,6 +32,9 @@ jobs:
           - target: nixosConfigurations.tang.config.system.build.toplevel
             os: ubuntu-24.04-arm
             free-space: false
+          - target: nixosConfigurations.hass.config.system.build.toplevel
+            os: ubuntu-latest
+            free-space: false
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -87,10 +90,11 @@ jobs:
           {
             new_path="${{ steps.build.outputs.result }}"
             echo "new_path=$new_path" >> $GITHUB_OUTPUT
-            old_path=$(nix eval --accept-flake-config --raw ".#${{ matrix.target }}")
-            res=$?
-            if [ $res -ne 0 ]; then
-              echo "Failed to get old path for ${{ matrix.target }}" >> $GITHUB_OUTPUT
+            # compare with the base commit, not with this checkout
+            base="${{ github.event.pull_request.base.sha || github.event.before }}"
+            if ! old_path=$(nix eval --accept-flake-config --raw "github:${{ github.repository }}/$base#${{ matrix.target }}"); then
+              # e.g. the target doesn't evaluate on the base (hass before this change)
+              echo "body=Could not evaluate ${{ matrix.target }} at $base; no diff."
               exit 0
             fi
             echo 'body<<EOF'
@@ -114,9 +118,11 @@ jobs:
       - name: Comment on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        env:
+          BODY: ${{ steps.diff.outputs.body }}
         with:
           script: |
-            const body = `${{ steps.diff.outputs.body }}`;
+            const body = process.env.BODY;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -128,9 +134,11 @@ jobs:
       - name: Comment on commit
         if: github.event_name == 'push'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        env:
+          BODY: ${{ steps.diff.outputs.body }}
         with:
           script: |
-            const body = `${{ steps.diff.outputs.body }}`;
+            const body = process.env.BODY;
 
             await github.rest.repos.createCommitComment({
               owner: context.repo.owner,
@@ -139,15 +147,45 @@ jobs:
               body
             });
 
+  eval-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@1d87d45818068401a10cf16bdc5f00b24994a83f
+        with:
+          extra-conf: |
+            extra-experimental-features = flakes nix-command recursive-nix pipe-operators
+
+      - uses: cachix/cachix-action@38b082610b782e7e93e209c35fd730d399dee866
+        with:
+          name: kero0
+          extraPullNames: nix-community
+
+      - name: Evaluate images and run flake checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          for t in images.x86_64-linux-iso.config.system.build.isoImage images.tang packages.x86_64-linux.mk-tang-sd; do
+            echo "::group::$t"
+            nix eval --accept-flake-config --raw ".#$t.drvPath"
+            echo "::endgroup::"
+          done
+          nix build --accept-flake-config --no-link -L .#checks.x86_64-linux.pre-commit-check
+
   builds-passed:
     name: All builds succeeded
-    needs: build-check
+    needs:
+      - build-check
+      - eval-check
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Check test results
         run: |
-          if [ "${{ needs.build-check.result }}" != "success" ]; then
+          if [ "${{ needs.build-check.result }}" != "success" ] || [ "${{ needs.eval-check.result }}" != "success" ]; then
             echo "Some tests failed"
             exit 1
           fi

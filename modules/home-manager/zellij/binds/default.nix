@@ -4,8 +4,21 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    all
+    attrNames
+    concatStringsSep
+    elem
+    filter
+    filterAttrs
+    flatten
+    foldl'
+    head
+    mapAttrs
+    mkOption
+    types
+    ;
   cfg = config.my.home.zellij;
   mkKeys =
     keys:

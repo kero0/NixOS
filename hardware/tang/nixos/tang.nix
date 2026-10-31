@@ -8,7 +8,5 @@
       "10.5.0.1/16"
     ];
   };
-  networking.firewall.allowedTCPPorts = map lib.strings.toInt config.services.tang.listenStream ++ [
-    80
-  ];
+  networking.firewall.allowedTCPPorts = map lib.strings.toInt config.services.tang.listenStream;
 }

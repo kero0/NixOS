@@ -4,8 +4,14 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    lists
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.my.home.git;
 in
 {

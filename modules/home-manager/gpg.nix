@@ -4,8 +4,8 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf mkPackageOption;
   cfg = config.my.home.gpg;
 in
 {

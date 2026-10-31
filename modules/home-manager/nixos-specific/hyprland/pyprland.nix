@@ -4,8 +4,8 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.hyprland.pyprland;
 in
 {
@@ -15,8 +15,8 @@ in
     systemd.user.services.pyprland = {
       Unit = {
         Description = "Helper tool for Hyprland";
-        PartOf = [ "hyprland-session.target" ];
-        After = [ "hyprland-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
         ConditionEnvironment = "WAYLAND_DISPLAY";
       };
 
@@ -28,7 +28,7 @@ in
       };
 
       Install = {
-        WantedBy = [ "hyprland-session.target" ];
+        WantedBy = [ "graphical-session.target" ];
       };
     };
     xdg.configFile."pypr/config.toml".source = (pkgs.formats.toml { }).generate "config.toml" {

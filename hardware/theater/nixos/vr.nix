@@ -30,7 +30,7 @@
       name = "amdgpu-ignore-ctx-privileges";
       patch = pkgs.fetchpatch {
         name = "cap_sys_nice_begone.patch";
-        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+        url = "https://github.com/Frogging-Family/community-patches/raw/7b729b5582bb369f17677cd6f4aa91fdbd816769/linux61-tkg/cap_sys_nice_begone.mypatch";
         hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
       };
     }

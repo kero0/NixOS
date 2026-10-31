@@ -4,8 +4,8 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.hyprland;
 in
 {
@@ -36,16 +36,26 @@ in
         };
       };
       hyprpolkitagent.enable = true;
+      hyprsunset = {
+        enable = true;
+        settings.profile = [
+          {
+            time = "7:00";
+            identity = true;
+          }
+          {
+            time = "21:00";
+            temperature = 4500;
+          }
+        ];
+      };
     };
 
     catppuccin.hyprland.enable = false;
     wayland.windowManager.hyprland = {
       enable = true;
       configType = "lua";
-      systemd = {
-        enable = true;
-        variables = [ "--all" ];
-      };
+      systemd.enable = false;
       xwayland.enable = true;
       settings = {
         monitor = {

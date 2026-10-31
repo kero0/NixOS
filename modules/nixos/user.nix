@@ -6,9 +6,9 @@
   ...
 }:
 let
+  inherit (lib) mkEnableOption mkOption types;
   cfg = config.my.user;
 in
-with lib;
 {
   options.my.user = {
     enable = mkEnableOption "Setup a user with my personal settings";

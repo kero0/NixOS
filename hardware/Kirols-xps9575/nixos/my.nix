@@ -5,6 +5,7 @@
     desktop.enable = true;
     fonts.enable = true;
     gaming.enable = true;
+    laptop.enable = true;
     samba.enable = true;
     scripts.enable = true;
     virtualization.enable = true;

@@ -5,8 +5,8 @@
   osConfig,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.shell.zsh;
 in
 {

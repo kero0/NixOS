@@ -4,8 +4,13 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    getExe
+    mkEnableOption
+    mkIf
+    mkOrder
+    ;
   cfg = config.my.home.zellij;
   autoStart = shell: ''
     if [[ "$TERM" != "dumb" && -z "$INSIDE_EMACS" ]]; then

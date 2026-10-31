@@ -5,8 +5,13 @@
   osConfig,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.my.home.shell.kitty;
 in
 {

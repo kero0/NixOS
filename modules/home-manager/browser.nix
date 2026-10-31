@@ -4,8 +4,16 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    attrsets
+    lists
+    mkDefault
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.my.home.browser;
 in
 {

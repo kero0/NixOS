@@ -5,9 +5,9 @@
   ...
 }:
 let
+  inherit (lib) mkEnableOption mkOption types;
   cfg = config.my.services.ssh;
 in
-with lib;
 {
   options.my.services.ssh = {
     enable = mkEnableOption "My openssh config";
@@ -26,12 +26,16 @@ with lib;
           {
             extraConfig = ''
               PasswordAuthentication no
+              KbdInteractiveAuthentication no
               Port ${toString cfg.port}
             '';
           }
         else
           {
-            settings.PasswordAuthentication = false;
+            settings = {
+              PasswordAuthentication = false;
+              KbdInteractiveAuthentication = false;
+            };
             ports = [ cfg.port ];
           }
       );
