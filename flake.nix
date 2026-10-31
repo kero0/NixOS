@@ -62,10 +62,14 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         git-hooks.follows = "git-hooks";
-        emacs-overlay.inputs = {
-          nixpkgs.follows = "nixpkgs";
-          nixpkgs-stable.follows = "nixpkgs";
-        };
+        emacs-overlay.follows = "emacs-overlay";
+      };
+    };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs";
       };
     };
 
@@ -148,7 +152,11 @@
           )
         ]
         ++ lib.optional age agenix.homeManagerModules.default
-        ++ lib.optional age ./secrets;
+        ++ lib.optional age {
+          imports = umport {
+            ipath = ./secrets/config;
+          };
+        };
 
       mmodules =
         {
@@ -200,7 +208,11 @@
           ipath = hostDir;
         })
         ++ lib.optional age agenix.${kind}.default
-        ++ lib.optional age ./secrets
+        ++ lib.optional age {
+          imports = umport {
+            ipath = ./secrets/config;
+          };
+        }
         ++ lib.optional isLinux { system.stateVersion = stateVersion; }
         ++ lib.optional isDarwin {
           programs.bash.enable = true;
