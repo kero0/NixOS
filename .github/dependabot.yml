@@ -11,3 +11,12 @@ updates:
     open-pull-requests-limit: 100
     schedule:
       interval: "daily"
+    groups:
+      core:
+        patterns:
+          - "nixpkgs"
+          - "home-manager"
+          - "darwin"
+      minor:
+        patterns:
+          - "*"

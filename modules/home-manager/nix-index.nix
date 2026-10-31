@@ -4,8 +4,8 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   inherit (pkgs) comma;
   cfg = config.my.home.nix-index;
 in

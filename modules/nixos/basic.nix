@@ -12,6 +12,10 @@
     };
     zsh.enable = true;
   };
+  age.secrets.nix-conf = {
+    group = "wheel";
+    mode = "0440";
+  };
   nix = {
     extraOptions = builtins.concatStringsSep "\n" [
       (lib.strings.optionalString (
@@ -40,12 +44,16 @@
         config.my.user.username
       ];
     };
-    gc = {
-      automatic = !pkgs.stdenv.hostPlatform.isDarwin;
-      options = "--delete-older-than 14d";
-    };
     optimise = {
       automatic = true;
+    };
+  };
+
+  programs.nh = {
+    enable = true;
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 14d --keep 3 --keep-one";
     };
   };
 

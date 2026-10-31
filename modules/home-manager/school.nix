@@ -5,8 +5,8 @@
   inputs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkDefault mkEnableOption mkIf;
   cfg = config.my.home.school;
 in
 {

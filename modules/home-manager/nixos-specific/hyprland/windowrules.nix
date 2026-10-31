@@ -3,7 +3,9 @@
   config,
   ...
 }:
-with lib;
+let
+  inherit (lib) mkIf;
+in
 {
   config = mkIf config.my.home.hyprland.enable {
     wayland.windowManager.hyprland.settings = {

@@ -4,8 +4,8 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.shell.tools;
 in
 {
@@ -13,17 +13,17 @@ in
   config = mkIf cfg.enable {
     services = {
       lorri = {
-        enable = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
+        enable = pkgs.stdenv.hostPlatform.isLinux;
         enableNotifications = true;
       };
     };
     programs = {
       command-not-found.enable = false;
       eza.enable = true;
-      feh.enable = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
+      feh.enable = pkgs.stdenv.hostPlatform.isLinux;
       jq.enable = true;
       man.enable = true;
-      zathura.enable = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
+      zathura.enable = pkgs.stdenv.hostPlatform.isLinux;
 
       direnv = {
         enable = true;

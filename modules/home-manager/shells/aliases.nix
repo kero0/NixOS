@@ -4,16 +4,16 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.shell.alias;
 in
 {
-  options.my.home.shell.alias.enable = mkEnableOption "My common shell aliases";
+  options.my.home.shell.alias.enable = mkEnableOption "my common shell aliases";
   config = mkIf cfg.enable (
     let
-      mkshort-args = list: pkgs.lib.concatMapStrings (x: " -${x}") list;
-      mklong-args = list: pkgs.lib.concatMapStrings (x: " --${x}") list;
+      mkshort-args = list: lib.concatMapStrings (x: " -${x}") list;
+      mklong-args = list: lib.concatMapStrings (x: " --${x}") list;
       mkcommand =
         pkg: short-args: long-args:
         "${pkgs.${pkg}}/bin/${pkg} ${short-args} ${long-args}";
@@ -33,7 +33,7 @@ in
         mkcommand "eza" short-args long-args;
     in
     {
-      home.shellAliases = with pkgs; {
+      home.shellAliases = {
         cat = lib.mkIf config.programs.bat.enable "bat";
         rs =
           let
@@ -65,7 +65,7 @@ in
       };
 
       programs.fish.shellAliases = {
-        ssh = pkgs.lib.mkForce "TERM=xterm-256color command ssh";
+        ssh = lib.mkForce "TERM=xterm-256color command ssh";
       };
     }
   );

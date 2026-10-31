@@ -3,15 +3,15 @@ nixpkgs:
   ipath,
   exclude ? [ ],
 }:
-with nixpkgs.lib;
-with nixpkgs.lib.path;
-with nixpkgs.lib.fileset;
 let
-  excludedFiles = filter (f: isPath f && pathIsRegularFile f) exclude;
-  excludedDirs = filter (f: isPath f && pathIsDirectory f) exclude;
-  excludedRegexes = path: any (r: null != match r (toString path)) (filter (f: !isPath f) exclude);
-  isExcluded = f: elem f excludedFiles || any (flip hasPrefix f) excludedDirs || excludedRegexes f;
+  inherit (nixpkgs) lib;
+  paths = builtins.filter builtins.isPath exclude;
+  regexes = builtins.filter builtins.isString exclude;
+  isExcluded =
+    file:
+    builtins.any (p: p == file || lib.path.hasPrefix p file) paths
+    || builtins.any (r: builtins.match r (toString file) != null) regexes;
 in
-filter (
-  file: pathIsRegularFile file && hasSuffix ".nix" (builtins.toString file) && !isExcluded file
-) (filesystem.listFilesRecursive ipath)
+builtins.filter (file: lib.hasSuffix ".nix" (toString file) && !isExcluded file) (
+  lib.filesystem.listFilesRecursive ipath
+)

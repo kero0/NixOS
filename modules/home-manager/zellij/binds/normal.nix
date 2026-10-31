@@ -18,6 +18,8 @@ in
             "]" = [ { BreakPaneRight = { }; } ];
             "[" = [ { BreakPaneLeft = { }; } ];
             "b" = [ { BreakPane = { }; } ];
+            "i" = [ { FocusGuestSession = { }; } ];
+            "o" = [ { FocusHostSession = { }; } ];
             "~" = [
               {
                 LaunchOrFocusPlugin = {

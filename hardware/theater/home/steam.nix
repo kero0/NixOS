@@ -11,7 +11,7 @@
       WantedBy = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${osConfig.programs.steam.package} -nochatui -nofriendsui %U";
+      ExecStart = "${osConfig.programs.steam.package}/bin/steam -nochatui -nofriendsui %U";
       Restart = "on-failure";
       RestartSec = "5s";
     };

@@ -4,8 +4,13 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkAfter
+    mkEnableOption
+    mkIf
+    strings
+    ;
   cfg = config.my.home.shell.bash;
 in
 {

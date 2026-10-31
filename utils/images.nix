@@ -39,8 +39,8 @@ nixpkgs.lib.attrsets.concatMapAttrs (host: config: {
   tang =
     (self.nixosConfigurations.tang.extendModules {
       modules = [
-        { _module.args.enable_root = false; }
         "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+        { boot.supportedFilesystems.zfs = nixpkgs.lib.mkForce false; }
       ];
     }).config.system.build.sdImage;
 }

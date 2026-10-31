@@ -4,8 +4,14 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    mkPackageOption
+    types
+    ;
   cfg = config.my.home.bitwarden;
 in
 {

@@ -4,14 +4,13 @@
   osConfig,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkIf;
   cfg = config.my.home.hyprland;
 in
 {
   config = mkIf cfg.enable {
     services = {
-      network-manager-applet.enable = true;
       swayosd.enable = true;
       wluma = mkIf (osConfig.hardware.sensor.iio.enable or true) {
         enable = true;

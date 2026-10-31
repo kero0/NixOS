@@ -125,25 +125,18 @@ in
   systemd.user.services =
     lib.mkIf (pkgs.stdenv.hostPlatform.isLinux && config.services.imapnotify.enable)
       (
-        builtins.foldl'
-          (
-            acc: f:
-            acc
-            // {
-              "imapnotify-${f}".Unit = {
-                After = [
-                  "network.target"
-                  "graphical.target"
-                ];
-                Requires = [ "gpg-agent.service" ];
-              };
-            }
-          )
-          { }
-          [
-            "kbakheat-gmail"
-            "kirolsb5-gmail"
-            "kbakheat3-gatech"
-          ]
+        builtins.foldl' (
+          acc: f:
+          acc
+          // {
+            "imapnotify-${f}".Unit = {
+              After = [
+                "network.target"
+                "graphical.target"
+              ];
+              Requires = [ "gpg-agent.service" ];
+            };
+          }
+        ) { } (builtins.attrNames config.accounts.email.accounts)
       );
 }

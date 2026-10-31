@@ -4,9 +4,9 @@
   ...
 }:
 let
+  inherit (lib) mkEnableOption;
   cfg = config.my.desktop;
 in
-with lib;
 {
   options.my.desktop.enable = mkEnableOption "Enable my desktop gui";
   config = lib.mkIf cfg.enable {
@@ -16,7 +16,9 @@ with lib;
         withUWSM = true;
       };
       seahorse.enable = true;
+      nix-ld.enable = true;
     };
+    systemd.oomd.enableUserSlices = true;
     security.pam.services = {
       hyprlock = { };
       ${config.my.user.username}.enableGnomeKeyring = true;

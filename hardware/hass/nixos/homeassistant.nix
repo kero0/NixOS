@@ -9,7 +9,8 @@
           TZ = config.time.timeZone;
         };
         image = "ghcr.io/home-assistant/home-assistant:stable";
-        ports = [ "8123:8123" ];
+        labels."io.containers.autoupdate" = "registry";
+        extraOptions = [ "--network=host" ];
         capabilities = {
           CAP_NET_RAW = true;
           CAP_NET_BIND_SERVICE = true;
@@ -21,12 +22,15 @@
     esphome = {
       enable = true;
       openFirewall = true;
-      usePing = true;
     };
     matter-server = {
       enable = true;
     };
   };
-  networking.firewall.allowedTCPPorts = [ config.services.matter-server.port ];
+  networking.firewall = {
+    allowedTCPPorts = [ 8123 ];
+    allowedUDPPorts = [ 5353 ]; # mDNS, for HA's discovery
+  };
+  systemd.timers.podman-auto-update.wantedBy = [ "timers.target" ];
 
 }

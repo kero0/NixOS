@@ -5,9 +5,9 @@
   ...
 }:
 let
+  inherit (lib) mkEnableOption optionalAttrs;
   cfg = config.my.fonts;
 in
-with lib;
 {
   options.my.fonts.enable = mkEnableOption "Enable my fonts";
   config = lib.mkIf cfg.enable {

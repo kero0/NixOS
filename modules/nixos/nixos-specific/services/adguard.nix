@@ -4,9 +4,9 @@
   ...
 }:
 let
+  inherit (lib) mkEnableOption mkOption;
   cfg = config.my.services.adguardserver;
 in
-with lib;
 {
   options.my.services.adguardserver = {
     enable = mkEnableOption "AdGuard Home DNS server";
@@ -27,13 +27,12 @@ with lib;
   };
   config = lib.mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [ 53 ] ++ lib.optional cfg.openPorts cfg.httpPort;
-    networking.firewall.allowedUDPPorts = [ 53 ] ++ lib.optional cfg.openPorts cfg.httpPort;
+    networking.firewall.allowedUDPPorts = [ 53 ];
     services.adguardhome = {
       enable = true;
       mutableSettings = false;
-      host = "127.0.0.1";
-      port = cfg.httpPort;
       settings = {
+        http.address = "127.0.0.1:${toString cfg.httpPort}";
         dns = {
           inherit (cfg) bind_hosts;
           port = 53;

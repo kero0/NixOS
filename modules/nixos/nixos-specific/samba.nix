@@ -5,9 +5,9 @@
   ...
 }:
 let
+  inherit (lib) mkEnableOption;
   cfg = config.my.samba;
 in
-with lib;
 {
   options.my.samba.enable = mkEnableOption "Enable samba";
   config = lib.mkIf cfg.enable {
@@ -25,10 +25,11 @@ with lib;
               "server string" = hostname;
               "netbios name" = hostname;
               security = "user";
-              "map to guest" = "bad user";
+              "map to guest" = "never";
+              "hosts allow" = "192.168.1. 10.5. 127. ::1";
               browseable = "yes";
               "follow symlinks" = "yes";
-              "usershare allow guests" = "yes";
+              "usershare allow guests" = "no";
               "pam password change" = "yes";
               "client min protocol" = "NT1";
             };
@@ -36,12 +37,13 @@ with lib;
               path = "/home/${config.my.user.username}/winshare";
               "read only" = false;
               browseable = "yes";
-              "guest ok" = "yes";
+              "guest ok" = "no";
+              "valid users" = config.my.user.username;
               comment = "Generic windows network share";
               "create mask" = "0644";
               "directory mask" = "0755";
-              "force user" = "username";
-              "force group" = "groupname";
+              "force user" = config.my.user.username;
+              "force group" = "users";
             };
           };
         };

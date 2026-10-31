@@ -1,6 +1,8 @@
 { myuser, ... }:
 {
+  system.autoUpgrade.operation = "boot";
   my = {
+    autoUpgrade.enable = true;
     desktop.enable = false;
     fonts.enable = true;
     gaming.enable = true;

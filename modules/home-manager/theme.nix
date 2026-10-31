@@ -3,18 +3,18 @@
   config,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.my.home.theme;
 in
 {
   options.my.home.theme = {
     enable = mkEnableOption "Variation of catppuccin";
-    name = mkOption {
-      type = types.str;
-      default = "catppuccin";
-    };
-
     accent = mkOption {
       type = types.str;
       default = "lavender";

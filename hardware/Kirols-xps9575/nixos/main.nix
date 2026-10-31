@@ -3,11 +3,8 @@
   services = {
     btrfs.autoScrub = {
       enable = true;
-      interval = "daily";
-      fileSystems = [
-        "/"
-        "/home"
-      ];
+      interval = "monthly";
+      fileSystems = [ "/" ];
     };
     btrbk = {
       instances.btrbk = {
@@ -27,7 +24,6 @@
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     loader.systemd-boot.enable = true;
-    resumeDevice = "/swapfile";
   };
 
   swapDevices = [

@@ -1,13 +1,5 @@
+{ pkgs, ... }:
 {
-  pkgs,
-  modulesPath,
-  ...
-}:
-{
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
-
   time.timeZone = "America/Detroit";
   boot = {
     initrd.availableKernelModules = [
