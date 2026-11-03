@@ -58,8 +58,21 @@
     gamemode.enable = true;
   };
   environment.systemPackages = with pkgs; [
+    v4l-utils
     steamcmd
     steam-run
     protonup-qt
   ];
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="cec", ACTION=="add", TAG+="systemd", ENV{SYSTEMD_WANTS}+="cec-configure@%k.service"
+  '';
+
+  systemd.services."cec-configure@" = {
+    description = "Configure HDMI-CEC adapter %I";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.v4l-utils}/bin/cec-ctl --device=/dev/%I --osd-name=theater --playback";
+    };
+  };
 }

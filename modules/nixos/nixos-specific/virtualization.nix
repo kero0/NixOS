@@ -16,6 +16,10 @@ in
       podman = {
         enable = true;
         extraPackages = with pkgs; [ catatonit ];
+        autoPrune = {
+          enable = true;
+          flags = [ "--all" ];
+        };
       };
 
       oci-containers = {
