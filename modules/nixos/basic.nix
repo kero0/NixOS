@@ -45,13 +45,13 @@
     };
   };
 
-  programs.nh = {
-    enable = true;
-    clean = {
-      enable = true;
-      extraArgs = "--keep-since 14d --keep 3 --keep-one";
-    };
-  };
+  # programs.nh = {
+  #   enable = true;
+  #   clean = {
+  #     enable = true;
+  #     extraArgs = "--keep-since 14d --keep 3 --keep-one";
+  #   };
+  # };
 
   assertions = [
     {

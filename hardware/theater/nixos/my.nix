@@ -8,6 +8,7 @@
     gaming.enable = true;
     samba.enable = false;
     scripts.enable = false;
+    server.enable = true;
 
     services = {
       basic.enable = true;

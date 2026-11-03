@@ -39,6 +39,7 @@ in
           upstream_dns = [
             "https://dns.quad9.net/dns-query"
             "https://dns.cloudflare.com/dns-query"
+            "[/localdomain/]10.5.10.1"
           ];
           bootstrap_dns = [
             "9.9.9.9"

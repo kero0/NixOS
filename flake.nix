@@ -176,6 +176,7 @@
             nixpkgs = nixpkgsConfig // {
               hostPlatform = { inherit system; };
             };
+            system.configurationRevision = self.rev or self.dirtyRev or null;
             _module.args = {
               inherit
                 myuser
@@ -358,7 +359,10 @@
         {
           default = pkgs.mkShell {
             inherit (check) shellHook;
-            buildInputs = check.enabledPackages ++ [ pkgs.age ];
+            buildInputs = check.enabledPackages ++ [
+              pkgs.age
+              pkgs.nixos-rebuild-ng
+            ];
           };
         }
       );
