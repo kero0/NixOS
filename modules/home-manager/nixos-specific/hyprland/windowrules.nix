@@ -21,6 +21,8 @@ in
           [
             "Bitwarden"
             ".*-nngceckbapebfimnlniiiahkandclblb-.*" # bitwarden browser ext
+            "com.onepassword.OnePassword"
+            "1Password"
             "xdg-desktop-portal-gtk"
           ];
     };
