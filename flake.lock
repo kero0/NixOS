@@ -263,6 +263,21 @@
         "type": "github"
       }
     },
+    "man-pages": {
+      "locked": {
+        "lastModified": 1794250523,
+        "narHash": "sha256-vAgyZNF0/94asAyh4I6t98G9YPdbMkc6e64hHdPfnNs=",
+        "owner": "kero0",
+        "repo": "nix-man-pages",
+        "rev": "512bfb98f458ca9a26aa6f86756f240dca59f0f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kero0",
+        "repo": "nix-man-pages",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -395,6 +410,7 @@
         "home-manager": "home-manager",
         "jdf": "jdf",
         "lanzaboote": "lanzaboote",
+        "man-pages": "man-pages",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
