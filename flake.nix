@@ -21,6 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    man-pages.url = "github:kero0/nix-man-pages";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -115,7 +116,10 @@
 
       nixpkgsConfig = {
         config.allowUnfree = true;
-        overlays = map import (umport {
+        overlays = [
+          inputs.man-pages.overlays.default
+        ]
+        ++ map import (umport {
           ipath = ./overlays;
         });
       };
