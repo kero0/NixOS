@@ -1,5 +1,10 @@
 {
   my.home = {
+    agent = {
+      enable = true;
+      host = "pop-os";
+      hostUser = "kirolsbakheat";
+    };
     atuin.enable = true;
     bat.enable = true;
     bitwarden.enable = true;
