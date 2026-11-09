@@ -90,7 +90,7 @@ in
 
       home-manager = {
         enable = true;
-        path = lib.mkForce (cfg.homedir + "/.config");
+        path = lib.mkForce "${inputs.home-manager}";
       };
     };
     xdg.enable = true;
