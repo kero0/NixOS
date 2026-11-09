@@ -25,11 +25,21 @@ in
           layer = "bottom";
           position = "top";
           modules-left = [
-            "ext/workspaces"
+            "hyprland/workspaces"
             "hyprland/window"
           ];
           modules-center = [ ];
-          "ext/workspaces".on-click = "activate";
+          "hyprland/workspaces" = {
+            format = "{name} {windows}";
+            workspace-taskbar = {
+              enable = true;
+              update-active-window = true;
+              icon-size = 16;
+              on-click-window = "hyprctl dispatch focuswindow address:{address}";
+            };
+            on-click = "activate";
+            sort-by-number = true;
+          };
           "hyprland/window" = {
             format = "{}";
             max-length = 85;

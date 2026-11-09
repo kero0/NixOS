@@ -50,6 +50,13 @@ window > box {
 #workspaces button.urgent {
 	color: @red;
 }
+#workspaces .taskbar-window {
+	padding: 0px 2px;
+	border-bottom: 2px solid transparent;
+}
+#workspaces .taskbar-window.active {
+	border-bottom: 2px solid @teal;
+}
 #workspaces button:hover {
 	background-color: @rosewater;
 	border: none;
