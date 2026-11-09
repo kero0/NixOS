@@ -14,6 +14,7 @@
     greedyCasks = true;
     casks = [
       "bambu-studio"
+      "google-chrome"
       "hammerspoon"
       "maccy"
       "the-unarchiver"
