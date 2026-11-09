@@ -1,5 +1,10 @@
 {
   my.home = {
+    agent = {
+      enable = true;
+      host = "pop-os";
+      hostUser = "kirolsbakheat";
+    };
     applets.enable = true;
     atuin.enable = true;
     bat.enable = true;

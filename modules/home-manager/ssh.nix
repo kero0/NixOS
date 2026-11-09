@@ -22,6 +22,11 @@ in
           ControlPersist = "no";
           ControlMaster = "no";
         };
+        agent = {
+          port = 22;
+          hostname = "pop-os.localdomain";
+          user = "agent";
+        };
         hass = {
           port = 9639;
           hostname = "hass.localdomain";
@@ -52,10 +57,10 @@ in
           RemoteCommand = "bash -l";
           RequestTTY = "force";
         };
-        opnsense = {
+        pop = {
           port = 22;
-          hostname = "opnsense.localdomain";
-          user = "admin";
+          hostname = "pop-os.localdomain";
+          user = "kirolsbakheat";
         };
         tang = {
           port = 9639;
