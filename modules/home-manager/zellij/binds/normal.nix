@@ -1,6 +1,7 @@
-{ my, ... }:
+{ config, my, ... }:
 let
   inherit (my.zellij) combinemaps tabKeys mkHelp;
+  renumber = config.my.home.zellij.renumberTabs;
 in
 {
   my.home.zellij.keybinds = [
@@ -11,15 +12,29 @@ in
             "\\\\" = [ { NewPane._args = [ "Right" ]; } ];
             "-" = [ { NewPane._args = [ "Down" ]; } ];
             "s" = [ { NewPane._args = [ "stacked" ]; } ];
-            "x" = [ { CloseFocus = { }; } ];
-            "c" = [ { NewTab = { }; } ];
-            "p" = [ { GoToPreviousTab = { }; } ];
-            "n" = [ { GoToNextTab = { }; } ];
+            "x" = [
+              { CloseFocus = { }; }
+              renumber
+            ];
+            "c" = [
+              { NewTab = { }; }
+              renumber
+            ];
+            "p" = [
+              { GoToPreviousTab = { }; }
+              renumber
+            ];
+            "n" = [
+              { GoToNextTab = { }; }
+              renumber
+            ];
             "]" = [ { BreakPaneRight = { }; } ];
             "[" = [ { BreakPaneLeft = { }; } ];
             "b" = [ { BreakPane = { }; } ];
             "i" = [ { FocusGuestSession = { }; } ];
             "o" = [ { FocusHostSession = { }; } ];
+            "Alt c" = [ { Copy = { }; } ];
+            "Alt v" = [ { EditScrollback = { }; } ];
             "~" = [
               {
                 LaunchOrFocusPlugin = {
@@ -58,6 +73,22 @@ in
               { TabNameInput._args = [ 0 ]; }
             ];
             "Ctrl h" = mkHelp { mode = "normal"; };
+            "/" = [
+              { SwitchToMode._args = [ "entersearch" ]; }
+              { SearchInput._args = [ 0 ]; }
+            ];
+            "u" = [
+              {
+                SwitchToMode._args = [ "scroll" ];
+              }
+              { HalfPageScrollUp = { }; }
+            ];
+            "PageUp" = [
+              {
+                SwitchToMode._args = [ "scroll" ];
+              }
+              { PageScrollUp = { }; }
+            ];
           };
         in
         combinemaps { inherit regular returnToLocked; };

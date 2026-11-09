@@ -1,6 +1,7 @@
-{ my, ... }:
+{ config, my, ... }:
 let
   inherit (my.zellij) combinemaps tabKeys mkHelp;
+  renumber = config.my.home.zellij.renumberTabs;
 in
 {
   my.home.zellij.keybinds = [
@@ -8,8 +9,14 @@ in
       tab =
         let
           returnToLocked = {
-            "c" = [ { NewTab = { }; } ];
-            "x" = [ { CloseTab = { }; } ];
+            "c" = [
+              { NewTab = { }; }
+              renumber
+            ];
+            "x" = [
+              { CloseTab = { }; }
+              renumber
+            ];
             "h" = [ { GoToPreviousTab = { }; } ];
             "j" = [ { GoToNextTab = { }; } ];
             "k" = [ { GoToPreviousTab = { }; } ];

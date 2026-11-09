@@ -9,6 +9,7 @@ let
     mkHelp
     ;
   inherit (config.my.home.zellij) prefix-key;
+  renumber = config.my.home.zellij.renumberTabs;
 in
 {
   my.home.zellij.keybinds = [
@@ -43,12 +44,20 @@ in
         "Alt j" = [ { MoveFocus._args = [ "Down" ]; } ];
         "Alt k" = [ { MoveFocus._args = [ "Up" ]; } ];
         "Alt l" = [ { MoveFocus._args = [ "Right" ]; } ];
-        "Alt p" = [ { GoToPreviousTab = { }; } ];
-        "Alt n" = [ { GoToNextTab = { }; } ];
+        "Alt p" = [
+          { GoToPreviousTab = { }; }
+          renumber
+        ];
+        "Alt n" = [
+          { GoToNextTab = { }; }
+          renumber
+        ];
 
         "Alt f" = [ { ToggleFloatingPanes = { }; } ];
         "Alt =" = [ { Resize._args = [ "Increase" ]; } ];
         "Alt -" = [ { Resize._args = [ "Decrease" ]; } ];
+        "Alt e" = [ { EditScrollback = { }; } ];
+        "Alt c" = [ { Copy = { }; } ];
       }
       // tabKeys "Alt";
     }
