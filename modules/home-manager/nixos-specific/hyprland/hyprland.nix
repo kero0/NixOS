@@ -62,7 +62,6 @@ in
           output = "";
           mode = "preferred";
           position = "auto";
-          scale = "auto";
         };
         config = [
           { master.new_status = "master"; }
