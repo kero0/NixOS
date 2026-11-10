@@ -5,7 +5,8 @@
   ...
 }:
 let
-  inherit (lib) mkIf mkLuaInline;
+  inherit (builtins) concatLists genList toString;
+  inherit (lib) mapAttrsToList mkIf mkLuaInline;
   mod = "SUPER";
   terminal = "${config.programs.kitty.package}/bin/kitty";
   fileManager = "${pkgs.nautilus}/bin/nautilus";
@@ -28,7 +29,7 @@ in
         }
       ];
       bind =
-        lib.mapAttrsToList
+        mapAttrsToList
           (k: v: {
             _args = [
               k
@@ -125,8 +126,8 @@ in
             ];
           }
         ]
-        ++ (builtins.concatLists (
-          builtins.genList (
+        ++ (concatLists (
+          genList (
             x:
             let
               ws = toString (lib.mod (x + 1) 10);
