@@ -135,7 +135,7 @@ in
               {
                 _args = [
                   "${mod} +       + ${ws}"
-                  (mkLuaInline "hl.dsp.focus({ workspace = ${toString (x + 1)}, on_current_monitor = true })")
+                  (mkLuaInline "hl.dsp.focus({ workspace = ${toString (x + 1)}, on_current_monitor = false })")
                 ];
               }
               {
