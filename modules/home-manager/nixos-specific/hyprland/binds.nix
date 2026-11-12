@@ -47,7 +47,6 @@ in
             "XF86AudioMicMute" = exec "swayosd-client --input-volume mute-toggle";
             "XF86MonBrightnessUp" = exec "swayosd-client --brightness +5";
             "XF86MonBrightnessDown" = exec "swayosd-client --brightness -5";
-            "CAPS" = exec "swayosd-client --caps-lock";
             "${mod} + SHIFT + Q" = "hl.dsp.window.close()";
             "${mod} + SHIFT + C" = exec "${pkgs.wlogout}/bin/wlogout";
             "${mod}         + t" = ''
@@ -90,6 +89,20 @@ in
             # "${mod} + SHIFT + :" = ''hl.dsp.layout("promote")'';
           }
         ++ [
+          {
+            _args = [
+              "Caps_Lock"
+              (mkLuaInline <| exec "swayosd-client --caps-lock")
+              { release = true; }
+            ];
+          }
+          {
+            _args = [
+              "CAPS + Caps_Lock"
+              (mkLuaInline <| exec "swayosd-client --caps-lock")
+              { release = true; }
+            ];
+          }
           {
             _args = [
               "${mod} +       + mouse:272"
