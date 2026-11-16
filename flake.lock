@@ -129,11 +129,11 @@
         "packages-revealjs": "packages-revealjs"
       },
       "locked": {
-        "lastModified": 1793412147,
-        "narHash": "sha256-zGjcnCd9975NLAlg5StnZUegD/4hhUZZ/AP++T9q3Ew=",
+        "lastModified": 1794847247,
+        "narHash": "sha256-liYisB0SlcejSPyvxfI7hhaBAGRS7MtbpGPTiBZhj0U=",
         "owner": "kero0",
         "repo": "emacs",
-        "rev": "fa2bc6414e240ef379e3397af3d1f5df3b4beda1",
+        "rev": "71bb277fb079e272d6a980df4571a9dfc8b20789",
         "type": "github"
       },
       "original": {
@@ -413,8 +413,7 @@
         "man-pages": "man-pages",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
-        "tmux-ssh-split": "tmux-ssh-split"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "rust-overlay": {
@@ -435,22 +434,6 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "tmux-ssh-split": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1789636831,
-        "narHash": "sha256-F9UtG0sLL437BCGFMmdrVKeGkmHWDnasJa5/GBPOMKs=",
-        "owner": "pschmitt",
-        "repo": "tmux-ssh-split",
-        "rev": "338bc3254be2749216d3d2f76a3314af9f7da815",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pschmitt",
-        "repo": "tmux-ssh-split",
         "type": "github"
       }
     }

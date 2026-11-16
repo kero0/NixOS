@@ -85,10 +85,6 @@
       url = "github:iamjakewarner/jdf";
       flake = false;
     };
-    tmux-ssh-split = {
-      url = "github:pschmitt/tmux-ssh-split";
-      flake = false;
-    };
   };
   outputs =
     inputs@{

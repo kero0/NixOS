@@ -48,13 +48,6 @@ in
                 eval "$(${config.programs.direnv.package}/bin/direnv hook bash)"
               '')
 
-              # tmux
-              (strings.optionalString config.programs.tmux.enable ''
-                    if [ -z "$TMUX" ]; then
-                  exec ${config.programs.tmux.package}/bin/tmux attach
-                fi
-              '')
-
               # emacs eat
               ''
                 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
