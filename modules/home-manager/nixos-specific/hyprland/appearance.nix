@@ -21,7 +21,13 @@ in
       {
         scrolling = {
           fullscreen_on_one_column = true;
-          column_width = 0.5;
+          column_width = 1;
+          explicit_column_widths = [
+            0.33
+            0.5
+            0.67
+            1.0
+          ];
         };
       }
       {
