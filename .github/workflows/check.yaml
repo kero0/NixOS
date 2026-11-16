@@ -168,7 +168,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for t in images.x86_64-linux-iso.config.system.build.isoImage images.tang packages.x86_64-linux.mk-tang-sd; do
+          for t in images.x86_64-linux-iso images.tang packages.x86_64-linux.mk-tang-sd; do
             echo "::group::$t"
             nix eval --accept-flake-config --raw ".#$t.drvPath"
             echo "::endgroup::"

@@ -3,9 +3,19 @@
   self,
   mmodules,
 }:
+let
+  installer = nixpkgs.lib.nixosSystem {
+    modules = mmodules {
+      myuser = "kirolsb";
+      system = "x86_64-linux";
+      hostname = "nixos-installer";
+      age = false;
+    };
+  };
+in
 nixpkgs.lib.attrsets.concatMapAttrs (host: config: {
   ${host} =
-    (self.images.x86_64-linux-iso.extendModules {
+    (installer.extendModules {
       modules = [
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
         {
@@ -24,18 +34,7 @@ nixpkgs.lib.attrsets.concatMapAttrs (host: config: {
 }) self.nixosConfigurations
 
 // {
-  x86_64-linux-iso =
-    let
-      myuser = "kirolsb";
-      system = "x86_64-linux";
-      hostname = "nixos-installer";
-    in
-    nixpkgs.lib.nixosSystem {
-      modules = mmodules {
-        inherit hostname myuser system;
-        age = false;
-      };
-    };
+  x86_64-linux-iso = installer.config.system.build.isoImage;
   tang =
     (self.nixosConfigurations.tang.extendModules {
       modules = [
