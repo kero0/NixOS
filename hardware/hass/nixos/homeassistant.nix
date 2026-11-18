@@ -18,8 +18,9 @@
         labels."io.containers.autoupdate" = "registry";
         extraOptions = [ "--network=host" ];
         capabilities = {
-          CAP_NET_RAW = true;
+          CAP_NET_ADMIN = true;
           CAP_NET_BIND_SERVICE = true;
+          CAP_NET_RAW = true;
         };
       };
     };
@@ -29,8 +30,11 @@
       enable = true;
       openFirewall = true;
     };
-    matter-server = {
+    matterjs-server = {
       enable = true;
+      # bluetoothSupport = true;
+      openFirewall = true;
+      port = 5581;
     };
   };
   networking.firewall = {
