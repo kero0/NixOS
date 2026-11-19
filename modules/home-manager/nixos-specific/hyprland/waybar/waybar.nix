@@ -25,7 +25,7 @@ in
           layer = "bottom";
           position = "top";
           modules-left = [
-            "hyprland/workspaces"
+            "ext/workspaces"
             "hyprland/window"
           ];
           modules-center = [ ];

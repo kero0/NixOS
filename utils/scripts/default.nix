@@ -26,3 +26,7 @@ fold (
     ${app.name} = writeShellApplication ({ text = readFile ./${app.name}; } // app);
   }) scripts
 )
+// {
+  # secrets/unlock: <host>.age passphrases + known_hosts of the initrd host keys (public)
+  unlock-remote = pkgs.callPackage ./unlock-remote.nix { unlockDir = ../../secrets/unlock; };
+}

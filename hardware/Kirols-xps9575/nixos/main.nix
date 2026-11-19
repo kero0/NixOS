@@ -26,12 +26,5 @@
     loader.systemd-boot.enable = true;
   };
 
-  swapDevices = [
-    {
-      device = "/swap/swapfile";
-      size = 32 * 1024;
-    }
-  ];
-
   networking.firewall.enable = true;
 }

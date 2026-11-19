@@ -1,9 +1,17 @@
 { myuser, ... }:
 {
   my = {
+
+    boot.esp.generationMiB = 70;
     autoUpgrade = {
       enable = true;
       allowReboot = true;
+    };
+    diskUnlock = {
+      enable = true;
+      tang.enable = true;
+      ssh.enable = true;
+      network.kernelModules = [ "igc" ];
     };
     desktop.enable = false;
     fonts.enable = false;

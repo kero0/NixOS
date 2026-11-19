@@ -3,3 +3,9 @@
 This is my personal NixOS config.
 
 Any host specific config goes in a directory with he same name as the host under [[./hardware]]
+
+* Disk unlocking
+
+Encrypted hosts unlock at boot with tang at home, over ssh (=nix run .#unlock-remote -- <host>=),
+with a FIDO2 key, or by typing the password: see [[./docs/disk-unlock.md]] for how it works,
+the tang server, the per-device setup, tests and recovery.

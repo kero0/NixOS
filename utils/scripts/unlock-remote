@@ -1,0 +1,66 @@
+# unlock-remote: send a host's remote-unlock passphrase to its initrd (my.diskUnlock.ssh).
+# The passphrase is age-encrypted in <dir>/<host>.age; the initrd's host key is pinned in
+# <dir>/known_hosts as "<host>-initrd ssh-ed25519 AAAA...". See docs/disk-unlock.md.
+usage() {
+  cat <<EOF
+usage: unlock-remote [-d DIR] [-i AGE_IDENTITY] [-k SSH_KEY] [-p PORT] [-t SECONDS] HOST [ADDRESS]
+
+  HOST     name of <DIR>/<HOST>.age and of the "<HOST>-initrd" known_hosts entry
+  ADDRESS  where to connect (default: HOST.\$UNLOCK_DOMAIN, UNLOCK_DOMAIN=${UNLOCK_DOMAIN-localdomain})
+
+  -d DIR           \$UNLOCK_DIR, default: $defaultUnlockDir
+  -i AGE_IDENTITY  \$AGE_IDENTITY, default: ~/.ssh/id_ed25519
+  -k SSH_KEY       \$UNLOCK_SSH_KEY, default: ssh's own identities / agent
+  -p PORT          \$UNLOCK_PORT, default: 2222 (my.diskUnlock.ssh.port)
+  -t SECONDS       how long unlock-disk waits for the password prompt (default 120)
+EOF
+}
+
+dir=${UNLOCK_DIR:-$defaultUnlockDir}
+identity=${AGE_IDENTITY:-$HOME/.ssh/id_ed25519}
+sshkey=${UNLOCK_SSH_KEY:-}
+port=${UNLOCK_PORT:-2222}
+wait=120
+while getopts d:i:k:p:t:h o; do
+  case $o in
+    d) dir=$OPTARG ;;
+    i) identity=$OPTARG ;;
+    k) sshkey=$OPTARG ;;
+    p) port=$OPTARG ;;
+    t) wait=$OPTARG ;;
+    h) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+[[ $# -ge 1 && $# -le 2 ]] || { usage >&2; exit 2; }
+[[ $wait =~ ^[0-9]+$ && $port =~ ^[0-9]+$ ]] || { echo "unlock-remote: -p/-t take numbers" >&2; exit 2; }
+
+host=$1
+domain=${UNLOCK_DOMAIN-localdomain}
+addr=${2:-$host${domain:+.$domain}}
+secret=$dir/$host.age
+known=$dir/known_hosts
+alias=$host-initrd
+
+die() { echo "unlock-remote: $*" >&2; exit 1; }
+[[ -f $secret ]] || die "no passphrase file $secret (set -d / \$UNLOCK_DIR)"
+[[ -f $known ]] || die "no $known"
+ssh-keygen -F "$alias" -f "$known" > /dev/null || die "no \"$alias\" entry in $known"
+[[ -f $identity ]] || die "age identity $identity not found (set -i / \$AGE_IDENTITY)"
+
+sshopts=(
+  -F none
+  -p "$port"
+  -o UserKnownHostsFile="$known"
+  -o GlobalKnownHostsFile=/dev/null
+  -o HostKeyAlias="$alias"
+  -o StrictHostKeyChecking=yes
+  -o BatchMode=yes
+  -o ConnectTimeout=10
+)
+[[ -n $sshkey ]] && sshopts+=(-i "$sshkey" -o IdentitiesOnly=yes)
+
+echo "unlock-remote: unlocking $host via root@$addr:$port" >&2
+# shellcheck disable=SC2029 # $wait is a validated number, expanded here on purpose
+age -d -i "$identity" "$secret" | ssh "${sshopts[@]}" "root@$addr" unlock-disk "$wait"

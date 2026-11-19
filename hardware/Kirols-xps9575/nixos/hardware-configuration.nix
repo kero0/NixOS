@@ -25,55 +25,6 @@
     extraModulePackages = [ ];
   };
 
-  fileSystems = {
-    "/run/nixenc" = {
-      device = "/dev/disk/by-uuid/7b3a6dc6-6c31-4aba-8c50-9d27f36fd859";
-      fsType = "btrfs";
-      options = [ "compress=zstd" ];
-    };
-
-    "/" = {
-      device = "/dev/disk/by-uuid/7b3a6dc6-6c31-4aba-8c50-9d27f36fd859";
-      fsType = "btrfs";
-      options = [
-        "subvol=root"
-        "compress=zstd"
-      ];
-    };
-
-    "/home" = {
-      device = "/dev/disk/by-uuid/7b3a6dc6-6c31-4aba-8c50-9d27f36fd859";
-      fsType = "btrfs";
-      options = [
-        "subvol=home"
-        "compress=zstd"
-      ];
-    };
-
-    "/nix" = {
-      device = "/dev/disk/by-uuid/7b3a6dc6-6c31-4aba-8c50-9d27f36fd859";
-      fsType = "btrfs";
-      options = [
-        "subvol=nix"
-        "compress=zstd"
-        "noatime"
-      ];
-    };
-
-    "/swap" = {
-      device = "/dev/disk/by-uuid/7b3a6dc6-6c31-4aba-8c50-9d27f36fd859";
-      fsType = "btrfs";
-      options = [ "subvol=swap" ];
-    };
-
-    "/boot" = {
-      device = "/dev/disk/by-uuid/1305-CC33";
-      fsType = "vfat";
-    };
-  };
-
-  swapDevices = [ ];
-
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
