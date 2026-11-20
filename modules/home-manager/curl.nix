@@ -16,9 +16,6 @@ in
       # max time in seconds to connect
       connect-timeout = 15
 
-      # continue from previous
-      continue-at
-
       # follow redirects
       location
       # set previous URL when following a redirect
