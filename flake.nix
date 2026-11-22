@@ -131,7 +131,9 @@
         in
         umport {
           ipath = ./modules/home-manager;
-          exclude = lib.optional isDarwin ./modules/home-manager/nixos-specific;
+          exclude = [
+            (if isDarwin then ./modules/home-manager/nixos-specific else ./modules/home-manager/darwin-specific)
+          ];
         }
         ++ lib.optionals (builtins.pathExists hostDir) (umport {
           ipath = hostDir;
@@ -204,7 +206,9 @@
         ]
         ++ umport {
           ipath = ./modules/nixos;
-          exclude = lib.optional isDarwin ./modules/nixos/nixos-specific;
+          exclude = [
+            (if isDarwin then ./modules/nixos/nixos-specific else ./modules/nixos/darwin-specific)
+          ];
         }
         ++ lib.optionals (builtins.pathExists hostDir) (umport {
           ipath = hostDir;
