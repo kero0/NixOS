@@ -21,6 +21,7 @@ in
 {
   options.my.home.zellij.enable = mkEnableOption "zellij module";
   config = mkIf cfg.enable {
+    home.sessionVariables.ZELLIJ_SOCKET_DIR = mkIf pkgs.stdenv.hostPlatform.isDarwin "/tmp/zellij-$(id -u)";
     programs = {
       bash.initExtra = autoStart "bash";
       zsh.initContent = mkOrder 200 (autoStart "zsh");
