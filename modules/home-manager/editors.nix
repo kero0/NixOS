@@ -8,23 +8,31 @@
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.my.home.editors;
+  emacs = inputs.emacs.packages.${pkgs.stdenv.hostPlatform.system}.mkEmacs {
+    patches = cfg.emacsPatches;
+  };
 in
 {
   options.my.home.editors = {
     enable = mkEnableOption "Enable editors config";
+    emacsPatches = lib.mkOption {
+      type = lib.types.listOf lib.types.path;
+      default = [ ];
+      description = "Patches to the emacs config for this machine.";
+    };
   };
   config = mkIf cfg.enable {
     programs = {
       emacs = {
         enable = true;
-        package = inputs.emacs.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        package = emacs;
       };
       vim.enable = true;
     };
     services.emacs = {
       enable = true;
       client.enable = true;
-      package = inputs.emacs.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      package = emacs;
     };
 
     home =
